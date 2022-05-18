@@ -10,12 +10,12 @@
  * Do not edit the class manually.
  */
 
-package io.swagger.client;
+package com.laserfiche.api.client;
 
 import java.util.Map;
 import java.util.List;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-05-18T11:08:02.080-04:00[America/New_York]")public class ApiException extends Exception {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-05-18T11:46:13.938-04:00[America/New_York]")public class ApiException extends Exception {
     private int code = 0;
     private Map<String, List<String>> responseHeaders = null;
     private String responseBody = null;

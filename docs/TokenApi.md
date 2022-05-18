@@ -15,11 +15,11 @@ Request for an access token. - Use authCode to get an access token for the autho
 ### Example
 ```java
 // Import classes:
-//import io.swagger.client.ApiClient;
-//import io.swagger.client.ApiException;
-//import io.swagger.client.Configuration;
-//import io.swagger.client.auth.*;
-//import io.swagger.client.api.TokenApi;
+//import com.laserfiche.api.client.ApiClient;
+//import com.laserfiche.api.client.ApiException;
+//import com.laserfiche.api.client.Configuration;
+//import com.laserfiche.api.client.auth.*;
+//import com.laserfiche.api.client.core.TokenApi;
 
 ApiClient defaultClient = Configuration.getDefaultApiClient();
 

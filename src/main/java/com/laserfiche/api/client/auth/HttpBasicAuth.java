@@ -10,9 +10,9 @@
  * Do not edit the class manually.
  */
 
-package io.swagger.client.auth;
+package com.laserfiche.api.client.auth;
 
-import io.swagger.client.Pair;
+import com.laserfiche.api.client.Pair;
 
 import com.squareup.okhttp.Credentials;
 

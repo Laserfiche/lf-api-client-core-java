@@ -2,7 +2,7 @@
 
 Laserfiche OAuth 2.0 Authorization Server API
 - API version: 1.0.0
-  - Build date: 2022-05-18T11:08:02.080-04:00[America/New_York]
+  - Build date: 2022-05-18T11:46:13.938-04:00[America/New_York]
 
 An ASP.NET Core web API for Laserfiche OAuth 2.0 Authorization Server<p><strong>Build# : </strong>4f7a879120e1a11fb1d3772c18859787d28d355b_.20220404.1</p>
 
@@ -71,10 +71,10 @@ Then manually install the following JARs:
 Please follow the [installation](#installation) instruction and execute the following Java code:
 
 ```java
-import io.swagger.client.*;
-import io.swagger.client.auth.*;
+import com.laserfiche.api.client.*;
+import com.laserfiche.api.client.auth.*;
 import io.swagger.client.model.*;
-import io.swagger.client.api.TokenApi;
+import com.laserfiche.api.client.core.TokenApi;
 
 import java.io.File;
 import java.util.*;

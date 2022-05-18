@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-package io.swagger.client.api;
+package com.laserfiche.api.client.core;
 
 import io.swagger.client.model.GetAccessTokenResponse;
 import io.swagger.client.model.ProblemDetails;

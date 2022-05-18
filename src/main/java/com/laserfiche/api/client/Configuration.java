@@ -10,9 +10,9 @@
  * Do not edit the class manually.
  */
 
-package io.swagger.client;
+package com.laserfiche.api.client;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-05-18T11:08:02.080-04:00[America/New_York]")public class Configuration {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-05-18T11:46:13.938-04:00[America/New_York]")public class Configuration {
     private static ApiClient defaultApiClient = new ApiClient();
 
     /**

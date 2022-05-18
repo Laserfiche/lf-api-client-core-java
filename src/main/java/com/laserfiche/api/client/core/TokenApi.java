@@ -10,16 +10,16 @@
  * Do not edit the class manually.
  */
 
-package io.swagger.client.api;
+package com.laserfiche.api.client.core;
 
-import io.swagger.client.ApiCallback;
-import io.swagger.client.ApiClient;
-import io.swagger.client.ApiException;
-import io.swagger.client.ApiResponse;
-import io.swagger.client.Configuration;
-import io.swagger.client.Pair;
-import io.swagger.client.ProgressRequestBody;
-import io.swagger.client.ProgressResponseBody;
+import com.laserfiche.api.client.ApiCallback;
+import com.laserfiche.api.client.ApiClient;
+import com.laserfiche.api.client.ApiException;
+import com.laserfiche.api.client.ApiResponse;
+import com.laserfiche.api.client.Configuration;
+import com.laserfiche.api.client.Pair;
+import com.laserfiche.api.client.ProgressRequestBody;
+import com.laserfiche.api.client.ProgressResponseBody;
 
 import com.google.gson.reflect.TypeToken;
 
