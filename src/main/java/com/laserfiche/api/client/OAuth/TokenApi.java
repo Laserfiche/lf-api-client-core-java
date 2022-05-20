@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-package com.laserfiche.api.client.core;
+package com.laserfiche.api.client.oauth;
 
 import com.laserfiche.api.client.ApiCallback;
 import com.laserfiche.api.client.ApiClient;
@@ -26,8 +26,8 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
-import io.swagger.client.model.GetAccessTokenResponse;
-import io.swagger.client.model.ProblemDetails;
+import com.laserfiche.api.client.model.GetAccessTokenResponse;
+import com.laserfiche.api.client.model.ProblemDetails;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

@@ -10,10 +10,10 @@
  * Do not edit the class manually.
  */
 
-package com.laserfiche.api.client.core;
+package com.laserfiche.api.client.OAuth;
 
-import io.swagger.client.model.GetAccessTokenResponse;
-import io.swagger.client.model.ProblemDetails;
+import com.laserfiche.api.client.model.GetAccessTokenResponse;
+import com.laserfiche.api.client.model.ProblemDetails;
 import org.junit.Test;
 import org.junit.Ignore;
 

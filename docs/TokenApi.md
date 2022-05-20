@@ -19,7 +19,7 @@ Request for an access token. - Use authCode to get an access token for the autho
 //import com.laserfiche.api.client.ApiException;
 //import com.laserfiche.api.client.Configuration;
 //import com.laserfiche.api.client.auth.*;
-//import com.laserfiche.api.client.core.TokenApi;
+//import com.laserfiche.api.client.oauth.TokenApi;
 
 ApiClient defaultClient = Configuration.getDefaultApiClient();
 

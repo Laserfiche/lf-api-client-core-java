@@ -17,7 +17,7 @@ import com.laserfiche.api.client.Pair;
 import java.util.Map;
 import java.util.List;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-05-18T11:46:13.938-04:00[America/New_York]")public class OAuth implements Authentication {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-05-20T17:11:53.639-04:00[America/New_York]")public class OAuth implements Authentication {
   private String accessToken;
 
   public String getAccessToken() {

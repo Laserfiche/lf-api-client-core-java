@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-package io.swagger.client.model;
+package com.laserfiche.api.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
@@ -25,7 +25,7 @@ import java.io.IOException;
  * GetAccessTokenRequest
  */
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-05-18T11:46:13.938-04:00[America/New_York]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-05-20T17:11:53.639-04:00[America/New_York]")
 public class GetAccessTokenRequest {
   @SerializedName("client_id")
   private Object clientId = null;
