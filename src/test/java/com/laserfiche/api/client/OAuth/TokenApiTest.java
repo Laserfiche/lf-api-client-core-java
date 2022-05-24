@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-package com.laserfiche.api.client.OAuth;
+package com.laserfiche.api.client.oauth;
 
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
 import com.laserfiche.api.client.model.ProblemDetails;

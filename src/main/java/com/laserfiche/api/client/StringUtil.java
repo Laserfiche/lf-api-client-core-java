@@ -12,7 +12,7 @@
 
 package com.laserfiche.api.client;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-05-20T17:11:53.639-04:00[America/New_York]")public class StringUtil {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-05-20T17:24:07.137-04:00[America/New_York]")public class StringUtil {
   /**
    * Check if the given array contains the given value (with case-insensitive comparison).
    *
