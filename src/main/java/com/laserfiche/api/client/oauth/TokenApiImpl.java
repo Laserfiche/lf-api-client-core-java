@@ -10,11 +10,11 @@ import com.nimbusds.jose.jwk.ECKey;
 import java.util.Date;
 
 
-public class ClientCredentialsTokenApiClient implements TokenApiClient {
+public class TokenApiImpl implements TokenApiClient {
     private static String payloadTemplate = "{ \"client_id\": \"%s\", \"client_secret\": \"%s\", \"aud\": \"laserfiche.com\", \"exp\": %d, \"iat\": %d, \"nbf\": %d}";
     private TokenApi generatedClient;
 
-    public ClientCredentialsTokenApiClient() {
+    public TokenApiImpl() {
         generatedClient = new TokenApi();
     }
 
