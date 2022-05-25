@@ -1,5 +1,6 @@
 package com.laserfiche.api.client.oauth;
 
+import com.laserfiche.api.client.ApiException;
 import com.laserfiche.api.client.model.AccessKey;
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
 
@@ -13,5 +14,5 @@ public interface TokenApiClient {
      * @param accessKey
      * @return GetAccessTokenResponse
      */
-    GetAccessTokenResponse getAccessToken(String servicePrincipalKey, AccessKey accessKey);
+    GetAccessTokenResponse getAccessToken(String servicePrincipalKey, AccessKey accessKey) throws ApiException;
 }
