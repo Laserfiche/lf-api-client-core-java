@@ -2,7 +2,7 @@ package com.laserfiche.api.client.model;
 
 import com.nimbusds.jose.jwk.JWK;
 
-public class AccessToken {
+public class AccessKey {
     private String customerId;
     private String domain;
     private String clientId;
