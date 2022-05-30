@@ -80,23 +80,23 @@ public class TokenApi {
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
         if (authorization != null)
-        localVarHeaderParams.put("Authorization", apiClient.parameterToString(authorization));
+            localVarHeaderParams.put("Authorization", apiClient.parameterToString(authorization));
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
         if (clientId != null)
-        localVarFormParams.put("client_id", clientId);
+            localVarFormParams.put("client_id", clientId);
         if (grantType != null)
-        localVarFormParams.put("grant_type", grantType);
+            localVarFormParams.put("grant_type", grantType);
         if (code != null)
-        localVarFormParams.put("code", code);
+            localVarFormParams.put("code", code);
         if (redirectUri != null)
-        localVarFormParams.put("redirect_uri", redirectUri);
+            localVarFormParams.put("redirect_uri", redirectUri);
         if (scope != null)
-        localVarFormParams.put("scope", scope);
+            localVarFormParams.put("scope", scope);
         if (refreshToken != null)
-        localVarFormParams.put("refresh_token", refreshToken);
+            localVarFormParams.put("refresh_token", refreshToken);
         if (codeVerifier != null)
-        localVarFormParams.put("code_verifier", codeVerifier);
+            localVarFormParams.put("code_verifier", codeVerifier);
 
         final String[] localVarAccepts = {
             "application/json"
