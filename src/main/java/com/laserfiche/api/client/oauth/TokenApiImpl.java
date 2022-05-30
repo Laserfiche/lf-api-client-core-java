@@ -19,11 +19,6 @@ public class TokenApiImpl implements TokenApiClient {
         generatedClient = new TokenApi();
     }
 
-    private GetAccessTokenResponse getAccessToken(String spKey, AccessKey accessKey) throws ApiException {
-        String bearer = createBearer(spKey, accessKey);
-        return generatedClient.tokenGetAccessToken(null, "client_credentials", null, null, null, null, null, bearer);
-    }
-
     @Override
     public CompletableFuture<GetAccessTokenResponse> getAccessTokenAsync(String spKey, AccessKey accessKey) {
         return CompletableFuture.supplyAsync(() -> {
@@ -33,6 +28,11 @@ public class TokenApiImpl implements TokenApiClient {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    private GetAccessTokenResponse getAccessToken(String spKey, AccessKey accessKey) throws ApiException {
+        String bearer = createBearer(spKey, accessKey);
+        return generatedClient.tokenGetAccessToken(null, "client_credentials", null, null, null, null, null, bearer);
     }
 
     private static String createBearer(String spKey, AccessKey accessKey) {
