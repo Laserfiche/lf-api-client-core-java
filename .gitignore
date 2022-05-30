@@ -28,6 +28,9 @@ build
 .swagger-codegen-ignore
 swagger-codegen-cli-3.0.34.jar
 
+# Integration Test Config File
+TestConfig.env
+
 # Unsupported Build/CI Systems
 .travis.yml
 gradle
