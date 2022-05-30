@@ -30,7 +30,7 @@ public class TokenApiImpl implements TokenApiClient {
         });
     }
 
-    private GetAccessTokenResponse getAccessToken(String spKey, AccessKey accessKey) throws ApiException {
+    public GetAccessTokenResponse getAccessToken(String spKey, AccessKey accessKey) throws ApiException {
         String bearer = createBearer(spKey, accessKey);
         return generatedClient.tokenGetAccessToken(null, "client_credentials", null, null, null, null, null, bearer);
     }
