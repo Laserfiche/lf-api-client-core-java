@@ -8,6 +8,7 @@ import com.nimbusds.jose.crypto.ECDSASigner;
 import com.nimbusds.jose.jwk.ECKey;
 
 import java.util.Date;
+import java.util.concurrent.CompletableFuture;
 
 
 public class TokenApiImpl implements TokenApiClient {
@@ -18,10 +19,20 @@ public class TokenApiImpl implements TokenApiClient {
         generatedClient = new TokenApi();
     }
 
-    @Override
-    public GetAccessTokenResponse getAccessToken(String spKey, AccessKey accessKey) throws ApiException {
+    private GetAccessTokenResponse getAccessToken(String spKey, AccessKey accessKey) throws ApiException {
         String bearer = createBearer(spKey, accessKey);
         return generatedClient.tokenGetAccessToken(null, "client_credentials", null, null, null, null, null, bearer);
+    }
+
+    @Override
+    public CompletableFuture<GetAccessTokenResponse> getAccessTokenAsync(String spKey, AccessKey accessKey) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                return getAccessToken(spKey, accessKey);
+            } catch (ApiException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private static String createBearer(String spKey, AccessKey accessKey) {
