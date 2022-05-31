@@ -1,10 +1,14 @@
 package com.laserfiche.api.client.integration;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
 import com.laserfiche.api.client.JSON;
 import com.laserfiche.api.client.model.AccessKey;
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
 import com.laserfiche.api.client.oauth.TokenApiClient;
 import com.laserfiche.api.client.oauth.TokenApiImpl;
+import com.nimbusds.jose.jwk.JWK;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -16,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class TokenApiImplTest {
-    private static Dotenv dotenv;
     private static String spKey;
     private static AccessKey accessKey;
 
@@ -28,8 +31,16 @@ public class TokenApiImplTest {
                 .filename("TestConfig.env")
                 .load();
 
-        JSON json = new JSON();
-        accessKey = json.deserialize(dotenv.get("DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_ACCESS_KEY"), AccessKey.class);
+        Gson gson = new GsonBuilder().registerTypeAdapter(JWK.class, new JwkInstanceCreator()).create();
+
+        String accessKeyStr = dotenv.get("DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY");
+        if (accessKeyStr == null) {
+            throw new RuntimeException("DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY environment variable is not set");
+        }
+        // Gson doesn't escape forward slash https://github.com/google/gson/issues/356
+        accessKeyStr = accessKeyStr.replace("\\\"", "\"");
+
+        accessKey = gson.fromJson(accessKeyStr, AccessKey.class);
         spKey = dotenv.get("DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY");
     }
 
