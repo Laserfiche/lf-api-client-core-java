@@ -2,8 +2,6 @@ package com.laserfiche.api.client.integration;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParseException;
-import com.laserfiche.api.client.JSON;
 import com.laserfiche.api.client.model.AccessKey;
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
 import com.laserfiche.api.client.oauth.TokenApiClient;
@@ -46,8 +44,8 @@ public class TokenApiImplTest {
     }
 
     @Test
-    public void testGetTokenAsync() {
-        TokenApiClient client = new TokenApiImpl();
+    public void testGetAccessTokenAsync() {
+        TokenApiClient client = new TokenApiImpl(accessKey.getDomain());
         CompletableFuture<GetAccessTokenResponse> respFuture = null;
 
         try {
@@ -72,8 +70,8 @@ public class TokenApiImplTest {
     }
 
     @Test
-    public void testGetToken() {
-        TokenApiClient client = new TokenApiImpl();
+    public void testGetAccessToken() {
+        TokenApiClient client = new TokenApiImpl(accessKey.getDomain());
         GetAccessTokenResponse resp = null;
 
         try {

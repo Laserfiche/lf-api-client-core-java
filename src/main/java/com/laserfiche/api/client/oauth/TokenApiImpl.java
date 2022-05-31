@@ -15,8 +15,10 @@ public class TokenApiImpl implements TokenApiClient {
     private static String payloadTemplate = "{ \"client_id\": \"%s\", \"client_secret\": \"%s\", \"aud\": \"laserfiche.com\", \"exp\": %d, \"iat\": %d, \"nbf\": %d}";
     private TokenApi generatedClient;
 
-    public TokenApiImpl() {
+    public TokenApiImpl(String regionalDomain) {
+        String baseAddress = getOAuthApiBaseUri(regionalDomain);
         generatedClient = new TokenApi();
+        generatedClient.getApiClient().setBasePath(baseAddress);
     }
 
     @Override
@@ -33,6 +35,14 @@ public class TokenApiImpl implements TokenApiClient {
     public GetAccessTokenResponse getAccessToken(String spKey, AccessKey accessKey) throws ApiException {
         String bearer = createBearer(spKey, accessKey);
         return generatedClient.tokenGetAccessToken(null, "client_credentials", null, null, null, null, null, bearer);
+    }
+
+    private static String getOAuthApiBaseUri(String domain)
+    {
+        if (domain == null || domain.equals("")) {
+            throw new IllegalArgumentException("domain");
+        }
+        return String.format("https://signin.%s/oauth", domain);
     }
 
     private static String createBearer(String spKey, AccessKey accessKey) {
@@ -58,7 +68,7 @@ public class TokenApiImpl implements TokenApiClient {
     private static JWSObject createJws(ECKey jwk, String spKey, AccessKey accessKey) {
         long now = new Date().getTime();
         JWSHeader jwsHeader = new JWSHeader.Builder(JWSAlgorithm.ES256).keyID(jwk.getKeyID()).type(JOSEObjectType.JWT).build();
-        Payload jwsPayload = new Payload(String.format(payloadTemplate, accessKey.getClientId(), spKey, now / 1000 + 3600, now, now));
+        Payload jwsPayload = new Payload(String.format(payloadTemplate, accessKey.getClientId(), spKey, now / 1000 + 3600, now / 1000, now / 1000));
         return new JWSObject(jwsHeader, jwsPayload);
     }
 
