@@ -66,9 +66,10 @@ public class TokenApiImpl implements TokenApiClient {
     }
 
     private static JWSObject createJws(ECKey jwk, String spKey, AccessKey accessKey) {
-        long now = new Date().getTime();
+        long now = new Date().getTime() / 1000;
         JWSHeader jwsHeader = new JWSHeader.Builder(JWSAlgorithm.ES256).keyID(jwk.getKeyID()).type(JOSEObjectType.JWT).build();
-        Payload jwsPayload = new Payload(String.format(payloadTemplate, accessKey.getClientId(), spKey, now / 1000 + 3600, now / 1000, now / 1000));
+        // The token will be valid for 30 minutes
+        Payload jwsPayload = new Payload(String.format(payloadTemplate, accessKey.getClientId(), spKey, now + 1800, now, now));
         return new JWSObject(jwsHeader, jwsPayload);
     }
 

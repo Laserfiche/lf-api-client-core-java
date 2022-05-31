@@ -66,7 +66,7 @@ public class TokenApiImplTest {
         assertNotEquals(resp, null);
         assertNotEquals(resp.getAccessToken(), null);
         assertNotEquals(resp.getAccessToken(), "");
-        assertEquals(resp.getExpiresIn(), 3600);
+        assertEquals(43200, resp.getExpiresIn());
     }
 
     @Test
@@ -84,6 +84,6 @@ public class TokenApiImplTest {
 
         assertNotEquals(resp.getAccessToken(), null);
         assertNotEquals(resp.getAccessToken(), "");
-        assertEquals(resp.getExpiresIn(), 3600);
+        assertEquals(43200, resp.getExpiresIn());
     }
 }
