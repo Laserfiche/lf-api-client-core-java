@@ -31,7 +31,8 @@ public class TokenApiImplTest {
                 .filename("TestConfig.env")
                 .load();
 
-        Gson gson = new GsonBuilder().registerTypeAdapter(JWK.class, new JwkInstanceCreator()).create();
+        // Read env variables
+        Gson gson = new GsonBuilder().registerTypeAdapter(JWK.class, new JwkDeserializer()).create();
 
         String accessKeyStr = dotenv.get("DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY");
         if (accessKeyStr == null) {
