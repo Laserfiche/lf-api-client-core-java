@@ -1,11 +1,12 @@
 package com.laserfiche.api.client.httphandlers;
 
-import com.laserfiche.api.client.model.GetAccessTokenResponse;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import java.util.concurrent.CompletableFuture;
 
 public interface HttpRequestHandler {
-    CompletableFuture<GetAccessTokenResponse> beforeSendAsync(HttpRequest request);
+    CompletableFuture<BeforeSendResult> beforeSendAsync(Request.Builder request);
 
-    CompletableFuture<Boolean> afterSendAsync(HttpResponse response);
+    CompletableFuture<Boolean> afterSendAsync(Response response);
 }
