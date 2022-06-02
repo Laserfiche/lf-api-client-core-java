@@ -32,9 +32,9 @@ public class TokenApiImplTest extends BaseTest {
             e.printStackTrace();
         }
 
-        assertNotEquals(resp, null);
-        assertNotEquals(resp.getAccessToken(), null);
-        assertNotEquals(resp.getAccessToken(), "");
+        assertNotEquals(null, resp);
+        assertNotEquals(null, resp.getAccessToken());
+        assertNotEquals("", resp.getAccessToken());
         assertEquals(43200, resp.getExpiresIn());
     }
 
@@ -49,10 +49,10 @@ public class TokenApiImplTest extends BaseTest {
             e.printStackTrace();
         }
 
-        assertNotEquals(resp, null);
+        assertNotEquals(null, resp);
 
-        assertNotEquals(resp.getAccessToken(), null);
-        assertNotEquals(resp.getAccessToken(), "");
+        assertNotEquals(null, resp.getAccessToken());
+        assertNotEquals("", resp.getAccessToken());
         assertEquals(43200, resp.getExpiresIn());
     }
 }
