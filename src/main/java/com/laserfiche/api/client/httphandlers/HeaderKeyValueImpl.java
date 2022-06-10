@@ -10,12 +10,12 @@ public class HeaderKeyValueImpl implements HeaderKeyValue {
     }
 
     @Override
-    public String getHeaderName() {
+    public String headerName() {
         return headerName;
     }
 
     @Override
-    public String getHeader() {
+    public String header() {
         return header;
     }
 }
