@@ -12,6 +12,7 @@ import java.util.concurrent.CompletableFuture;
 
 
 public class TokenApiImpl implements TokenApiClient {
+    // TODO: rename class name
     private static String payloadTemplate = "{ \"client_id\": \"%s\", \"client_secret\": \"%s\", \"aud\": \"laserfiche.com\", \"exp\": %d, \"iat\": %d, \"nbf\": %d}";
     private TokenApi generatedClient;
 
@@ -22,14 +23,10 @@ public class TokenApiImpl implements TokenApiClient {
     }
 
     @Override
-    public CompletableFuture<GetAccessTokenResponse> getAccessTokenAsync(String spKey, AccessKey accessKey) {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                return getAccessToken(spKey, accessKey);
-            } catch (ApiException e) {
-                throw new RuntimeException(e);
-            }
-        });
+    public CompletableFuture<GetAccessTokenResponse> getAccessTokenAsync(String spKey, AccessKey accessKey) throws ApiException {
+        CompletableFuture<GetAccessTokenResponse> future = new CompletableFuture<>();
+        future.complete(getAccessToken(spKey, accessKey));
+        return future;
     }
 
     public GetAccessTokenResponse getAccessToken(String spKey, AccessKey accessKey) throws ApiException {
