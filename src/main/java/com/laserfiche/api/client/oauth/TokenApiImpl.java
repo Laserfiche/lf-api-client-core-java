@@ -29,7 +29,7 @@ public class TokenApiImpl implements TokenApiClient {
         return future;
     }
 
-    public GetAccessTokenResponse getAccessToken(String spKey, AccessKey accessKey) throws ApiException {
+    private GetAccessTokenResponse getAccessToken(String spKey, AccessKey accessKey) throws ApiException {
         String bearer = createBearer(spKey, accessKey);
         return generatedClient.tokenGetAccessToken(null, "client_credentials", null, null, null, null, null, bearer);
     }

@@ -37,22 +37,4 @@ public class TokenApiImplTest extends BaseTest {
         assertNotEquals("", resp.getAccessToken());
         assertEquals(43200, resp.getExpiresIn());
     }
-
-    @Test
-    public void testGetAccessToken() {
-        TokenApiClient client = new TokenApiImpl(accessKey.getDomain());
-        GetAccessTokenResponse resp = null;
-
-        try {
-            resp = client.getAccessToken(spKey, accessKey);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        assertNotEquals(null, resp);
-
-        assertNotEquals(null, resp.getAccessToken());
-        assertNotEquals("", resp.getAccessToken());
-        assertEquals(43200, resp.getExpiresIn());
-    }
 }
