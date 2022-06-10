@@ -1,7 +1,6 @@
 package com.laserfiche.api.client.httphandlers;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.Set;
 
 public interface Headers {
@@ -9,7 +8,7 @@ public interface Headers {
 
     void delete(String name);
 
-    Map.Entry<String, String> entries();
+    Collection<HeaderKeyValue> entries();
 
     String get(String name);
 
