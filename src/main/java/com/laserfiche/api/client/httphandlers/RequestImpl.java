@@ -9,12 +9,12 @@ public class RequestImpl implements Request {
     }
 
     @Override
-    public String getUrl() {
+    public String url() {
         return url;
     }
 
     @Override
-    public Headers getHeaders() {
+    public Headers headers() {
         return headers;
     }
 }
