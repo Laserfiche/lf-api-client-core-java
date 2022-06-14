@@ -1,6 +1,5 @@
 package com.laserfiche.api.client.httphandlers;
 
-import com.laserfiche.api.client.ApiException;
 import com.laserfiche.api.client.model.AccessKey;
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
 import com.laserfiche.api.client.oauth.TokenApiClient;
@@ -25,6 +24,15 @@ public class OAuthClientCredentialsHandler implements HttpRequestHandler{
     }
 
     @Override
+    public CompletableFuture<BeforeSendResult> beforeSendAsync(com.laserfiche.api.client.httphandlers.Request request) {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<Boolean> afterSendAsync(com.laserfiche.api.client.httphandlers.Response response) {
+        return null;
+    }
+
     public CompletableFuture<BeforeSendResult> beforeSendAsync(Request.Builder request) {
         CompletableFuture<GetAccessTokenResponse> future = new CompletableFuture<>();
         BeforeSendResult result = new BeforeSendResult();
@@ -50,7 +58,6 @@ public class OAuthClientCredentialsHandler implements HttpRequestHandler{
         });
     }
 
-    @Override
     public CompletableFuture<Boolean> afterSendAsync(Response response) {
         boolean shouldRetry;
         if (response.code() == HTTP_STATUS_UNAUTHORIZED) {

@@ -1,6 +1,5 @@
 package com.laserfiche.api.client.oauth;
 
-import com.laserfiche.api.client.ApiException;
 import com.laserfiche.api.client.model.AccessKey;
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
 import com.nimbusds.jose.*;

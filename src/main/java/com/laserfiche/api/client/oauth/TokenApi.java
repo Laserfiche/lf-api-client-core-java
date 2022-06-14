@@ -12,22 +12,12 @@
 
 package com.laserfiche.api.client.oauth;
 
-import com.laserfiche.api.client.ApiCallback;
-import com.laserfiche.api.client.ApiClient;
-import com.laserfiche.api.client.ApiException;
-import com.laserfiche.api.client.ApiResponse;
-import com.laserfiche.api.client.Configuration;
-import com.laserfiche.api.client.Pair;
-import com.laserfiche.api.client.ProgressRequestBody;
-import com.laserfiche.api.client.ProgressResponseBody;
-
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 
 
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
-import com.laserfiche.api.client.model.ProblemDetails;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
