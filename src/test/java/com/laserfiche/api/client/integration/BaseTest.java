@@ -22,14 +22,14 @@ public class BaseTest {
         // Read env variables
         Gson gson = new GsonBuilder().registerTypeAdapter(JWK.class, new JwkDeserializer()).create();
 
-        String accessKeyStr = dotenv.get("DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY");
+        String accessKeyStr = dotenv.get("ACCESS_KEY");
         if (accessKeyStr == null) {
-            throw new RuntimeException("DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY environment variable is not set");
+            throw new RuntimeException("ACCESS_KEY environment variable is not set");
         }
         // Gson doesn't escape forward slash https://github.com/google/gson/issues/356
         accessKeyStr = accessKeyStr.replace("\\\"", "\"");
 
         accessKey = gson.fromJson(accessKeyStr, AccessKey.class);
-        spKey = dotenv.get("DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY");
+        spKey = dotenv.get("SERVICE_PRINCIPAL_KEY");
     }
 }
