@@ -5,32 +5,52 @@ import com.laserfiche.api.client.model.GetAccessTokenResponse;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.ECDSASigner;
 import com.nimbusds.jose.jwk.ECKey;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 
 
-public class TokenApiImpl implements TokenApiClient {
-    // TODO: rename class name
-    private static String payloadTemplate = "{ \"client_id\": \"%s\", \"client_secret\": \"%s\", \"aud\": \"laserfiche.com\", \"exp\": %d, \"iat\": %d, \"nbf\": %d}";
-    private TokenApi generatedClient;
+public class TokenClientImpl implements TokenClient {
+    private OAuthClient client;
 
-    public TokenApiImpl(String regionalDomain) {
+    public TokenClientImpl(String regionalDomain) {
         String baseAddress = getOAuthApiBaseUri(regionalDomain);
-        generatedClient = new TokenApi();
-        generatedClient.getApiClient().setBasePath(baseAddress);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseAddress)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        client = retrofit.create(OAuthClient.class);
     }
 
     @Override
-    public CompletableFuture<GetAccessTokenResponse> getAccessTokenAsync(String spKey, AccessKey accessKey) throws ApiException {
-        CompletableFuture<GetAccessTokenResponse> future = new CompletableFuture<>();
-        future.complete(getAccessToken(spKey, accessKey));
+    public CompletableFuture<GetAccessTokenResponse> getAccessTokenFromServicePrincipal(String spKey, AccessKey accessKey) {
+        String bearer = createBearer(spKey, accessKey);
+        CompletableFuture<GetAccessTokenResponse> future = CompletableFuture.supplyAsync(() -> {
+            Call<GetAccessTokenResponse> call = client.getAccessToken("client_credentials", bearer);
+            Response<GetAccessTokenResponse> response = null;
+            try {
+                response = call.execute();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return response.body();
+        });
         return future;
     }
 
-    private GetAccessTokenResponse getAccessToken(String spKey, AccessKey accessKey) throws ApiException {
-        String bearer = createBearer(spKey, accessKey);
-        return generatedClient.tokenGetAccessToken(null, "client_credentials", null, null, null, null, null, bearer);
+    @Override
+    public CompletableFuture<GetAccessTokenResponse> getAccessTokenFromCode(String code, String redirectUri, String clientId, String codeVerifier) {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<GetAccessTokenResponse> refreshAccessToken(String refreshToken, String clientId) {
+        return null;
     }
 
     private static String getOAuthApiBaseUri(String domain)
@@ -65,6 +85,7 @@ public class TokenApiImpl implements TokenApiClient {
         long now = new Date().getTime() / 1000;
         JWSHeader jwsHeader = new JWSHeader.Builder(JWSAlgorithm.ES256).keyID(jwk.getKeyID()).type(JOSEObjectType.JWT).build();
         // The token will be valid for 30 minutes
+        String payloadTemplate = "{ \"client_id\": \"%s\", \"client_secret\": \"%s\", \"aud\": \"laserfiche.com\", \"exp\": %d, \"iat\": %d, \"nbf\": %d}";
         Payload jwsPayload = new Payload(String.format(payloadTemplate, accessKey.getClientId(), spKey, now + 1800, now, now));
         return new JWSObject(jwsHeader, jwsPayload);
     }
