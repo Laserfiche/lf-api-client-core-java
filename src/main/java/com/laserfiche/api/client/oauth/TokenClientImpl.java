@@ -58,7 +58,7 @@ public class TokenClientImpl implements TokenClient {
         if (domain == null || domain.equals("")) {
             throw new IllegalArgumentException("domain");
         }
-        return String.format("https://signin.%s/oauth", domain);
+        return String.format("https://signin.%s/oauth/", domain);
     }
 
     private static String createBearer(String spKey, AccessKey accessKey) {
