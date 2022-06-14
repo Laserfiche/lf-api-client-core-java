@@ -10,7 +10,7 @@ public interface TokenClient {
      * Gets an OAuth access token given a Laserfiche cloud service principal key and an OAuth service application access key.
      * @param spKey Laserfiche cloud service principal key
      * @param accessKey OAuth service application access key
-     * @return
+     * @return A response that contains an access token
      */
     CompletableFuture<GetAccessTokenResponse> getAccessTokenFromServicePrincipal(String spKey, AccessKey accessKey);
 
@@ -20,7 +20,7 @@ public interface TokenClient {
      * @param redirectUri Authorization endpoint redirect URI
      * @param clientId OAuth application client ID
      * @param codeVerifier PKCE code verifier
-     * @return
+     * @return A response that contains an access token
      */
     CompletableFuture<GetAccessTokenResponse> getAccessTokenFromCode(String code, String redirectUri, String clientId, String codeVerifier);
 
@@ -28,7 +28,7 @@ public interface TokenClient {
      * Gets a refreshed access token given a refresh token.
      * @param refreshToken Refresh token
      * @param clientId OAuth application client ID
-     * @return
+     * @return A response that contains an access token
      */
     CompletableFuture<GetAccessTokenResponse> refreshAccessToken(String refreshToken, String clientId);
 }
