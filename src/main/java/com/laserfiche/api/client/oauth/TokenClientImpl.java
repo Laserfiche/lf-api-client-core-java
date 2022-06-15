@@ -58,12 +58,12 @@ public class TokenClientImpl implements TokenClient {
 
     @Override
     public CompletableFuture<GetAccessTokenResponse> getAccessTokenFromCode(String code, String redirectUri, String clientId, String codeVerifier) {
-        return null;
+        throw new UnsupportedOperationException("Authorization code flow is currently not supported.");
     }
 
     @Override
     public CompletableFuture<GetAccessTokenResponse> refreshAccessToken(String refreshToken, String clientId) {
-        return null;
+        throw new UnsupportedOperationException("Authorization code flow is currently not supported.");
     }
 
     private static String getOAuthApiBaseUri(String domain)
