@@ -2,13 +2,11 @@ package com.laserfiche.api.client.oauth;
 
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.Header;
-import retrofit2.http.POST;
+import retrofit2.http.*;
 
 public interface OAuthClient {
     @FormUrlEncoded
-    @POST("oauth")
+    @Headers("Accept: application/json")
+    @POST("Token")
     Call<GetAccessTokenResponse> getAccessToken(@Field("grant_type") String grantType, @Header("Authorization") String authorization);
 }

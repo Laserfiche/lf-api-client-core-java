@@ -1,10 +1,14 @@
 package com.laserfiche.api.client.oauth;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.laserfiche.api.client.model.AccessKey;
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.ECDSASigner;
 import com.nimbusds.jose.jwk.ECKey;
+import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -13,6 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import java.io.IOException;
 import java.util.Date;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 
 public class TokenClientImpl implements TokenClient {
@@ -20,9 +25,17 @@ public class TokenClientImpl implements TokenClient {
 
     public TokenClientImpl(String regionalDomain) {
         String baseAddress = getOAuthApiBaseUri(regionalDomain);
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .readTimeout(300, TimeUnit.SECONDS)
+                .connectTimeout(300, TimeUnit.SECONDS)
+                .build();
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseAddress)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(okHttpClient)
                 .build();
         client = retrofit.create(OAuthClient.class);
     }
@@ -58,7 +71,7 @@ public class TokenClientImpl implements TokenClient {
         if (domain == null || domain.equals("")) {
             throw new IllegalArgumentException("domain");
         }
-        return String.format("https://signin.%s/", domain);
+        return String.format("https://signin.%s/oauth/", domain);
     }
 
     private static String createBearer(String spKey, AccessKey accessKey) {
