@@ -4,9 +4,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class HeadersImpl implements Headers {
-    private Map<String, List<String>> headers;
+    private final Map<String, List<String>> headers;
 
-    public void Headers() {
+    public HeadersImpl() {
         headers = new HashMap<>();
     }
 
