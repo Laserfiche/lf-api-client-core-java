@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public class TokenClientImpl implements TokenClient {
-    private OAuthClient client;
+    private final OAuthClient client;
 
     public TokenClientImpl(String regionalDomain) {
         String baseAddress = getOAuthApiBaseUri(regionalDomain);
@@ -42,9 +42,9 @@ public class TokenClientImpl implements TokenClient {
     @Override
     public CompletableFuture<GetAccessTokenResponse> getAccessTokenFromServicePrincipal(String spKey, AccessKey accessKey) {
         String bearer = createBearer(spKey, accessKey);
-        CompletableFuture<GetAccessTokenResponse> future = CompletableFuture.supplyAsync(() -> {
+        return CompletableFuture.supplyAsync(() -> {
             Call<GetAccessTokenResponse> call = client.getAccessToken("client_credentials", bearer);
-            Response<GetAccessTokenResponse> response = null;
+            Response<GetAccessTokenResponse> response;
             try {
                 response = call.execute();
             } catch (IOException e) {
@@ -52,7 +52,6 @@ public class TokenClientImpl implements TokenClient {
             }
             return response.body();
         });
-        return future;
     }
 
     @Override
