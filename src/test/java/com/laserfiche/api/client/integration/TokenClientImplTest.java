@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class TokenClientImplTest extends BaseTest {
     @Test
     public void getAccessTokenFromServicePrincipal_Success() throws ExecutionException, InterruptedException {
-        TokenClient client = new TokenClientImpl("ca");
+        TokenClient client = new TokenClientImpl(accessKey.getDomain());
         CompletableFuture<GetAccessTokenResponse> future = client.getAccessTokenFromServicePrincipal(spKey, accessKey);
         GetAccessTokenResponse response = future.get();
 
