@@ -17,7 +17,7 @@ public class OAuthClientCredentialsHandlerTest extends BaseTest {
         Response mockedResponse = mock(Response.class);
         when(mockedResponse.status()).thenReturn((short)200);
 
-        // Request access token then simulate a 401
+        // Request access token then simulate a 200
         handler.afterSendAsync(mockedResponse).thenApply((shouldRetry) -> {
             assertEquals(false, shouldRetry);
             return null;
