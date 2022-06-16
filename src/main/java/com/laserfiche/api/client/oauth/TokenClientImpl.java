@@ -4,9 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.laserfiche.api.client.model.AccessKey;
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
-import com.nimbusds.jose.*;
-import com.nimbusds.jose.crypto.ECDSASigner;
-import com.nimbusds.jose.jwk.ECKey;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -14,9 +11,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+
+import static com.laserfiche.api.client.oauth.OAuthUtil.createBearer;
+import static com.laserfiche.api.client.oauth.OAuthUtil.getOAuthApiBaseUri;
 
 
 public class TokenClientImpl implements TokenClient {
@@ -62,47 +61,5 @@ public class TokenClientImpl implements TokenClient {
     @Override
     public CompletableFuture<GetAccessTokenResponse> refreshAccessToken(String refreshToken, String clientId) {
         throw new UnsupportedOperationException("Authorization code flow is currently not supported.");
-    }
-
-    private static String getOAuthApiBaseUri(String domain)
-    {
-        if (domain == null || domain.equals("")) {
-            throw new IllegalArgumentException("domain");
-        }
-        return String.format("https://signin.%s/oauth/", domain);
-    }
-
-    private static String createBearer(String spKey, AccessKey accessKey) {
-        // Prepare JWK
-        ECKey jwk = accessKey.getJwk().toECKey();
-
-        // Prepare JWS
-        JWSObject jws = createJws(jwk, spKey, accessKey);
-
-        // Sign
-        try {
-            sign(jws, jwk);
-        } catch (JOSEException e) {
-            // If the EC JWK doesn't contain a private part, its extraction failed,
-            // or the elliptic curve is not supported.
-            return null;
-        }
-
-        // Generate bearer
-        return "Bearer " + jws.serialize();
-    }
-
-    private static JWSObject createJws(ECKey jwk, String spKey, AccessKey accessKey) {
-        long now = new Date().getTime() / 1000;
-        JWSHeader jwsHeader = new JWSHeader.Builder(JWSAlgorithm.ES256).keyID(jwk.getKeyID()).type(JOSEObjectType.JWT).build();
-        // The token will be valid for 30 minutes
-        String payloadTemplate = "{ \"client_id\": \"%s\", \"client_secret\": \"%s\", \"aud\": \"laserfiche.com\", \"exp\": %d, \"iat\": %d, \"nbf\": %d}";
-        Payload jwsPayload = new Payload(String.format(payloadTemplate, accessKey.getClientId(), spKey, now + 1800, now, now));
-        return new JWSObject(jwsHeader, jwsPayload);
-    }
-
-    private static void sign(JWSObject jws, ECKey jwk) throws JOSEException {
-        JWSSigner signer = new ECDSASigner(jwk);
-        jws.sign(signer);
     }
 }
