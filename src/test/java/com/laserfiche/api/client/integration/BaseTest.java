@@ -16,7 +16,7 @@ public class BaseTest {
         // Load environment variables
         Dotenv dotenv = Dotenv
                 .configure()
-                .filename("TestConfig.env")
+                .filename(".env")
                 .load();
 
         // Read env variables
