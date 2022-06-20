@@ -150,8 +150,8 @@ public class HeadersImplTest {
 
         keys.forEach((headerName) -> assertTrue(
                 (headerName.equals(pair1.headerName())) ||
-                        (headerName.equals(pair1.headerName())) ||
-                        (headerName.equals(pair1.headerName()))));
+                        (headerName.equals(pair2.headerName())) ||
+                        (headerName.equals(pair3.headerName()))));
     }
 
     @Test
