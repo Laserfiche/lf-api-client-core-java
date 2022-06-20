@@ -61,6 +61,6 @@ public class HeadersImpl implements Headers {
 
     @Override
     public Collection<String> values() {
-        return headers.values().stream().map(headerList -> String.join(", ")).collect(Collectors.toList());
+        return headers.values().stream().map(headerList -> String.join(", ", headerList)).collect(Collectors.toList());
     }
 }
