@@ -12,6 +12,9 @@ public class HeadersImpl implements Headers {
 
     @Override
     public void append(String name, String value) {
+        if (value == null) {
+            return;
+        }
         headers.computeIfAbsent(name, key -> new ArrayList<>());
         headers.get(name).add(value);
     }
