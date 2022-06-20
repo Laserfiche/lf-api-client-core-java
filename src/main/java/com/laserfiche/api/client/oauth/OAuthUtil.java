@@ -1,51 +1,35 @@
 package com.laserfiche.api.client.oauth;
 
-import com.laserfiche.api.client.ApiException;
 import com.laserfiche.api.client.model.AccessKey;
-import com.laserfiche.api.client.model.GetAccessTokenResponse;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.ECDSASigner;
 import com.nimbusds.jose.jwk.ECKey;
 
 import java.util.Date;
-import java.util.concurrent.CompletableFuture;
 
+public class OAuthUtil {
 
-public class TokenApiImpl implements TokenApiClient {
-    private static String payloadTemplate = "{ \"client_id\": \"%s\", \"client_secret\": \"%s\", \"aud\": \"laserfiche.com\", \"exp\": %d, \"iat\": %d, \"nbf\": %d}";
-    private TokenApi generatedClient;
-
-    public TokenApiImpl(String regionalDomain) {
-        String baseAddress = getOAuthApiBaseUri(regionalDomain);
-        generatedClient = new TokenApi();
-        generatedClient.getApiClient().setBasePath(baseAddress);
-    }
-
-    @Override
-    public CompletableFuture<GetAccessTokenResponse> getAccessTokenAsync(String spKey, AccessKey accessKey) {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                return getAccessToken(spKey, accessKey);
-            } catch (ApiException e) {
-                throw new RuntimeException(e);
-            }
-        });
-    }
-
-    public GetAccessTokenResponse getAccessToken(String spKey, AccessKey accessKey) throws ApiException {
-        String bearer = createBearer(spKey, accessKey);
-        return generatedClient.tokenGetAccessToken(null, "client_credentials", null, null, null, null, null, bearer);
-    }
-
-    private static String getOAuthApiBaseUri(String domain)
+    /**
+     * Given a Laserfiche domain, such as laserfiche.ca, returns the base URL for OAuth.
+     * @param domain The Laserfiche domain, for example, laserfiche.ca.
+     * @return Full base URL for OAuth.
+     */
+    public static String getOAuthApiBaseUri(String domain)
     {
         if (domain == null || domain.equals("")) {
             throw new IllegalArgumentException("domain");
         }
-        return String.format("https://signin.%s/oauth", domain);
+        return String.format("https://signin.%s/oauth/", domain);
     }
 
-    private static String createBearer(String spKey, AccessKey accessKey) {
+    /**
+     * Given a service principal key and an access key, return a string representation of the Bearer header. In the form
+     * of "Bearer xxxxxx".
+     * @param spKey Service principal key.
+     * @param accessKey Access key.
+     * @return Bearer header.
+     */
+    public static String createBearer(String spKey, AccessKey accessKey) {
         // Prepare JWK
         ECKey jwk = accessKey.getJwk().toECKey();
 
@@ -69,6 +53,7 @@ public class TokenApiImpl implements TokenApiClient {
         long now = new Date().getTime() / 1000;
         JWSHeader jwsHeader = new JWSHeader.Builder(JWSAlgorithm.ES256).keyID(jwk.getKeyID()).type(JOSEObjectType.JWT).build();
         // The token will be valid for 30 minutes
+        String payloadTemplate = "{ \"client_id\": \"%s\", \"client_secret\": \"%s\", \"aud\": \"laserfiche.com\", \"exp\": %d, \"iat\": %d, \"nbf\": %d}";
         Payload jwsPayload = new Payload(String.format(payloadTemplate, accessKey.getClientId(), spKey, now + 1800, now, now));
         return new JWSObject(jwsHeader, jwsPayload);
     }
