@@ -31,7 +31,6 @@ public class BaseTest {
             String accessKeyStr = decodeBase64(accessKeyBase64);
             // Gson doesn't escape forward slash https://github.com/google/gson/issues/356
             accessKeyStr = accessKeyStr.replace("\\\"", "\"");
-
             accessKey = gson.fromJson(accessKeyStr, AccessKey.class);
             spKey = dotenv.get("SERVICE_PRINCIPAL_KEY");
         } catch (DotenvException | NullPointerException e) {
@@ -40,16 +39,10 @@ public class BaseTest {
             }
             if (e instanceof NullPointerException) {
                 System.out.println("Environment variables are not loaded properly from the Testconfig.env file");
-            }
-            else{
+            } else {
                 throw new RuntimeException("uncaught", e);
             }
         }
-        /*catch (DotenvException e) {
-            System.out.println("File not found");
-        }catch(NullPointerException e){
-            System.out.println("Environment variables are not loaded properly from the Testconfig.env file");
-        }*/
     }
 
     private static String decodeBase64(String encoded) {
