@@ -49,12 +49,18 @@ public class OAuthUtil {
         // Generate bearer
         return "Bearer " + jws.serialize();
     }
-
+    /**
+     * Given a client id and a client secret, return a string representation of the Basic header. In the form
+     * of "Basic xxxxxx".
+     * @param clientId OAuth application client ID
+     * @param clientSecret OPTIONAL OAuth application client secret. Required for web apps.
+     * @return Basic header.
+     */
     public static String createBasic(String clientId, String clientSecret){
         if(clientSecret != null || !clientSecret.isEmpty()){
             String basicCredentials = clientId + ':'+clientSecret;
             String encodedClientSecret = Base64.getEncoder().encodeToString(basicCredentials.getBytes());
-            return "Basic" + encodedClientSecret;
+            return "Basic " + encodedClientSecret;
         }
         return "";
     }
