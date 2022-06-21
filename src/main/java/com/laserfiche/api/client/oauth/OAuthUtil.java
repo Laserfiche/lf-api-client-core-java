@@ -5,6 +5,7 @@ import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.ECDSASigner;
 import com.nimbusds.jose.jwk.ECKey;
 
+import java.util.Base64;
 import java.util.Date;
 
 public class OAuthUtil {
@@ -47,6 +48,15 @@ public class OAuthUtil {
 
         // Generate bearer
         return "Bearer " + jws.serialize();
+    }
+
+    public static String createBasic(String clientId, String clientSecret){
+        if(clientSecret != null || !clientSecret.isEmpty()){
+            String basicCredentials = clientId + ':'+clientSecret;
+            String encodedClientSecret = Base64.getEncoder().encodeToString(basicCredentials.getBytes());
+            return "Basic" + encodedClientSecret;
+        }
+        return "";
     }
 
     private static JWSObject createJws(ECKey jwk, String spKey, AccessKey accessKey) {

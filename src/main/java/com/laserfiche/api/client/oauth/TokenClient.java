@@ -19,16 +19,18 @@ public interface TokenClient {
      * @param code Authorization code
      * @param redirectUri Authorization endpoint redirect URI
      * @param clientId OAuth application client ID
-     * @param codeVerifier PKCE code verifier
+     * @param clientSecret OPTIONAL OAuth application client secret. Required for web apps.
+     * @param codeVerifier OPTIONAL PKCE code verifier. Required for SPA apps.
      * @return A response that contains an access token
      */
-    CompletableFuture<GetAccessTokenResponse> getAccessTokenFromCode(String code, String redirectUri, String clientId, String codeVerifier);
+    CompletableFuture<GetAccessTokenResponse> getAccessTokenFromCode(String code, String redirectUri, String clientId, String clientSecret, String codeVerifier);
 
     /**
      * Gets a refreshed access token given a refresh token.
      * @param refreshToken Refresh token
      * @param clientId OAuth application client ID
+     * @param clientSecret OPTIONAL OAuth application client secret. Required for web apps.
      * @return A response that contains an access token
      */
-    CompletableFuture<GetAccessTokenResponse> refreshAccessToken(String refreshToken, String clientId);
+    CompletableFuture<GetAccessTokenResponse> refreshAccessToken(String refreshToken, String clientId, String clientSecret);
 }
