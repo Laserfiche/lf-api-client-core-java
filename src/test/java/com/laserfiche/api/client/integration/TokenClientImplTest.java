@@ -32,4 +32,12 @@ public class TokenClientImplTest extends BaseTest {
 
         assertTrue(IOException.class.isAssignableFrom(exception.getCause().getCause().getClass()));
     }
+
+    /*@Test
+    public void getAccessTokenFromCode_400Error() throws ExecutionException, InterruptedException {
+        TokenClient client = new TokenClientImpl(accessKey.getDomain());
+        CompletableFuture<GetAccessTokenResponse> future = client.getAccessTokenFromCode(null, null, null, null, null);
+        GetAccessTokenResponse response = future.get();
+        System.out.println(response);
+    }*/
 }
