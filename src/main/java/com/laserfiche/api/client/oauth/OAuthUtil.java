@@ -5,17 +5,18 @@ import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.ECDSASigner;
 import com.nimbusds.jose.jwk.ECKey;
 
+import java.util.Base64;
 import java.util.Date;
 
 public class OAuthUtil {
 
     /**
      * Given a Laserfiche domain, such as laserfiche.ca, returns the base URL for OAuth.
+     *
      * @param domain The Laserfiche domain, for example, laserfiche.ca.
      * @return Full base URL for OAuth.
      */
-    public static String getOAuthApiBaseUri(String domain)
-    {
+    public static String getOAuthApiBaseUri(String domain) {
         if (domain == null || domain.equals("")) {
             throw new IllegalArgumentException("domain");
         }
@@ -25,7 +26,8 @@ public class OAuthUtil {
     /**
      * Given a service principal key and an access key, return a string representation of the Bearer header. In the form
      * of "Bearer xxxxxx".
-     * @param spKey Service principal key.
+     *
+     * @param spKey     Service principal key.
      * @param accessKey Access key.
      * @return Bearer header.
      */
@@ -47,6 +49,23 @@ public class OAuthUtil {
 
         // Generate bearer
         return "Bearer " + jws.serialize();
+    }
+
+    /**
+     * Given a client id and a client secret, return a string representation of the Basic header. In the form
+     * of "Basic xxxxxx".
+     *
+     * @param clientId     OAuth application client ID
+     * @param clientSecret OPTIONAL OAuth application client secret. Required for web apps.
+     * @return Basic header.
+     */
+    public static String createBasic(String clientId, String clientSecret) {
+        if (clientSecret != null) {
+            String basicCredentials = clientId + ':' + clientSecret;
+            String encodedClientSecret = Base64.getEncoder().encodeToString(basicCredentials.getBytes());
+            return "Basic " + encodedClientSecret;
+        }
+        return null;
     }
 
     private static JWSObject createJws(ECKey jwk, String spKey, AccessKey accessKey) {

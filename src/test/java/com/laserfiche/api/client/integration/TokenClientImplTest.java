@@ -32,4 +32,5 @@ public class TokenClientImplTest extends BaseTest {
 
         assertTrue(IOException.class.isAssignableFrom(exception.getCause().getCause().getClass()));
     }
+
 }
