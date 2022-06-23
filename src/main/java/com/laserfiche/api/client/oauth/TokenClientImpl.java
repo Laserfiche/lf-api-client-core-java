@@ -56,32 +56,12 @@ public class TokenClientImpl implements TokenClient {
     @Override
     public CompletableFuture<GetAccessTokenResponse> getAccessTokenFromCode(String code, String redirectUri, String clientId, String clientSecret, String codeVerifier) {
         String finalAuthorization = createBasic(clientId, clientSecret);
-        return CompletableFuture.supplyAsync(() -> {
-            Call<GetAccessTokenResponse> call = client.getAccessTokenFromCode(clientId, "authorization_code", code, redirectUri, codeVerifier, CONTENT_TYPE_WWW_FORM_URLENCODED, finalAuthorization);
-            Response<GetAccessTokenResponse> response;
-            try {
-                response = call.execute();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            System.out.println(response);
-            return response.body();
-        });
+        return client.getAccessTokenFromCode(clientId, "authorization_code", code, redirectUri, codeVerifier, CONTENT_TYPE_WWW_FORM_URLENCODED, finalAuthorization);
     }
 
     @Override
     public CompletableFuture<GetAccessTokenResponse> refreshAccessToken(String refreshToken, String clientId, String clientSecret) {
         String finalAuthorization = createBasic(clientId, clientSecret);
-        return CompletableFuture.supplyAsync(() -> {
-            Call<GetAccessTokenResponse> call = client.refreshAccessToken("refresh_token", refreshToken, CONTENT_TYPE_WWW_FORM_URLENCODED, finalAuthorization);
-            Response<GetAccessTokenResponse> response;
-            try {
-                response = call.execute();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            System.out.println(response);
-            return response.body();
-        });
+        return client.refreshAccessToken("refresh_token", refreshToken, CONTENT_TYPE_WWW_FORM_URLENCODED, finalAuthorization);
     }
 }
