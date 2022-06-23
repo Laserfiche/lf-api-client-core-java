@@ -21,20 +21,24 @@ public class OAuthClientCredentialsHandler implements HttpRequestHandler{
 
     @Override
     public CompletableFuture<BeforeSendResult> beforeSendAsync(com.laserfiche.api.client.httphandlers.Request request) {
-        CompletableFuture<GetAccessTokenResponse> future = new CompletableFuture<>();
+        CompletableFuture<GetAccessTokenResponse> future;
         BeforeSendResult result = new BeforeSendResult();
         if (accessToken == null || accessToken.equals("")) {
             future = client.getAccessTokenFromServicePrincipal(spKey, accessKey);
-        }
-        future.thenApply(tokenResponse -> {
-            accessToken = tokenResponse.getAccessToken();
+            future.thenApply(tokenResponse -> {
+                accessToken = tokenResponse.getAccessToken();
+                request.headers().append("Authorization", accessToken);
+                return null;
+            });
+            return future.thenApply(tokenResponse -> {
+                result.setRegionalDomain(accessKey.getDomain());
+                return result;
+            });
+        } else {
             request.headers().append("Authorization", accessToken);
-            return null;
-        });
-        return future.thenApply(tokenResponse -> {
             result.setRegionalDomain(accessKey.getDomain());
-            return result;
-        });
+            return CompletableFuture.completedFuture(result);
+        }
     }
 
     @Override

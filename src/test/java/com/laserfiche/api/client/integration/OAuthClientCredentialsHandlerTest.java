@@ -26,6 +26,31 @@ public class OAuthClientCredentialsHandlerTest extends BaseTest {
     }
 
     @Test
+    public void beforeSendAsync_CallTwiceShouldStillSucceed() throws ExecutionException, InterruptedException {
+        HttpRequestHandler handler = new OAuthClientCredentialsHandler(spKey, accessKey);
+        Request request1 = new RequestImpl();
+
+        // First time to request access token
+        CompletableFuture<BeforeSendResult> future1 = handler.beforeSendAsync(request1);
+        BeforeSendResult result1 = future1.get();
+
+        // First request should work
+        assertNotEquals(null, result1.getRegionalDomain());
+        assertNotEquals(null, request1.headers().get("Authorization"));
+        assertNotEquals("", request1.headers().get("Authorization"));
+
+        // Subsequent request should also work
+        Request request2 = new RequestImpl();
+        CompletableFuture<BeforeSendResult> future2 = handler.beforeSendAsync(request2);
+        BeforeSendResult result2 = future2.get();
+
+        assertNotEquals(null, result2.getRegionalDomain());
+        assertNotEquals(null, request2.headers().get("Authorization"));
+        assertNotEquals("", request2.headers().get("Authorization"));
+        assertEquals(request1.headers().get("Authorization"), request2.headers().get("Authorization"));
+    }
+
+    @Test
     public void afterSendAsync_ShouldRetry() {
         HttpRequestHandler handler = new OAuthClientCredentialsHandler(spKey, accessKey);
         Response mockedResponse = mock(Response.class);

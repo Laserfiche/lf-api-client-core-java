@@ -5,12 +5,9 @@ import com.google.gson.GsonBuilder;
 import com.laserfiche.api.client.model.AccessKey;
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
 import okhttp3.OkHttpClient;
-import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -41,16 +38,7 @@ public class TokenClientImpl implements TokenClient {
     @Override
     public CompletableFuture<GetAccessTokenResponse> getAccessTokenFromServicePrincipal(String spKey, AccessKey accessKey) {
         String bearer = createBearer(spKey, accessKey);
-        return CompletableFuture.supplyAsync(() -> {
-            Call<GetAccessTokenResponse> call = client.getAccessToken("client_credentials", bearer);
-            Response<GetAccessTokenResponse> response;
-            try {
-                response = call.execute();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            return response.body();
-        });
+        return client.getAccessToken("client_credentials", bearer);
     }
 
     @Override
