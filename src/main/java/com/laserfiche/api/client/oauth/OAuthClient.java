@@ -6,7 +6,7 @@ import retrofit2.http.*;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Specifies how the underlying HTTP client should work to request access token. See https://square.github.io/retrofit/
+ * Specifies how the underlying HTTP client should work to request access token. See <a href="https://square.github.io/retrofit/">...</a>
  * for more details.
  */
 public interface OAuthClient {
