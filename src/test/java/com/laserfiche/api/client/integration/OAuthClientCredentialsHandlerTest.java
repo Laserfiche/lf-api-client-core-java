@@ -28,25 +28,26 @@ public class OAuthClientCredentialsHandlerTest extends BaseTest {
     @Test
     public void beforeSendAsync_CallTwiceShouldStillSucceed() throws ExecutionException, InterruptedException {
         HttpRequestHandler handler = new OAuthClientCredentialsHandler(spKey, accessKey);
-        Request request = new RequestImpl();
+        Request request1 = new RequestImpl();
 
         // First time to request access token
-        CompletableFuture<BeforeSendResult> future = handler.beforeSendAsync(request);
-        BeforeSendResult result = future.get();
+        CompletableFuture<BeforeSendResult> future1 = handler.beforeSendAsync(request1);
+        BeforeSendResult result1 = future1.get();
 
         // First request should work
-        assertNotEquals(null, result.getRegionalDomain());
-        assertNotEquals(null, request.headers().get("Authorization"));
-        assertNotEquals("", request.headers().get("Authorization"));
+        assertNotEquals(null, result1.getRegionalDomain());
+        assertNotEquals(null, request1.headers().get("Authorization"));
+        assertNotEquals("", request1.headers().get("Authorization"));
 
         // Subsequent request should also work
-        request = new RequestImpl();
-        future = handler.beforeSendAsync(request);
-        future.get();
+        Request request2 = new RequestImpl();
+        CompletableFuture<BeforeSendResult> future2 = handler.beforeSendAsync(request2);
+        BeforeSendResult result2 = future2.get();
 
-        assertNotEquals(null, result.getRegionalDomain());
-        assertNotEquals(null, request.headers().get("Authorization"));
-        assertNotEquals("", request.headers().get("Authorization"));
+        assertNotEquals(null, result2.getRegionalDomain());
+        assertNotEquals(null, request2.headers().get("Authorization"));
+        assertNotEquals("", request2.headers().get("Authorization"));
+        assertEquals(request1.headers().get("Authorization"), request2.headers().get("Authorization"));
     }
 
     @Test
