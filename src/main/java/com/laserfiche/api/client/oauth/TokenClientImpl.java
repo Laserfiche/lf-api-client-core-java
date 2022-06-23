@@ -57,7 +57,7 @@ public class TokenClientImpl implements TokenClient {
     public CompletableFuture<GetAccessTokenResponse> getAccessTokenFromCode(String code, String redirectUri, String clientId, String clientSecret, String codeVerifier) {
         String finalAuthorization = createBasic(clientId, clientSecret);
         return CompletableFuture.supplyAsync(() -> {
-            Call<GetAccessTokenResponse> call = client.getAccessTokenFromCode(clientId,"authorization_code", code, redirectUri, codeVerifier, CONTENT_TYPE_WWW_FORM_URLENCODED, finalAuthorization);
+            Call<GetAccessTokenResponse> call = client.getAccessTokenFromCode(clientId, "authorization_code", code, redirectUri, codeVerifier, CONTENT_TYPE_WWW_FORM_URLENCODED, finalAuthorization);
             Response<GetAccessTokenResponse> response;
             try {
                 response = call.execute();
