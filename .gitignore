@@ -29,7 +29,7 @@ build
 swagger-codegen-cli-3.0.34.jar
 
 # Integration Test Config File
-TestConfig.env
+*.env
 
 # Unsupported Build/CI Systems
 .travis.yml
