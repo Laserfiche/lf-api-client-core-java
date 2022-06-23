@@ -60,12 +60,12 @@ public class OAuthUtil {
      * @return Basic header.
      */
     public static String createBasic(String clientId, String clientSecret) {
-        if (clientSecret != null || !clientSecret.isEmpty()) {
+        if (clientSecret != null) {
             String basicCredentials = clientId + ':' + clientSecret;
             String encodedClientSecret = Base64.getEncoder().encodeToString(basicCredentials.getBytes());
             return "Basic " + encodedClientSecret;
         }
-        return "";
+        return null;
     }
 
     private static JWSObject createJws(ECKey jwk, String spKey, AccessKey accessKey) {

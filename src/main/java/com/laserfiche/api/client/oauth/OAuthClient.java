@@ -14,13 +14,13 @@ public interface OAuthClient {
     @POST("Token")
     Call<GetAccessTokenResponse> getAccessToken(@Field("grant_type") String grantType, @Header("Authorization") String authorization);
 
-    /*@FormUrlEncoded
+    @FormUrlEncoded
     @Headers("Accept: application/json")
     @POST("Token")
-    Call<GetAccessTokenResponse> getAccessTokenFromCode(@Field("grant_type") String grantType, @Field("code") String code, @Field("redirect_uri") String redirectUri, @Field("code_verifier") String codeVerifier, @Header("Content-Type") String contentType, @Header("Authorization") String authorization);
+    Call<GetAccessTokenResponse> getAccessTokenFromCode(@Field("client_id") String clientId, @Field("grant_type") String grantType, @Field("code") String code, @Field("redirect_uri") String redirectUri, @Field("code_verifier") String codeVerifier, @Header("Content-Type") String contentType, @Header("Authorization") String authorization);
 
     @FormUrlEncoded
     @Headers("Accept: application/json")
     @POST("Token")
-    Call<GetAccessTokenResponse> refreshAccessToken(@Field("grant_type") String grantType, @Field("refresh_token") String refreshToken, @Header("Content-Type") String contentType, @Header("Authorization") String authorization);*/
+    Call<GetAccessTokenResponse> refreshAccessToken(@Field("grant_type") String grantType, @Field("refresh_token") String refreshToken, @Header("Content-Type") String contentType, @Header("Authorization") String authorization);
 }
