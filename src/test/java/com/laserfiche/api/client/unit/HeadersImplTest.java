@@ -1,4 +1,4 @@
-package com.laserfiche.api.client.test;
+package com.laserfiche.api.client.unit;
 
 import com.laserfiche.api.client.httphandlers.HeaderKeyValue;
 import com.laserfiche.api.client.httphandlers.HeaderKeyValueImpl;
