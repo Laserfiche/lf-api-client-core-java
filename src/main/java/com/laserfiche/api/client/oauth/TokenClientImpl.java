@@ -50,6 +50,6 @@ public class TokenClientImpl implements TokenClient {
     @Override
     public CompletableFuture<GetAccessTokenResponse> refreshAccessToken(String refreshToken, String clientId, String clientSecret) {
         String finalAuthorization = createBasic(clientId, clientSecret);
-        return client.refreshAccessToken("refresh_token", refreshToken, CONTENT_TYPE_WWW_FORM_URLENCODED, finalAuthorization);
+        return client.refreshAccessToken(clientId, "refresh_token", refreshToken, CONTENT_TYPE_WWW_FORM_URLENCODED, finalAuthorization);
     }
 }
