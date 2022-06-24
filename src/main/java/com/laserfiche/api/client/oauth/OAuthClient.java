@@ -13,7 +13,7 @@ public interface OAuthClient {
     @Headers("Accept: application/json")
     @POST("Token")
     CompletableFuture<GetAccessTokenResponse> getAccessToken(@Field("grant_type") String grantType, @Header("Authorization") String authorization);
-    
+
     @FormUrlEncoded
     @Headers("Accept: application/json")
     @POST("Token")
@@ -22,7 +22,7 @@ public interface OAuthClient {
     @FormUrlEncoded
     @Headers("Accept: application/json")
     @POST("Token")
-    CompletableFuture<GetAccessTokenResponse> refreshAccessToken(@Field("grant_type") String grantType, @Field("refresh_token") String refreshToken, @Header("Content-Type") String contentType, @Header("Authorization") String authorization);
+    CompletableFuture<GetAccessTokenResponse> refreshAccessToken(@Field("client_id") String clientId, @Field("grant_type") String grantType, @Field("refresh_token") String refreshToken, @Header("Content-Type") String contentType, @Header("Authorization") String authorization);
 
     // Those interface methods specifies how the HttpClient should be configured so it can correctly talk to the OAuth
     // backend. For more details, see https://square.github.io/retrofit/
