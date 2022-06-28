@@ -15,6 +15,7 @@ public class BaseTest {
 
     @BeforeAll
     public static void setUp() {
+        System.out.println(System.getenv());
         // Load environment variables
         Dotenv dotenv = Dotenv
                 .configure()
@@ -31,6 +32,7 @@ public class BaseTest {
 
         accessKey = gson.fromJson(accessKeyStr, AccessKey.class);
         spKey = dotenv.get("SERVICE_PRINCIPAL_KEY");
+
     }
 
     private static String decodeBase64(String encoded) {
