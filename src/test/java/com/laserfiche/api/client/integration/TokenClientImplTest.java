@@ -29,8 +29,7 @@ public class TokenClientImplTest extends BaseTest {
         CompletableFuture<GetAccessTokenResponse> future = client.getAccessTokenFromServicePrincipal(spKey, accessKey);
 
         Exception exception = assertThrows(ExecutionException.class, future::get);
-
-        assertTrue(IOException.class.isAssignableFrom(exception.getCause().getCause().getClass()));
+        assertTrue(IOException.class.isAssignableFrom(exception.getCause().getClass()));
     }
 
 }
