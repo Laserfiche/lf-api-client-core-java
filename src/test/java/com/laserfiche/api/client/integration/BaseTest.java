@@ -17,6 +17,7 @@ public class BaseTest {
     public static void setUp() {
         System.out.println(System.getenv());
         spKey = System.getenv("ACCESS_KEY");
+        System.out.println(new String(Base64.getUrlDecoder().decode(spKey)));
         String accessKeyBase64 = System.getenv("SERVICE_PRINCIPAL_KEY");
         System.out.println(accessKeyBase64);
         if (spKey == null && accessKeyBase64 == null) {
@@ -44,6 +45,7 @@ public class BaseTest {
     private static String decodeBase64(String encoded) {
         System.out.println(encoded);
         byte[] decodedBytes = Base64.getDecoder().decode(encoded);
+        System.out.println(new String(decodedBytes));
         return new String(decodedBytes);
     }
 }
