@@ -42,6 +42,7 @@ public class BaseTest {
     }
 
     private static String decodeBase64(String encoded) {
+        System.out.println(encoded);
         byte[] decodedBytes = Base64.getDecoder().decode(encoded);
         return new String(decodedBytes);
     }
