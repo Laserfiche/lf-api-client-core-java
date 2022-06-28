@@ -10,28 +10,35 @@ import org.junit.jupiter.api.BeforeAll;
 import java.util.Base64;
 
 public class BaseTest {
-    protected static String spKey;
+    protected static String spKey = System.getenv("ACCESS_KEY");
+
+    protected static String accessKeyBase64 = System.getenv("SERVICE_PRINCIPAL_KEY");
     protected static AccessKey accessKey;
 
     @BeforeAll
     public static void setUp() {
-        System.out.println(System.getenv());
+        System.out.println(spKey);
+        System.out.println(accessKeyBase64);
+        System.out.println(System.getProperties());
+        //if (spKey == null && accessKeyBase64 == null) {
         // Load environment variables
         Dotenv dotenv = Dotenv
                 .configure()
                 .filename(".env")
                 .load();
-
         // Read env variables
         Gson gson = new GsonBuilder().registerTypeAdapter(JWK.class, new JwkDeserializer()).create();
 
-        String accessKeyBase64 = dotenv.get("ACCESS_KEY");
+        accessKeyBase64 = dotenv.get("ACCESS_KEY");
+        //}
         String accessKeyStr = decodeBase64(accessKeyBase64);
         // Gson doesn't escape forward slash https://github.com/google/gson/issues/356
         accessKeyStr = accessKeyStr.replace("\\\"", "\"");
 
         accessKey = gson.fromJson(accessKeyStr, AccessKey.class);
         spKey = dotenv.get("SERVICE_PRINCIPAL_KEY");
+        dotenv.entries().forEach(e -> System.setProperty(e.getKey(), e.getValue()));
+        System.out.println(System.getProperties());
 
     }
 
