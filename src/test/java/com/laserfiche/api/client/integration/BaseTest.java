@@ -28,6 +28,7 @@ public class BaseTest {
             spKey = dotenv.get("SERVICE_PRINCIPAL_KEY");
         }
         String accessKeyStr = decodeBase64(accessKeyBase64);
+        System.out.println(accessKeyStr);
         // Gson doesn't escape forward slash https://github.com/google/gson/issues/356
         accessKeyStr = accessKeyStr.replace("\\\"", "\"");
 
