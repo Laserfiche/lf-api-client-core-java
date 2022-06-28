@@ -15,8 +15,10 @@ public class BaseTest {
 
     @BeforeAll
     public static void setUp() {
-        spKey = System.getenv("ACCESS_KEY");;
+        System.out.println(System.getenv());
+        spKey = System.getenv("ACCESS_KEY");
         String accessKeyBase64 = System.getenv("SERVICE_PRINCIPAL_KEY");
+        System.out.println(accessKeyBase64);
         if (spKey == null && accessKeyBase64 == null) {
             // Load environment variables
             Dotenv dotenv = Dotenv
