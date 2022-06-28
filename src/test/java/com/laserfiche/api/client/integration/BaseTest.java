@@ -15,11 +15,8 @@ public class BaseTest {
 
     @BeforeAll
     public static void setUp() {
-        System.out.println(System.getenv());
         spKey = System.getenv("ACCESS_KEY");
-        System.out.println(new String(Base64.getUrlDecoder().decode(spKey)));
         String accessKeyBase64 = System.getenv("SERVICE_PRINCIPAL_KEY");
-        System.out.println(accessKeyBase64);
         if (spKey == null && accessKeyBase64 == null) {
             // Load environment variables
             Dotenv dotenv = Dotenv
@@ -36,16 +33,11 @@ public class BaseTest {
 
         Gson gson = new GsonBuilder().registerTypeAdapter(JWK.class, new JwkDeserializer()).create();
         accessKey = gson.fromJson(accessKeyStr, AccessKey.class);
-        //spKey = dotenv.get("SERVICE_PRINCIPAL_KEY");
-        //dotenv.entries().forEach(e -> System.setProperty(e.getKey(), e.getValue()));
-        //System.out.println(System.getProperties());
 
     }
 
     private static String decodeBase64(String encoded) {
-        System.out.println(encoded);
-        byte[] decodedBytes = Base64.getDecoder().decode(encoded);
-        System.out.println(new String(decodedBytes));
+        byte[] decodedBytes = Base64.getUrlDecoder().decode(encoded);
         return new String(decodedBytes);
     }
 }
