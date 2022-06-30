@@ -35,32 +35,34 @@ jobs:
       run: mvn test
 
   build-documentation:
+
     runs-on: ubuntu-latest
     needs: [ build-n-test ]
+
     steps:
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-      - name: Set up JDK 8
-        uses: actions/setup-java@v3
-        with:
-          java-version: '8'
-          distribution: 'temurin'
+    - name: Set up JDK 8
+      uses: actions/setup-java@v3
+      with:
+        java-version: '8'
+        distribution: 'temurin'
 
-      - name: Create temporary directory
-        run: mkdir -p ./docs_temp/${{ github.ref_name }}
+    - name: Create temporary directory
+      run: mkdir -p ./docs_temp/${{ github.ref_name }}
 
-      - name: Generate Javadoc
-        run: mvn javadoc:javadoc
+    - name: Generate Javadoc
+      run: mvn javadoc:javadoc
 
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v2.3.1
-        with:
-          name: documentation-artifact
-          # A file, directory or wildcard pattern that describes what to upload
-          path: ${{ github.workspace }}/docs_temp/${{ github.ref_name }}
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.3.1
+      with:
+        name: documentation-artifact
+        # A file, directory or wildcard pattern that describes what to upload
+        path: ${{ github.workspace }}/docs_temp/${{ github.ref_name }}
 
-      - name: delete temporary directory
-        run: rm -r ./docs_temp
+    - name: delete temporary directory
+      run: rm -r ./docs_temp
 
 
 
