@@ -48,9 +48,6 @@ jobs:
         java-version: '8'
         distribution: 'temurin'
 
-    - name: Create temporary directory
-      run: mkdir -p ./docs_temp/${{ github.ref_name }}
-
     - name: Generate Javadoc
       run: mvn javadoc:javadoc
 
@@ -59,10 +56,10 @@ jobs:
       with:
         name: documentation-artifact
         # A file, directory or wildcard pattern that describes what to upload
-        path: ${{ github.workspace }}/docs_temp/${{ github.ref_name }}
+        path: ${{ github.workspace }}/target/site/
 
-    - name: delete temporary directory
-      run: rm -r ./docs_temp
+    - name: delete target directory
+      run: rm -r ./target
 
 
 
