@@ -1,5 +1,5 @@
 # Laserfiche API Client Core Maven
-Maven build implementation of various foundational APIs for Laserfiche, including authorization APIs such as OAuth 2.0 flows for secure and easy access to Laserfiche APIs.
+Implementation of various foundational APIs for Laserfiche, including authorization APIs such as OAuth 2.0 flows for secure and easy access to Laserfiche APIs.
 
 Documentation [Laserfiche OAuth 2.0 Authorization Server API](https://developer.laserfiche.com/libraries.html).
 
@@ -16,7 +16,7 @@ Technically you could use any editors you like. But it's more convenient if you 
 
 ### Generate the oauth client
 1. Download the `swagger-code-gen` command line tool. The repo for that library can be found [here](https://search.maven.org/search?q=a:swagger-codegen-cli).
-2. From the root directory of this Git repository, run the command `java -jar swagger-codegen-cli-3.0.34.jar generate -i oauth-swagger.json -l java --artifact-id com.laserfiche.api.client.core  --api-package com.laserfiche.api.client.oauth --model-package com.laserfiche.api.client.model`
+2. From the root directory of this Git repository, run the command `java -jar swagger-codegen-cli-3.0.34.jar generate -i swagger.json -l java --artifact-id lf-repository-api-client --api-package com.laserfiche.repository.api.client --model-package com.laserfiche.repository.api.client.model --library retrofit2`
 
 
 ### Build, Test, and Package
