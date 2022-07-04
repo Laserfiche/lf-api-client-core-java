@@ -1,4 +1,4 @@
-# Laserfiche API Client Core Maven
+# Laserfiche API Client Core
 Implementation of various foundational APIs for Laserfiche, including authorization APIs such as OAuth 2.0 flows for secure and easy access to Laserfiche APIs.
 
 Documentation [Laserfiche OAuth 2.0 Authorization Server API](https://developer.laserfiche.com/libraries.html).
