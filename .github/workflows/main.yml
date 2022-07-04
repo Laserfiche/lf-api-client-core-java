@@ -51,8 +51,8 @@ jobs:
     - name: Create temporary directory
       run: mkdir -p ./docs_temp/${{ github.ref_name }}
 
-    - name: Generate Javadoc
-      run: mvn javadoc:javadoc -d ./docs_temp/${{ github.ref_name }}
+    - name: Go to the temp dir and Generate Javadoc
+      run: cd docs_temp/${{ github.ref_name }} && mvn javadoc:javadoc
 
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.3.1
