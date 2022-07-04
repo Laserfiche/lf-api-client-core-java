@@ -51,11 +51,11 @@ jobs:
     - name: Create temporary directory
       run: mkdir -p ./docs_temp/${{ github.ref_name }}
 
-    - name: Print out current dir
-      run: echo $(System.DefaultWorkingDirectory)
+    - name: Generate Javadoc
+      run: mvn javadoc:javadoc
 
-    - name: Go to the temp dir and Generate Javadoc
-      run: cd docs_temp/${{ github.ref_name }} && mvn javadoc:javadoc
+    - name: Move javadoc to temp dir
+      run: mv ${{ github.workspace }}/target/site/ ${{ github.workspace }}/docs_temp/${{ github.ref_name }}
 
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.3.1
@@ -66,9 +66,6 @@ jobs:
 
     - name: Delete temporary directory
       run: rm -r ./docs_temp
-
-    - name: delete target directory
-      run: rm -r ./target
 
 
 
