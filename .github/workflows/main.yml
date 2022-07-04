@@ -52,7 +52,7 @@ jobs:
       run: mkdir -p ./docs_temp/${{ github.ref_name }}
 
     - name: Generate Javadoc
-      run: mvn javadoc:javadoc
+      run: mvn javadoc:javadoc -d ./docs_temp/${{ github.ref_name }}
 
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.3.1
