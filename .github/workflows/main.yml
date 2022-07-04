@@ -54,14 +54,14 @@ jobs:
     - name: Generate Javadoc
       run: mvn javadoc:javadoc
 
-    - name: Check target dir
-      run: ls -l ${{ github.workspace }}/target/site/
+    #- name: Check target dir
+    #  run: ls -l ${{ github.workspace }}/target/site/
       
-    - name: Move javadoc to temp dir
-      run: mv ${{ github.workspace }}/target/site/ ${{ github.workspace }}/docs_temp/${{ github.ref_name }}
+    #- name: Move javadoc to temp dir
+    #  run: mv ${{ github.workspace }}/target/site/ ${{ github.workspace }}/docs_temp/${{ github.ref_name }}
 
-    - name: Check temp dir
-      run: ls -l ${{ github.workspace }}/docs_temp/${{ github.ref_name }}
+    #- name: Check temp dir
+    #  run: ls -l ${{ github.workspace }}/docs_temp/${{ github.ref_name }}
 
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.3.1
