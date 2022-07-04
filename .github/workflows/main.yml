@@ -51,6 +51,9 @@ jobs:
     - name: Create temporary directory
       run: mkdir -p ./docs_temp/${{ github.ref_name }}
 
+    - name: Print out current dir
+      run: echo $(System.DefaultWorkingDirectory)
+
     - name: Go to the temp dir and Generate Javadoc
       run: cd docs_temp/${{ github.ref_name }} && mvn javadoc:javadoc
 
