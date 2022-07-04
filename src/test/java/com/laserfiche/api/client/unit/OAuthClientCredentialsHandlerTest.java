@@ -1,4 +1,4 @@
-package com.laserfiche.api.client.test;
+package com.laserfiche.api.client.unit;
 
 import com.laserfiche.api.client.httphandlers.HttpRequestHandler;
 import com.laserfiche.api.client.httphandlers.OAuthClientCredentialsHandler;
