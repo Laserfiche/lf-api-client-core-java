@@ -22,8 +22,7 @@ The project is built using Maven. Any text editor or IDE that can work with Mave
 ### Generate the oauth client
 
 1. Download the `swagger-codegen` command line tool. The repo for that library can be found [here](https://search.maven.org/search?q=a:swagger-codegen-cli).
-2. From the root directory of this Git repository, run the command `java -jar swagger-codegen-cli-3.0.34.jar generate -i swagger.json -l java --artifact-id lf-api-client-core --api-package com.laserfiche.api.client --model-package com.laserfiche.repository.api.client.model --library retrofit2`
-
+2. From the root directory of this Git repository, run the command `java -jar swagger-codegen-cli-3.0.34.jar generate -i swagger.json -l java --artifact-id lf-api-client-core --api-package com.laserfiche.api.client --model-package com.laserfiche.api.client.model --library retrofit2`
 
 ### Build, Test, and Package
 
