@@ -9,6 +9,9 @@ import java.util.Base64;
 import java.util.Date;
 
 public class OAuthUtil {
+    private OAuthUtil() {
+        throw new IllegalStateException("Utility class with all static methods are not meant to be instantiated.");
+    }
 
     /**
      * Given a Laserfiche domain, such as laserfiche.ca, returns the base URL for OAuth.
