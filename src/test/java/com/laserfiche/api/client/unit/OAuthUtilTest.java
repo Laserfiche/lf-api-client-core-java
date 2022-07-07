@@ -7,25 +7,25 @@ import static com.laserfiche.api.client.oauth.OAuthUtil.createBearer;
 import static com.laserfiche.api.client.oauth.OAuthUtil.getOAuthApiBaseUri;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class OAuthUtilTest extends BaseTest {
+class OAuthUtilTest extends BaseTest {
     @Test
-    public void getOAuthApiBaseUri_ReturnDomain() {
+    void getOAuthApiBaseUri_ReturnDomain() {
         String domain = "domain";
         assertEquals(String.format("https://signin.%s/oauth/", domain), getOAuthApiBaseUri(domain));
     }
 
     @Test
-    public void getOAuthApiBaseUri_RejectsNull() {
+    void getOAuthApiBaseUri_RejectsNull() {
         assertThrows(IllegalArgumentException.class, () -> getOAuthApiBaseUri(null));
     }
 
     @Test
-    public void getOAuthApiBaseUri_RejectsEmptyString() {
+    void getOAuthApiBaseUri_RejectsEmptyString() {
         assertThrows(IllegalArgumentException.class, () -> getOAuthApiBaseUri(""));
     }
 
     @Test
-    public void createBearer_ReturnsCorrectJwt() {
+    void createBearer_ReturnsCorrectJwt() {
         String jwt = createBearer(spKey, accessKey);
 
         assertNotNull(jwt);

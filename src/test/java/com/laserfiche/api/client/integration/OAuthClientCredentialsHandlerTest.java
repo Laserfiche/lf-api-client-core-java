@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class OAuthClientCredentialsHandlerTest extends BaseTest {
+class OAuthClientCredentialsHandlerTest extends BaseTest {
     @Test
-    public void beforeSendAsync_Success() throws ExecutionException, InterruptedException {
+    void beforeSendAsync_Success() throws ExecutionException, InterruptedException {
         HttpRequestHandler handler = new OAuthClientCredentialsHandler(spKey, accessKey);
         Request request = new RequestImpl();
 
@@ -26,7 +26,7 @@ public class OAuthClientCredentialsHandlerTest extends BaseTest {
     }
 
     @Test
-    public void beforeSendAsync_CallTwiceShouldStillSucceed() throws ExecutionException, InterruptedException {
+    void beforeSendAsync_CallTwiceShouldStillSucceed() throws ExecutionException, InterruptedException {
         HttpRequestHandler handler = new OAuthClientCredentialsHandler(spKey, accessKey);
         Request request1 = new RequestImpl();
 
@@ -51,7 +51,7 @@ public class OAuthClientCredentialsHandlerTest extends BaseTest {
     }
 
     @Test
-    public void afterSendAsync_ShouldRetry() {
+    void afterSendAsync_ShouldRetry() {
         HttpRequestHandler handler = new OAuthClientCredentialsHandler(spKey, accessKey);
         Response mockedResponse = mock(Response.class);
         when(mockedResponse.status()).thenReturn((short)401);

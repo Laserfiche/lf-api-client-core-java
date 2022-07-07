@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class OAuthClientCredentialsHandlerTest extends BaseTest {
+class OAuthClientCredentialsHandlerTest extends BaseTest {
     @Test
-    public void afterSendAsync_ShouldNotRetry() {
+    void afterSendAsync_ShouldNotRetry() {
         HttpRequestHandler handler = new OAuthClientCredentialsHandler(spKey, accessKey);
         Response mockedResponse = mock(Response.class);
         when(mockedResponse.status()).thenReturn((short)200);

@@ -16,7 +16,7 @@ import static com.laserfiche.api.client.oauth.OAuthUtil.*;
 
 public class TokenClientImpl implements TokenClient {
     private final OAuthClient client;
-    private final String CONTENT_TYPE_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
+    private static final String CONTENT_TYPE_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
 
     public TokenClientImpl(String regionalDomain) {
         String baseAddress = getOAuthApiBaseUri(regionalDomain);
