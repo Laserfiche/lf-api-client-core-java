@@ -11,9 +11,9 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TokenClientImplTest extends BaseTest {
+class TokenClientImplTest extends BaseTest {
     @Test
-    public void getAccessTokenFromServicePrincipal_Success() throws ExecutionException, InterruptedException {
+    void getAccessTokenFromServicePrincipal_Success() throws ExecutionException, InterruptedException {
         TokenClient client = new TokenClientImpl(accessKey.getDomain());
         CompletableFuture<GetAccessTokenResponse> future = client.getAccessTokenFromServicePrincipal(spKey, accessKey);
         GetAccessTokenResponse response = future.get();
@@ -23,7 +23,7 @@ public class TokenClientImplTest extends BaseTest {
     }
 
     @Test
-    public void getAccessTokenFromServicePrincipal_IoError() throws ExecutionException, InterruptedException {
+    void getAccessTokenFromServicePrincipal_IoError() throws ExecutionException, InterruptedException {
         String incorrectDomain = accessKey.getDomain().replace("laserfiche", "lf");
         TokenClient client = new TokenClientImpl(incorrectDomain);
         CompletableFuture<GetAccessTokenResponse> future = client.getAccessTokenFromServicePrincipal(spKey, accessKey);

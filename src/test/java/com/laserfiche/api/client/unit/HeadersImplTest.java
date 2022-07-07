@@ -13,7 +13,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class HeadersImplTest {
+class HeadersImplTest {
     private Headers headers;
     private static List<HeaderKeyValue> testingHeaders;
     private static final Random rand = new Random(Instant.now().toEpochMilli()); // Different seed each time;
@@ -60,12 +60,12 @@ public class HeadersImplTest {
     }
 
     @BeforeEach
-    public void perTestSetup() {
+    void perTestSetup() {
         headers = new HeadersImpl();
     }
 
     @Test
-    public void append_ShouldAddHeaderWhenHeaderNameNotSet() {
+    void append_ShouldAddHeaderWhenHeaderNameNotSet() {
         HeaderKeyValue pair = getHeaderRandomly();
         headers.append(pair.headerName(), pair.header());
 
@@ -74,7 +74,7 @@ public class HeadersImplTest {
     }
 
     @Test
-    public void append_ShouldAddHeaderWhenHeaderNameAlreadySet() {
+    void append_ShouldAddHeaderWhenHeaderNameAlreadySet() {
         HeaderKeyValue pair1 = getHeaderRandomly();
         HeaderKeyValue pair2 = getHeaderRandomly();
         headers.append(pair1.headerName(), pair1.header());
@@ -86,7 +86,7 @@ public class HeadersImplTest {
     }
 
     @Test
-    public void append_ShouldNotSetHeaderIfNull() {
+    void append_ShouldNotSetHeaderIfNull() {
         HeaderKeyValue pair = getHeaderRandomly();
         headers.append(pair.headerName(), null);
 
@@ -94,7 +94,7 @@ public class HeadersImplTest {
     }
 
     @Test
-    public void delete_ShouldRemoveHeader() {
+    void delete_ShouldRemoveHeader() {
         HeaderKeyValue pair = getHeaderRandomly();
         headers.append(pair.headerName(), pair.header());
         headers.delete(pair.headerName());
@@ -103,7 +103,7 @@ public class HeadersImplTest {
     }
 
     @Test
-    public void delete_ShouldDoNothingWhenHeaderDoesNotExist() {
+    void delete_ShouldDoNothingWhenHeaderDoesNotExist() {
         HeaderKeyValue pair = getHeaderRandomly();
         headers.delete(pair.headerName());
 
@@ -111,7 +111,7 @@ public class HeadersImplTest {
     }
 
     @Test
-    public void entries_ShouldReturnAllHeaders() {
+    void entries_ShouldReturnAllHeaders() {
         HeaderKeyValue pair1 = testingHeaders.get(0);
         HeaderKeyValue pair2 = testingHeaders.get(1);
         HeaderKeyValue pair3 = testingHeaders.get(2);
@@ -129,7 +129,7 @@ public class HeadersImplTest {
     }
 
     @Test
-    public void get_ShouldReturnNullIfHeaderDoesNotExist() {
+    void get_ShouldReturnNullIfHeaderDoesNotExist() {
         HeaderKeyValue pair = getHeaderRandomly();
 
         assertFalse(headers.has(pair.headerName()));
@@ -137,7 +137,7 @@ public class HeadersImplTest {
     }
 
     @Test
-    public void keys_ShouldReturnAllKeys() {
+    void keys_ShouldReturnAllKeys() {
         HeaderKeyValue pair1 = testingHeaders.get(0);
         HeaderKeyValue pair2 = testingHeaders.get(1);
         HeaderKeyValue pair3 = testingHeaders.get(2);
@@ -155,7 +155,7 @@ public class HeadersImplTest {
     }
 
     @Test
-    public void set_ShouldSetHeader() {
+    void set_ShouldSetHeader() {
         HeaderKeyValue pair = getHeaderRandomly();
         headers.set(pair.headerName(), pair.header());
 
@@ -164,7 +164,7 @@ public class HeadersImplTest {
     }
 
     @Test
-    public void values_ShouldReturnAllValues() {
+    void values_ShouldReturnAllValues() {
         HeaderKeyValue pair1 = testingHeaders.get(0);
         HeaderKeyValue pair2 = testingHeaders.get(1);
         HeaderKeyValue pair3 = testingHeaders.get(2);
