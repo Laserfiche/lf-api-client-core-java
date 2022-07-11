@@ -12,13 +12,13 @@ import static org.mockito.Mockito.when;
 
 class OAuthClientCredentialsHandlerTest extends BaseTest {
     @Test
-    void beforeSendAsync_Success() throws ExecutionException, InterruptedException {
+    void beforeSendAsync_Success() {
         HttpRequestHandler handler = new OAuthClientCredentialsHandler(spKey, accessKey);
         Request request = new RequestImpl();
 
         // Request access token
         CompletableFuture<BeforeSendResult> future = handler.beforeSendAsync(request);
-        BeforeSendResult result = future.get();
+        BeforeSendResult result = future.join();
 
         assertNotEquals(null, result.getRegionalDomain());
         assertNotEquals(null, request.headers().get("Authorization"));
@@ -26,13 +26,13 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
     }
 
     @Test
-    void beforeSendAsync_CallTwiceShouldStillSucceed() throws ExecutionException, InterruptedException {
+    void beforeSendAsync_CallTwiceShouldStillSucceed() {
         HttpRequestHandler handler = new OAuthClientCredentialsHandler(spKey, accessKey);
         Request request1 = new RequestImpl();
 
         // First time to request access token
         CompletableFuture<BeforeSendResult> future1 = handler.beforeSendAsync(request1);
-        BeforeSendResult result1 = future1.get();
+        BeforeSendResult result1 = future1.join();
 
         // First request should work
         assertNotEquals(null, result1.getRegionalDomain());
@@ -42,7 +42,7 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
         // Subsequent request should also work
         Request request2 = new RequestImpl();
         CompletableFuture<BeforeSendResult> future2 = handler.beforeSendAsync(request2);
-        BeforeSendResult result2 = future2.get();
+        BeforeSendResult result2 = future2.join();
 
         assertNotEquals(null, result2.getRegionalDomain());
         assertNotEquals(null, request2.headers().get("Authorization"));
