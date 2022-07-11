@@ -43,5 +43,4 @@ class TokenClientImplTest extends BaseTest {
         Exception exception = assertThrows(ExecutionException.class, future::get);
         assertTrue(IOException.class.isAssignableFrom(exception.getCause().getClass()));
     }
-
 }
