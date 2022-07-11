@@ -9,4 +9,9 @@ public interface Response {
      * @return Status code.
      */
     short status();
+
+    /**
+     * @return The corresponding request object.
+     */
+    Request request();
 }
