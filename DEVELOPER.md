@@ -20,7 +20,7 @@
 |HttpHandler|Public interface
 |TokenClient|Public interface
 |OAuthClient|Implementation that may change in the future
-|Retorfit 2|External dependency that may change in the future
+|Retrofit 2|External dependency that may change in the future
 |OkHttp 3|Dependency of the external dependency
 
 ## Tips for Maven Projects
