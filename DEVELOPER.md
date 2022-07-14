@@ -1,6 +1,6 @@
 ## How It Works
 
-- `HttpHandler`: uses `TokenClint` to provide public interface in interceptor fashion (beforeSend/afterSend)
+- `HttpHandler`: uses `TokenClient` to provide public interface in interceptor fashion (beforeSend/afterSend)
   
   Currently supports (implemented by `ClientCredentialsHandler`)
   - Client Credentials Flow
