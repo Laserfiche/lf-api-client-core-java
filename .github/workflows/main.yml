@@ -143,6 +143,12 @@ jobs:
         MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }} # sonatype jira password
         MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} # gpg passphrase for the 1st generated key id
 
+    - name: Tag commit
+      uses: rickstaa/action-create-tag@v1
+      with:
+        tag: ${{ env.PACKAGE_VERSION }}
+        commit_sha: ${{ github.sha }}
+        message: Workflow run ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
 
 
