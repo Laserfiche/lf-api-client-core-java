@@ -130,8 +130,8 @@ jobs:
         gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
         gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
-    - name: set PACKAGE_VERSION environment
-      run: echo "PACKAGE_VERSION=${{ env.VERSION_PREFIX }}-beta-${{ github.run_id }}" >> $GITHUB_ENV
+    - name: set Java Package Version environment
+      run: echo "PACKAGE_VERSION=${{ env.VERSION_PREFIX }}-preview-${{ github.run_id }}-SNAPSHOT" >> $GITHUB_ENV
 
     - name: set Java Package Version
       run: mvn versions:set -DnewVersion=${{ env.PACKAGE_VERSION }}
