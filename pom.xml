@@ -2,10 +2,10 @@
      xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.laserfiche</groupId>
-  <artifactId>com.laserfiche.api.client.core</artifactId>
+  <artifactId>lf-api-client-core</artifactId>
   <packaging>jar</packaging>
-  <name>com.laserfiche.api.client.core</name>
-  <version>1.0.1-SNAPSHOT</version>
+  <name>Laserfiche API Client Core</name>
+  <version>1.0.0-SNAPSHOT</version>
   <url>https://github.com/Laserfiche/lf-api-client-core-java</url>
   <description>Java implementation of various foundational APIs for Laserfiche, including authorization APIs such as
     OAuth 2.0 flows for secure and easy access to Laserfiche APIs.
