@@ -150,5 +150,54 @@ jobs:
         commit_sha: ${{ github.sha }}
         message: Workflow run ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
+  publish-production-package:
+    runs-on: ubuntu-latest
+    environment: production
+    if: ${{ github.run_attempt != 1 }}
+    needs: [ build-n-test, build-documentation ] # wait for build to finish
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up JDK 8
+      uses: actions/setup-java@v3
+      with:
+        java-version: '8'
+        distribution: 'temurin'
+
+    - name: Build with Maven
+      run: mvn -B package -Dmaven.test.skip=true --file pom.xml
+
+    - name: Set up Apache Maven Central
+      uses: actions/setup-java@v3
+      with:
+        java-version: '8'
+        distribution: 'temurin'
+        server-id: ossrh
+        server-username: MAVEN_USERNAME
+        server-password: MAVEN_PASSWORD
+        gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+        gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+    - name: set Java Package Version environment
+      run: echo "PACKAGE_VERSION=${{ env.VERSION_PREFIX }}" >> $GITHUB_ENV
+
+    - name: set Java Package Version
+      run: mvn versions:set -DnewVersion=${{ env.PACKAGE_VERSION }}
+
+    - name: Publish to Sonatype
+      run: mvn clean deploy -P release -Dmaven.test.skip=true -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+      env:
+        MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+
+    - name: Tag commit
+      uses: rickstaa/action-create-tag@v1
+      with:
+        tag: ${{ env.PACKAGE_VERSION }}
+        commit_sha: ${{ github.sha }}
+        message: Workflow run ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
 
 
