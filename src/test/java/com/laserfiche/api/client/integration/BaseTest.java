@@ -29,9 +29,4 @@ public class BaseTest {
         }
         accessKey = AccessKey.CreateFromBase64EncodedAccessKey(accessKeyBase64);
     }
-
-    private static String decodeBase64(String encoded) {
-        byte[] decodedBytes = Base64.getUrlDecoder().decode(encoded);
-        return new String(decodedBytes);
-    }
 }
