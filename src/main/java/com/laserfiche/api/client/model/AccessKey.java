@@ -1,6 +1,10 @@
 package com.laserfiche.api.client.model;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.nimbusds.jose.jwk.JWK;
+
+import java.util.Base64;
 
 public class AccessKey {
     private String customerId;
@@ -38,5 +42,18 @@ public class AccessKey {
 
     public void setJwk(JWK jwk) {
         this.jwk = jwk;
+    }
+
+    public static AccessKey CreateFromBase64EncodedAccessKey(String base64EncodedAccessKey) {
+        String accessKeyStr = decodeBase64(base64EncodedAccessKey);
+        accessKeyStr = accessKeyStr.replace("\\\"", "\"");
+        Gson gson = new GsonBuilder().registerTypeAdapter(JWK.class, new JwkDeserializer()).create();
+        AccessKey accessKey = gson.fromJson(accessKeyStr, AccessKey.class);
+        return accessKey;
+    }
+
+    private static String decodeBase64(String encoded) {
+        byte[] decodedBytes = Base64.getUrlDecoder().decode(encoded);
+        return new String(decodedBytes);
     }
 }
