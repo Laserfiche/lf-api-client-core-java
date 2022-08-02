@@ -12,6 +12,8 @@ public class AccessKey {
     private String clientId;
     private JWK jwk;
 
+    private static Gson gson = new GsonBuilder().registerTypeAdapter(JWK.class, new JwkDeserializer()).create();
+
     public String getCustomerId() {
         return customerId;
     }
@@ -47,7 +49,6 @@ public class AccessKey {
     public static AccessKey CreateFromBase64EncodedAccessKey(String base64EncodedAccessKey) {
         String accessKeyStr = decodeBase64(base64EncodedAccessKey);
         accessKeyStr = accessKeyStr.replace("\\\"", "\"");
-        Gson gson = new GsonBuilder().registerTypeAdapter(JWK.class, new JwkDeserializer()).create();
         AccessKey accessKey = gson.fromJson(accessKeyStr, AccessKey.class);
         return accessKey;
     }
