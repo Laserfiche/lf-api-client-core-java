@@ -27,17 +27,6 @@ public class BaseTest {
             accessKeyBase64 = dotenv.get("ACCESS_KEY");
             spKey = dotenv.get("SERVICE_PRINCIPAL_KEY");
         }
-        String accessKeyStr = decodeBase64(accessKeyBase64);
-        // Gson doesn't escape forward slash https://github.com/google/gson/issues/356
-        accessKeyStr = accessKeyStr.replace("\\\"", "\"");
-
-        Gson gson = new GsonBuilder().registerTypeAdapter(JWK.class, new JwkDeserializer()).create();
-        accessKey = gson.fromJson(accessKeyStr, AccessKey.class);
-
-    }
-
-    private static String decodeBase64(String encoded) {
-        byte[] decodedBytes = Base64.getUrlDecoder().decode(encoded);
-        return new String(decodedBytes);
+        accessKey = AccessKey.CreateFromBase64EncodedAccessKey(accessKeyBase64);
     }
 }

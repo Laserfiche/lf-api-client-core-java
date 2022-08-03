@@ -1,4 +1,4 @@
-package com.laserfiche.api.client.integration;
+package com.laserfiche.api.client.model;
 
 import com.google.gson.*;
 import com.nimbusds.jose.jwk.JWK;
