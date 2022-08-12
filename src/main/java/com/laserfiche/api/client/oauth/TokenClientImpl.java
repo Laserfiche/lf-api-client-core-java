@@ -2,6 +2,8 @@ package com.laserfiche.api.client.oauth;
 
 import com.laserfiche.api.client.model.AccessKey;
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.concurrent.CompletableFuture;
@@ -19,7 +21,14 @@ public class TokenClientImpl implements TokenClient {
     @Override
     public CompletableFuture<GetAccessTokenResponse> getAccessTokenFromServicePrincipal(String spKey, AccessKey accessKey) {
         String bearer = createBearer(spKey, accessKey);
-        return null;
+        CompletableFuture<HttpResponse<GetAccessTokenResponse>> future = Unirest
+                .post(baseUrl + "/oauth/Token")
+                .header("Authorization", bearer)
+                .header("Accept", "application/json")
+                .header("Content-Type", "application/x-www-from-urlencoded")
+                .field("grant_type", "client_credentials")
+                .asObjectAsync(GetAccessTokenResponse.class);
+        return future.thenApply(HttpResponse::getBody);
     }
 
     @Override
