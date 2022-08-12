@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TokenClientImplTest extends BaseTest {
     @Test
     void getAccessTokenFromServicePrincipal_Success() {
-        TokenClient client = new TokenClientImpl(accessKey.getDomain());
+        TokenClient client = new TokenClientImpl(accessKey.domain);
         CompletableFuture<GetAccessTokenResponse> future = client.getAccessTokenFromServicePrincipal(spKey, accessKey);
         GetAccessTokenResponse response = future.join();
 
@@ -26,8 +26,8 @@ class TokenClientImplTest extends BaseTest {
 
     @Test
     void getAccessTokenFromServicePrincipal_InvalidAccessKey() {
-        TokenClient client = new TokenClientImpl(accessKey.getDomain());
-        accessKey.setClientId("wrong client ID");
+        TokenClient client = new TokenClientImpl(accessKey.domain);
+        accessKey.clientId = "wrong client ID";
         CompletableFuture<GetAccessTokenResponse> future = client.getAccessTokenFromServicePrincipal(spKey, accessKey);
 
         Exception exception = assertThrows(CompletionException.class, future::join);
@@ -36,7 +36,7 @@ class TokenClientImplTest extends BaseTest {
 
     @Test
     void getAccessTokenFromServicePrincipal_IoError() {
-        String incorrectDomain = accessKey.getDomain().replace("laserfiche", "lf");
+        String incorrectDomain = accessKey.domain.replace("laserfiche", "lf");
         TokenClient client = new TokenClientImpl(incorrectDomain);
         CompletableFuture<GetAccessTokenResponse> future = client.getAccessTokenFromServicePrincipal(spKey, accessKey);
 

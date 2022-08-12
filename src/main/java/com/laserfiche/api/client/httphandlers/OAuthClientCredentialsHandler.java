@@ -16,7 +16,7 @@ public class OAuthClientCredentialsHandler implements HttpRequestHandler{
     public OAuthClientCredentialsHandler(String servicePrincipalKey, AccessKey accessKey) {
         spKey = servicePrincipalKey;
         this.accessKey = accessKey;
-        client = new TokenClientImpl(accessKey.getDomain());
+        client = new TokenClientImpl(accessKey.domain);
     }
 
     @Override
@@ -28,12 +28,12 @@ public class OAuthClientCredentialsHandler implements HttpRequestHandler{
             return future.thenApply(tokenResponse -> {
                 accessToken = tokenResponse.getAccessToken();
                 request.headers().append("Authorization", "Bearer " + accessToken);
-                result.setRegionalDomain(accessKey.getDomain());
+                result.setRegionalDomain(accessKey.domain);
                 return result;
             });
         } else {
             request.headers().append("Authorization", "Bearer " + accessToken);
-            result.setRegionalDomain(accessKey.getDomain());
+            result.setRegionalDomain(accessKey.domain);
             return CompletableFuture.completedFuture(result);
         }
     }
