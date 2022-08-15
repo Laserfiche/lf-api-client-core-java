@@ -23,10 +23,10 @@ public class TokenClientImpl implements TokenClient {
     public CompletableFuture<GetAccessTokenResponse> getAccessTokenFromServicePrincipal(String spKey, AccessKey accessKey) {
         String bearer = createBearer(spKey, accessKey);
         CompletableFuture<HttpResponse<GetAccessTokenResponse>> future = Unirest
-                .post(baseUrl + "/oauth/Token")
+                .post(baseUrl + "Token")
                 .header("Authorization", bearer)
                 .header("Accept", "application/json")
-                .header("Content-Type", "application/x-www-from-urlencoded")
+                .header("Content-Type", "application/x-www-form-urlencoded")
                 .field("grant_type", "client_credentials")
                 .asObjectAsync(GetAccessTokenResponse.class);
         return future.thenApply(HttpResponse::getBody);
