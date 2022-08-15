@@ -4,7 +4,6 @@ import com.laserfiche.api.client.model.AccessKey;
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -39,11 +38,11 @@ public class TokenClientImpl implements TokenClient {
 
     @Override
     public CompletableFuture<GetAccessTokenResponse> getAccessTokenFromCode(String code, String redirectUri, String clientId, String clientSecret, String codeVerifier) {
-        throw new NotImplementedException();
+        return null;
     }
 
     @Override
     public CompletableFuture<GetAccessTokenResponse> refreshAccessToken(String refreshToken, String clientId, String clientSecret) {
-        throw new NotImplementedException();
+        return null;
     }
 }
