@@ -26,7 +26,7 @@ public class TokenClientObjectMapper implements ObjectMapper {
 
     @Override
     public <T> T readValue(String value, GenericType<T> genericType) {
-        return ObjectMapper.super.readValue(value, genericType);
+        return null;
     }
 
     @Override
