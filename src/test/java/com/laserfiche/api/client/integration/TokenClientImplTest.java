@@ -20,7 +20,7 @@ class TokenClientImplTest extends BaseTest {
         GetAccessTokenResponse response = future.join();
 
         assertNotEquals(null, response);
-        assertNotEquals(null, response.getAccessToken());
+        assertNotEquals(null, response.accessToken);
     }
 
     @Test
