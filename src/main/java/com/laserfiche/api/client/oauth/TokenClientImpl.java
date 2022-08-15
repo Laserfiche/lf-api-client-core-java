@@ -16,6 +16,7 @@ public class TokenClientImpl implements TokenClient {
     private String baseUrl;
     public TokenClientImpl(String regionalDomain) {
         baseUrl = getOAuthApiBaseUri(regionalDomain);
+        Unirest.config().setObjectMapper(new TokenClientObjectMapper());
     }
 
     @Override
