@@ -29,7 +29,12 @@ public class TokenClientImpl implements TokenClient {
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .field("grant_type", "client_credentials")
                 .asObjectAsync(GetAccessTokenResponse.class);
-        return future.thenApply(HttpResponse::getBody);
+        return future.thenApply(httpResponse -> {
+            if (httpResponse.getStatus() != 200) {
+                throw new RuntimeException(httpResponse.getStatusText());
+            }
+            return httpResponse.getBody();
+        });
     }
 
     @Override
