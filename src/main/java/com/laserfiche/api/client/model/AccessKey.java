@@ -1,8 +1,11 @@
 package com.laserfiche.api.client.model;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.nimbusds.jose.jwk.JWK;
+
+import java.io.IOException;
 
 import static com.laserfiche.api.client.oauth.OAuthUtil.decodeBase64;
 
@@ -12,12 +15,25 @@ public class AccessKey {
     public String clientId;
     public JWK jwk;
 
-    private static Gson gson = new GsonBuilder().registerTypeAdapter(JWK.class, new JwkDeserializer()).create();
+    private static ObjectMapper mapper;
 
     public static AccessKey CreateFromBase64EncodedAccessKey(String base64EncodedAccessKey) {
+        if (mapper == null) {
+            mapper = new ObjectMapper();
+            mapper.configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, false);
+
+            SimpleModule module = new SimpleModule();
+            module.addDeserializer(JWK.class, new JwkDeserializer());
+
+            mapper.registerModule(module);
+        }
         String accessKeyStr = decodeBase64(base64EncodedAccessKey);
-        accessKeyStr = accessKeyStr.replace("\\\"", "\"");
-        AccessKey accessKey = gson.fromJson(accessKeyStr, AccessKey.class);
+        AccessKey accessKey = null;
+        try {
+            accessKey = mapper.readValue(accessKeyStr, AccessKey.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return accessKey;
     }
 }
