@@ -4,7 +4,6 @@ import com.laserfiche.api.client.model.GetAccessTokenResponse;
 import com.laserfiche.api.client.oauth.TokenClient;
 import com.laserfiche.api.client.oauth.TokenClientImpl;
 import org.junit.jupiter.api.Test;
-import retrofit2.HttpException;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
