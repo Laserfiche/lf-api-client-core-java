@@ -26,7 +26,7 @@ public class OAuthClientCredentialsHandler implements HttpRequestHandler{
         if (accessToken == null || accessToken.equals("")) {
             future = client.getAccessTokenFromServicePrincipal(spKey, accessKey);
             return future.thenApply(tokenResponse -> {
-                accessToken = tokenResponse.getAccessToken();
+                accessToken = tokenResponse.accessToken;
                 request.headers().append("Authorization", "Bearer " + accessToken);
                 result.setRegionalDomain(accessKey.domain);
                 return result;
