@@ -26,14 +26,7 @@
 
   <developers>
     <developer>
-      <name>Jason Jia</name>
-      <email>jason.jia@laserfiche.com</email>
-      <organization>Laserfiche</organization>
-      <organizationUrl>https://www.laserfiche.com/</organizationUrl>
-    </developer>
-    <developer>
-      <name>Steven Xu</name>
-      <email>steven.xu@laserfiche.com</email>
+      <name>Laserfiche</name>
       <organization>Laserfiche</organization>
       <organizationUrl>https://www.laserfiche.com/</organizationUrl>
     </developer>
@@ -91,6 +84,18 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
       </plugin>
 
       <!-- attach test jar -->
@@ -197,19 +202,34 @@
       <version>9.22</version>
     </dependency>
     <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <version>2.9.0</version>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${jackson-version}</version>
     </dependency>
     <dependency>
-      <groupId>com.squareup.retrofit2</groupId>
-      <artifactId>retrofit</artifactId>
-      <version>2.9.0</version>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${jackson-version}</version>
     </dependency>
     <dependency>
-      <groupId>com.squareup.retrofit2</groupId>
-      <artifactId>converter-gson</artifactId>
-      <version>2.9.0</version>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.joschi.jackson</groupId>
+      <artifactId>jackson-datatype-threetenbp</artifactId>
+      <version>${jackson-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.konghq</groupId>
+      <artifactId>unirest-java</artifactId>
+      <version>3.13.10</version>
+    </dependency>
+    <dependency>
+      <groupId>com.konghq</groupId>
+      <artifactId>unirest-objectmapper-jackson</artifactId>
+      <version>3.13.10</version>
     </dependency>
     <!-- test dependencies -->
     <dependency>
@@ -234,6 +254,7 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger-core-version>2.0.0</swagger-core-version>
+    <jackson-version>2.6.4</jackson-version>
     <maven-plugin-version>1.0.1-SNAPSHOT</maven-plugin-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

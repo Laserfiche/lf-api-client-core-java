@@ -36,7 +36,7 @@ public class OAuthUtil {
      */
     public static String createBearer(String spKey, AccessKey accessKey) {
         // Prepare JWK
-        ECKey jwk = accessKey.getJwk().toECKey();
+        ECKey jwk = accessKey.jwk.toECKey();
 
         // Prepare JWS
         JWSObject jws = createJws(jwk, spKey, accessKey);
@@ -55,20 +55,13 @@ public class OAuthUtil {
     }
 
     /**
-     * Given a client id and a client secret, return a string representation of the Basic header. In the form
-     * of "Basic xxxxxx".
-     *
-     * @param clientId     OAuth application client ID
-     * @param clientSecret OPTIONAL OAuth application client secret. Required for web apps.
-     * @return Basic header.
+     * Convert a base64 encoded string to plaintext
+     * @param encoded Base64 encoded input
+     * @return Plaintext
      */
-    public static String createBasic(String clientId, String clientSecret) {
-        if (clientSecret != null) {
-            String basicCredentials = clientId + ':' + clientSecret;
-            String encodedClientSecret = Base64.getEncoder().encodeToString(basicCredentials.getBytes());
-            return "Basic " + encodedClientSecret;
-        }
-        return null;
+    public static String decodeBase64(String encoded) {
+        byte[] decodedBytes = Base64.getUrlDecoder().decode(encoded);
+        return new String(decodedBytes);
     }
 
     private static JWSObject createJws(ECKey jwk, String spKey, AccessKey accessKey) {
@@ -76,7 +69,7 @@ public class OAuthUtil {
         JWSHeader jwsHeader = new JWSHeader.Builder(JWSAlgorithm.ES256).keyID(jwk.getKeyID()).type(JOSEObjectType.JWT).build();
         // The token will be valid for 30 minutes
         String payloadTemplate = "{ \"client_id\": \"%s\", \"client_secret\": \"%s\", \"aud\": \"laserfiche.com\", \"exp\": %d, \"iat\": %d, \"nbf\": %d}";
-        Payload jwsPayload = new Payload(String.format(payloadTemplate, accessKey.getClientId(), spKey, now + 1800, now, now));
+        Payload jwsPayload = new Payload(String.format(payloadTemplate, accessKey.clientId, spKey, now + 1800, now, now));
         return new JWSObject(jwsHeader, jwsPayload);
     }
 
