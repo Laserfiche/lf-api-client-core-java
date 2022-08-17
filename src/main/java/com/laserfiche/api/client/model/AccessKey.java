@@ -28,7 +28,7 @@ public class AccessKey {
             mapper.registerModule(module);
         }
         base64EncodedAccessKey = base64EncodedAccessKey.trim();
-        if (base64EncodedAccessKey.length() == 0){
+        if (base64EncodedAccessKey.length() == 0) {
             throw new IOException("Input cannot be empty or null");
         }
         String accessKeyStr = decodeBase64(base64EncodedAccessKey);
