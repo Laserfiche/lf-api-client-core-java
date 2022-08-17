@@ -12,7 +12,7 @@ public class BaseTest {
 
     @BeforeAll
     public static void setUp() throws IOException {
-        spKey = System.getenv("SERVICE_PRINCIPAL_KEaY");
+        spKey = System.getenv("SERVICE_PRINCIPAL_KEY");
         String accessKeyBase64 = System.getenv("ACCESS_KEY");
         if (spKey == null && accessKeyBase64 == null) {
             // Load environment variables
