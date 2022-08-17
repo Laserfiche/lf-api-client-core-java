@@ -4,7 +4,6 @@ import com.laserfiche.api.client.model.AccessKey;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.jupiter.api.BeforeAll;
 
-import java.io.IOException;
 
 public class BaseTest {
     protected static String spKey;
