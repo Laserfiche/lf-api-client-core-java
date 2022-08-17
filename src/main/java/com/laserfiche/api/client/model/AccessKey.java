@@ -17,7 +17,7 @@ public class AccessKey {
 
     private static ObjectMapper mapper;
 
-    public static AccessKey createFromBase64EncodedAccessKey(String base64EncodedAccessKey) throws IOException {
+    public static AccessKey createFromBase64EncodedAccessKey(String base64EncodedAccessKey) {
         if (mapper == null) {
             mapper = new ObjectMapper();
             mapper.configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, false);
@@ -29,7 +29,7 @@ public class AccessKey {
         }
         base64EncodedAccessKey = base64EncodedAccessKey.trim();
         if (base64EncodedAccessKey.length() == 0) {
-            throw new IOException("Input cannot be empty or null");
+            throw new RuntimeException("Input cannot be empty or null");
         }
         String accessKeyStr = decodeBase64(base64EncodedAccessKey);
         AccessKey accessKey = null;

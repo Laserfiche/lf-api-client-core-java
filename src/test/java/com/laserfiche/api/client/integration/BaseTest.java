@@ -11,7 +11,7 @@ public class BaseTest {
     protected static AccessKey accessKey;
 
     @BeforeAll
-    public static void setUp() throws IOException {
+    public static void setUp() {
         spKey = System.getenv("SERVICE_PRINCIPAL_KEY");
         String accessKeyBase64 = System.getenv("ACCESS_KEY");
         if (spKey == null && accessKeyBase64 == null) {
