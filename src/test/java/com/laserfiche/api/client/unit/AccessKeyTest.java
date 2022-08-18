@@ -39,7 +39,7 @@ class AccessKeyTest {
     void CreateFromBase64EncodedAccessKey_IllegalArgumentExceptionThrown(String base64EncodedAccessKey) {
         assertThrows(IllegalArgumentException.class, () -> AccessKey.createFromBase64EncodedAccessKey(base64EncodedAccessKey));
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> AccessKey.createFromBase64EncodedAccessKey(base64EncodedAccessKey));
-        assertEquals( "Input cannot be empty or null", exception.getMessage());
+        assertEquals("Input cannot be empty or null", exception.getMessage());
     }
 
     @ParameterizedTest
