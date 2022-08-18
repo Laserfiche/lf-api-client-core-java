@@ -4,6 +4,7 @@ import com.laserfiche.api.client.model.AccessKey;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.jupiter.api.BeforeAll;
 
+
 public class BaseTest {
     protected static String spKey;
     protected static AccessKey accessKey;
@@ -22,6 +23,6 @@ public class BaseTest {
             accessKeyBase64 = dotenv.get("ACCESS_KEY");
             spKey = dotenv.get("SERVICE_PRINCIPAL_KEY");
         }
-        accessKey = AccessKey.CreateFromBase64EncodedAccessKey(accessKeyBase64);
+        accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
     }
 }
