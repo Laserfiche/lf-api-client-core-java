@@ -29,7 +29,7 @@ public class AccessKey {
         }
         base64EncodedAccessKey = base64EncodedAccessKey.trim();
         if (base64EncodedAccessKey.length() == 0) {
-            throw new RuntimeException("Input cannot be empty or null");
+            throw new IllegalArgumentException("Input cannot be empty or null");
         }
         String accessKeyStr = decodeBase64(base64EncodedAccessKey);
         AccessKey accessKey = null;
