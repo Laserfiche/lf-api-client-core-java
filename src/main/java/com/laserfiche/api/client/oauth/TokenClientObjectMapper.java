@@ -1,7 +1,9 @@
 package com.laserfiche.api.client.oauth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import kong.unirest.GenericType;
 import kong.unirest.ObjectMapper;
 
@@ -11,8 +13,12 @@ public class TokenClientObjectMapper implements ObjectMapper {
     private com.fasterxml.jackson.databind.ObjectMapper jacksonMapper;
 
     public TokenClientObjectMapper() {
-        jacksonMapper = new com.fasterxml.jackson.databind.ObjectMapper();
-        jacksonMapper.configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, false);
+        jacksonMapper = JsonMapper
+                .builder()
+                .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
+                .build();
     }
 
     @Override
