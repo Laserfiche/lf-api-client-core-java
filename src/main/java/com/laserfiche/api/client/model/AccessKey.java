@@ -2,6 +2,7 @@ package com.laserfiche.api.client.model;
 
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.nimbusds.jose.jwk.JWK;
 
@@ -19,13 +20,14 @@ public class AccessKey {
 
     public static AccessKey createFromBase64EncodedAccessKey(String base64EncodedAccessKey) {
         if (mapper == null) {
-            mapper = new ObjectMapper();
-            mapper.configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, false);
-
             SimpleModule module = new SimpleModule();
             module.addDeserializer(JWK.class, new JwkDeserializer());
 
-            mapper.registerModule(module);
+            mapper = JsonMapper
+                    .builder()
+                    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+                    .addModule(module)
+                    .build();
         }
         base64EncodedAccessKey = base64EncodedAccessKey.trim();
         if (base64EncodedAccessKey.length() == 0) {
