@@ -36,7 +36,7 @@ public class AccessKey {
         try {
             accessKey = mapper.readValue(accessKeyStr, AccessKey.class);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(String.format("Invalid access key.%nDetail:%s", e));
         }
         return accessKey;
     }
