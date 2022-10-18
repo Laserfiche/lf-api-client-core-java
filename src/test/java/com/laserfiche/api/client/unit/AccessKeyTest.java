@@ -3,13 +3,12 @@ package com.laserfiche.api.client.unit;
 import com.laserfiche.api.client.model.AccessKey;
 import com.nimbusds.jose.jwk.JWK;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class AccessKeyTest {
 

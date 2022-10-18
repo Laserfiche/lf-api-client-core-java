@@ -7,7 +7,7 @@ import com.laserfiche.api.client.oauth.TokenClientImpl;
 
 import java.util.concurrent.CompletableFuture;
 
-public class OAuthClientCredentialsHandler implements HttpRequestHandler{
+public class OAuthClientCredentialsHandler implements HttpRequestHandler {
     private String accessToken;
     private final String spKey;
     private final AccessKey accessKey;

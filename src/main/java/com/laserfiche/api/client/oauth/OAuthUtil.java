@@ -56,6 +56,7 @@ public class OAuthUtil {
 
     /**
      * Convert a base64 encoded string to plaintext
+     *
      * @param encoded Base64 encoded input
      * @return Plaintext
      */
