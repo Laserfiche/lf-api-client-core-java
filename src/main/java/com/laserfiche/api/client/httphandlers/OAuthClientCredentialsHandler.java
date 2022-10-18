@@ -7,7 +7,7 @@ import com.laserfiche.api.client.oauth.TokenClientImpl;
 
 import java.util.concurrent.CompletableFuture;
 
-public class OAuthClientCredentialsHandler implements HttpRequestHandler{
+public class OAuthClientCredentialsHandler implements HttpRequestHandler {
     private String accessToken;
     private final String spKey;
     private final AccessKey accessKey;
@@ -16,7 +16,7 @@ public class OAuthClientCredentialsHandler implements HttpRequestHandler{
     public OAuthClientCredentialsHandler(String servicePrincipalKey, AccessKey accessKey) {
         spKey = servicePrincipalKey;
         this.accessKey = accessKey;
-        client = new TokenClientImpl(accessKey.domain);
+        client = new TokenClientImpl(accessKey.getDomain());
     }
 
     @Override
@@ -26,14 +26,14 @@ public class OAuthClientCredentialsHandler implements HttpRequestHandler{
         if (accessToken == null || accessToken.equals("")) {
             future = client.getAccessTokenFromServicePrincipal(spKey, accessKey);
             return future.thenApply(tokenResponse -> {
-                accessToken = tokenResponse.accessToken;
+                accessToken = tokenResponse.getAccessToken();
                 request.headers().append("Authorization", "Bearer " + accessToken);
-                result.setRegionalDomain(accessKey.domain);
+                result.setRegionalDomain(accessKey.getDomain());
                 return result;
             });
         } else {
             request.headers().append("Authorization", "Bearer " + accessToken);
-            result.setRegionalDomain(accessKey.domain);
+            result.setRegionalDomain(accessKey.getDomain());
             return CompletableFuture.completedFuture(result);
         }
     }

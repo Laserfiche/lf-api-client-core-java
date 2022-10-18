@@ -11,12 +11,44 @@ import java.io.IOException;
 import static com.laserfiche.api.client.oauth.OAuthUtil.decodeBase64;
 
 public class AccessKey {
-    public String customerId;
-    public String domain;
-    public String clientId;
-    public JWK jwk;
+    private String customerId;
+    private String domain;
+    private String clientId;
+    private JWK jwk;
 
     private static ObjectMapper mapper;
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
+
+    public JWK getJWK() {
+        return jwk;
+    }
+
+    public void setJWK(JWK jwk) {
+        this.jwk = jwk;
+    }
 
     public static AccessKey createFromBase64EncodedAccessKey(String base64EncodedAccessKey) {
         if (mapper == null) {

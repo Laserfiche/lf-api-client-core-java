@@ -36,7 +36,7 @@ public class OAuthUtil {
      */
     public static String createBearer(String spKey, AccessKey accessKey) {
         // Prepare JWK
-        ECKey jwk = accessKey.jwk.toECKey();
+        ECKey jwk = accessKey.getJWK().toECKey();
 
         // Prepare JWS
         JWSObject jws = createJws(jwk, spKey, accessKey);
@@ -56,6 +56,7 @@ public class OAuthUtil {
 
     /**
      * Convert a base64 encoded string to plaintext
+     *
      * @param encoded Base64 encoded input
      * @return Plaintext
      */
@@ -69,7 +70,7 @@ public class OAuthUtil {
         JWSHeader jwsHeader = new JWSHeader.Builder(JWSAlgorithm.ES256).keyID(jwk.getKeyID()).type(JOSEObjectType.JWT).build();
         // The token will be valid for 30 minutes
         String payloadTemplate = "{ \"client_id\": \"%s\", \"client_secret\": \"%s\", \"aud\": \"laserfiche.com\", \"exp\": %d, \"iat\": %d, \"nbf\": %d}";
-        Payload jwsPayload = new Payload(String.format(payloadTemplate, accessKey.clientId, spKey, now + 1800, now, now));
+        Payload jwsPayload = new Payload(String.format(payloadTemplate, accessKey.getClientId(), spKey, now + 1800, now, now));
         return new JWSObject(jwsHeader, jwsPayload);
     }
 
