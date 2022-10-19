@@ -36,7 +36,7 @@ public class OAuthUtil {
      */
     public static String createBearer(String spKey, AccessKey accessKey) {
         // Prepare JWK
-        ECKey jwk = accessKey.getJWK().toECKey();
+        ECKey jwk = accessKey.getJwk().toECKey();
 
         // Prepare JWS
         JWSObject jws = createJws(jwk, spKey, accessKey);

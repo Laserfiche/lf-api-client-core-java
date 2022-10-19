@@ -42,11 +42,11 @@ public class AccessKey {
         this.clientId = clientId;
     }
 
-    public JWK getJWK() {
+    public JWK getJwk() {
         return jwk;
     }
 
-    public void setJWK(JWK jwk) {
+    public void setJwk(JWK jwk) {
         this.jwk = jwk;
     }
 
