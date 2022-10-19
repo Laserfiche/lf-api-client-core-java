@@ -36,8 +36,10 @@ class AccessKeyTest {
     @ParameterizedTest
     @ValueSource(strings = {" ", "", "\n", "\t"})
     void CreateFromBase64EncodedAccessKey_IllegalArgumentExceptionThrown(String base64EncodedAccessKey) {
-        assertThrows(IllegalArgumentException.class, () -> AccessKey.createFromBase64EncodedAccessKey(base64EncodedAccessKey));
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> AccessKey.createFromBase64EncodedAccessKey(base64EncodedAccessKey));
+        assertThrows(IllegalArgumentException.class,
+                () -> AccessKey.createFromBase64EncodedAccessKey(base64EncodedAccessKey));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> AccessKey.createFromBase64EncodedAccessKey(base64EncodedAccessKey));
         assertEquals("Input cannot be empty or null", exception.getMessage());
     }
 
@@ -45,7 +47,11 @@ class AccessKeyTest {
     @ValueSource(strings = {"YXNkYXNkYXNkYXNkYWQ=", "你好你好", "\uD83D\uDE00 \uD83D\uDE03 \uD83D\uDE04 \uD83D\uDE01"})
     void CreateFromBase64EncodedAccessKey_RunTimeExceptionThrown(String base64EncodedAccessKey) {
         assertThrows(RuntimeException.class, () -> AccessKey.createFromBase64EncodedAccessKey(base64EncodedAccessKey));
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> AccessKey.createFromBase64EncodedAccessKey(base64EncodedAccessKey));
-        assertTrue(Objects.equals(exception.getMessage(), "Illegal base64 character 3f") || exception.getMessage().contains("Unrecognized token") || Objects.equals(exception.getMessage(), "Input cannot be empty or null"));
+        RuntimeException exception = assertThrows(RuntimeException.class,
+                () -> AccessKey.createFromBase64EncodedAccessKey(base64EncodedAccessKey));
+        assertTrue(Objects.equals(exception.getMessage(), "Illegal base64 character 3f") || exception
+                .getMessage()
+                .contains("Unrecognized token") || Objects.equals(exception.getMessage(),
+                "Input cannot be empty or null"));
     }
 }
