@@ -2,6 +2,7 @@ package com.laserfiche.api.client.integration;
 
 import com.laserfiche.api.client.httphandlers.*;
 import kong.unirest.HttpStatus;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -14,6 +15,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+@Tag("APIServer")
 public class UsernamePasswordHandlerTest extends BaseTest {
     private HttpRequestHandler _httpRequestHandler;
     private List<String> _accessTokensToCleanUp;
@@ -144,7 +146,6 @@ public class UsernamePasswordHandlerTest extends BaseTest {
         Request request = new RequestImpl();
         assertThrows(RuntimeException.class, () -> _httpRequestHandler.beforeSendAsync(request).join());
         RuntimeException exception = assertThrows(RuntimeException.class, () -> _httpRequestHandler.beforeSendAsync(request).join());
-        System.out.println(exception.toString());
     }
 
     private static Stream<Arguments> FailedAuthentication() {
