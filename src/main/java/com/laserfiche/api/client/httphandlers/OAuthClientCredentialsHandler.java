@@ -47,6 +47,6 @@ public class OAuthClientCredentialsHandler implements HttpRequestHandler {
         } else {
             shouldRetry = false;
         }
-        return CompletableFuture.supplyAsync(() -> shouldRetry);
+        return CompletableFuture.completedFuture(shouldRetry);
     }
 }

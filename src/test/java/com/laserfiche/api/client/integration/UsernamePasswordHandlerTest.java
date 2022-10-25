@@ -1,6 +1,7 @@
 package com.laserfiche.api.client.integration;
 
 import com.laserfiche.api.client.httphandlers.*;
+import com.laserfiche.api.client.model.ApiException;
 import kong.unirest.HttpStatus;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -96,7 +98,6 @@ public class UsernamePasswordHandlerTest extends BaseTest {
         BeforeSendResult result1 = _httpRequestHandler
                 .beforeSendAsync(request1)
                 .join();
-        //_accessTokensToCleanUp.Add(request1.Headers.Authorization.Parameter);
 
         // Act
         Boolean retry = _httpRequestHandler
@@ -144,8 +145,12 @@ public class UsernamePasswordHandlerTest extends BaseTest {
             int status) {
         _httpRequestHandler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
         Request request = new RequestImpl();
-        assertThrows(RuntimeException.class, () -> _httpRequestHandler.beforeSendAsync(request).join());
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> _httpRequestHandler.beforeSendAsync(request).join());
+        assertThrows(RuntimeException.class, () -> CompletableFuture.completedFuture(_httpRequestHandler.beforeSendAsync(request).join()));
+        RuntimeException ex = assertThrows(RuntimeException.class, () -> _httpRequestHandler.beforeSendAsync(request).join());
+        ApiException exception = (ApiException) ex.getCause();
+        assertEquals(status, exception.getStatusCode());
+        assertNull(exception.getProblemDetails().getExtensions());
+        assertNotNull(exception.getProblemDetails());
     }
 
     private static Stream<Arguments> FailedAuthentication() {

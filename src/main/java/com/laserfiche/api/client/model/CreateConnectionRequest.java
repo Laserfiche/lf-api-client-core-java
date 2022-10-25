@@ -7,10 +7,10 @@ public class CreateConnectionRequest {
     private String grantType = null;
 
     @JsonProperty("username")
-    private Object username = null;
+    private String username = null;
 
     @JsonProperty("password")
-    private Object password = null;
+    private String password = null;
 
     public String getGrantType() {
         return grantType;
@@ -20,19 +20,19 @@ public class CreateConnectionRequest {
         this.grantType = grantType;
     }
 
-    public Object getUsername() {
+    public String getUsername() {
         return username;
     }
 
-    public void setUsername(Object username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
-    public Object getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(Object password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 

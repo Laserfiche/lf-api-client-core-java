@@ -8,62 +8,66 @@ import com.laserfiche.api.client.model.CreateConnectionRequest;
 import java.util.concurrent.CompletableFuture;
 
 public class UsernamePasswordHandler implements HttpRequestHandler {
-    private String accessToken;
+    private String _accessToken;
     private final String GRANTTYPE = "password";
-    private String repoId;
-    private String username;
-    private String password;
-    private String baseUrl;
-    private TokenClient client;
-    private CreateConnectionRequest request;
+    private String _repoId;
+    private String _baseUrl;
+    private TokenClient _client;
+    private CreateConnectionRequest _request;
 
-    public UsernamePasswordHandler(String repoId, String username, String password, String baseUrl,
+    /**
+     * Creates a username and password authorization handler for self hosted API server
+     * @param repositoryId Repository name
+     * @param username The username used with "password" grant type.
+     * @param password The password used with "password" grant type.
+     * @param baseUrl APIServer Base Url e.g. https://example.com/LFRepositoryAPI
+     * @param client OPTIONAL
+     */
+    public UsernamePasswordHandler(String repositoryId, String username, String password, String baseUrl,
             TokenClient client) {
-        this.username = username;
-        this.password = password;
-        this.baseUrl = baseUrl;
-        this.repoId = repoId;
-        request = new CreateConnectionRequest();
-        request.setPassword(this.password);
-        request.setUsername(this.username);
-        request.setGrantType(GRANTTYPE);
+        _baseUrl = baseUrl;
+        _repoId = repositoryId;
+        _request = new CreateConnectionRequest();
+        _request.setPassword(password);
+        _request.setUsername(username);
+        _request.setGrantType(GRANTTYPE);
         if (client == null) {
-            this.client = new TokenClientImpl(this.baseUrl);
+            _client = new TokenClientImpl(_baseUrl);
         } else {
-            this.client = client;
+            _client = client;
         }
     }
 
     @Override
     public CompletableFuture<BeforeSendResult> beforeSendAsync(Request request) {
-        CompletableFuture<SessionKeyInfo> future;
         BeforeSendResult result = new BeforeSendResult();
-        if (accessToken == null || accessToken.equals("")) {
-            future = client.createAccessToken(repoId, this.request);
+        if (_accessToken == null) {
+            CompletableFuture<SessionKeyInfo> future = _client.createAccessToken(_repoId, _request);
             return future.thenApply(tokenResponse -> {
-                accessToken = tokenResponse.getAccessToken();
+                _accessToken = tokenResponse.getAccessToken();
                 request
                         .headers()
-                        .append("Authorization", "Bearer " + accessToken);
+                        .append("Authorization", "Bearer " + _accessToken);
                 return result;
             });
-        } else {
+        }
+        if (_accessToken != null){
             request
                     .headers()
-                    .append("Authorization", "Bearer " + accessToken);
-            return CompletableFuture.completedFuture(result);
+                    .append("Authorization", "Bearer " + _accessToken);
         }
+        return CompletableFuture.completedFuture(result);
     }
 
     @Override
     public CompletableFuture<Boolean> afterSendAsync(Response response) {
         boolean shouldRetry;
         if (response.status() == 401) {
-            accessToken = null; // In case exception happens when getting the access token
+            _accessToken = null; // In case exception happens when getting the access token
             shouldRetry = true;
         } else {
             shouldRetry = false;
         }
-        return CompletableFuture.supplyAsync(() -> shouldRetry);
+        return CompletableFuture.completedFuture(shouldRetry);
     }
 }
