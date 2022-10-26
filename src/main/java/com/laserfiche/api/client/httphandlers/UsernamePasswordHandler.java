@@ -17,11 +17,12 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
 
     /**
      * Creates a username and password authorization handler for self hosted API server
+     *
      * @param repositoryId Repository name
-     * @param username The username used with "password" grant type.
-     * @param password The password used with "password" grant type.
-     * @param baseUrl APIServer Base Url e.g. https://example.com/LFRepositoryAPI
-     * @param client OPTIONAL
+     * @param username     The username used with "password" grant type.
+     * @param password     The password used with "password" grant type.
+     * @param baseUrl      APIServer Base Url e.g. https://example.com/LFRepositoryAPI
+     * @param client       OPTIONAL
      */
     public UsernamePasswordHandler(String repositoryId, String username, String password, String baseUrl,
             TokenClient client) {
@@ -51,7 +52,7 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
                 return result;
             });
         }
-        if (_accessToken != null){
+        if (_accessToken != null) {
             request
                     .headers()
                     .append("Authorization", "Bearer " + _accessToken);

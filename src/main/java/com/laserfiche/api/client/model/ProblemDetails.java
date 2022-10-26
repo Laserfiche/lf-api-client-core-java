@@ -1,11 +1,9 @@
 package com.laserfiche.api.client.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 
 public class ProblemDetails extends HashMap<String, Object> {
