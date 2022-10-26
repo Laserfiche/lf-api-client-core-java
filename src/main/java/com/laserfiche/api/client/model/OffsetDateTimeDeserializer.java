@@ -14,8 +14,8 @@ public class OffsetDateTimeDeserializer extends StdDeserializer<OffsetDateTime> 
         this(null);
     }
 
-    public OffsetDateTimeDeserializer(Class<?> vc) {
-        super(vc);
+    public OffsetDateTimeDeserializer(Class<?> valueClass) {
+        super(valueClass);
     }
 
     @Override

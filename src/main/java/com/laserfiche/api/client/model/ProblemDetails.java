@@ -26,7 +26,6 @@ public class ProblemDetails extends HashMap<String, Object> {
     @JsonProperty("extensions")
     private Map<String, Object> extensions = null;
 
-
     public String getType() {
         return type;
     }
@@ -66,7 +65,6 @@ public class ProblemDetails extends HashMap<String, Object> {
     public void setInstance(String instance) {
         this.instance = instance;
     }
-
 
     public Map<String, Object> getExtensions() {
         return extensions;
