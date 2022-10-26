@@ -1,6 +1,7 @@
 package com.laserfiche.api.client.APIServer;
 
 import com.laserfiche.api.client.model.CreateConnectionRequest;
+import com.laserfiche.api.client.model.SessionKeyInfo;
 
 import java.util.concurrent.CompletableFuture;
 

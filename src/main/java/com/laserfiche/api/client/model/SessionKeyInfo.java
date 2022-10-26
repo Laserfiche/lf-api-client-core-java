@@ -1,4 +1,4 @@
-package com.laserfiche.api.client.APIServer;
+package com.laserfiche.api.client.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

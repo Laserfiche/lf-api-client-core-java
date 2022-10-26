@@ -1,6 +1,6 @@
 package com.laserfiche.api.client.unit;
 
-import com.laserfiche.api.client.APIServer.SessionKeyInfo;
+import com.laserfiche.api.client.model.SessionKeyInfo;
 import com.laserfiche.api.client.APIServer.TokenClient;
 import com.laserfiche.api.client.APIServer.TokenClientImpl;
 import com.laserfiche.api.client.httphandlers.*;
