@@ -34,6 +34,8 @@ public class BaseTest {
             baseUrl = dotenv.get("APISERVER_REPOSITORY_API_BASE_URL");
             spKey = dotenv.get("SERVICE_PRINCIPAL_KEY");
         }
-        accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
+        if (accessKeyBase64 != null){
+            accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
+        }
     }
 }
