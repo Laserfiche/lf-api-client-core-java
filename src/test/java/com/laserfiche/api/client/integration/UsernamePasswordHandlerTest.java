@@ -135,7 +135,7 @@ public class UsernamePasswordHandlerTest extends BaseTest {
     }
 
     @ParameterizedTest
-    @MethodSource("FailedAuthentication")
+    @MethodSource("failedAuthentication")
     void beforeSendAsync_FailedAuthentication_ThrowsException(String repoId, String username, String password,
             int status) {
         _httpRequestHandler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
@@ -154,7 +154,7 @@ public class UsernamePasswordHandlerTest extends BaseTest {
                 .getProblemDetails().get("title"));
     }
 
-    private static Stream<Arguments> FailedAuthentication() {
+    private static Stream<Arguments> failedAuthentication() {
         return Stream.of(arguments(repoId, "fake123", password, HttpStatus.UNAUTHORIZED),
                 arguments(repoId, username, "fake123", HttpStatus.UNAUTHORIZED),
                 arguments("fake123", username, password, HttpStatus.NOT_FOUND));

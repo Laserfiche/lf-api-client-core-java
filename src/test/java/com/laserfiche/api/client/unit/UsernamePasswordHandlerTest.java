@@ -77,7 +77,7 @@ public class UsernamePasswordHandlerTest extends BaseTest {
     }
 
     @ParameterizedTest
-    @MethodSource("ResponseOtherThanUnauthorized")
+    @MethodSource("responseOtherThanUnauthorized")
     void afterSendAsync_ResponseOtherThanUnauthorized_ReturnsFalse(int status) {
         // Arrange
         HttpRequestHandler handler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
@@ -94,7 +94,7 @@ public class UsernamePasswordHandlerTest extends BaseTest {
                 });
     }
 
-    private static Stream<Arguments> ResponseOtherThanUnauthorized() {
+    private static Stream<Arguments> responseOtherThanUnauthorized() {
         return Stream.of(arguments(HttpStatus.OK),
                 arguments(HttpStatus.NOT_FOUND),
                 arguments(HttpStatus.FORBIDDEN),
