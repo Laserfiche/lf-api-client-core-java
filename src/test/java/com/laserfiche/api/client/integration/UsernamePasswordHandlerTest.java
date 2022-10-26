@@ -148,10 +148,10 @@ public class UsernamePasswordHandlerTest extends BaseTest {
                 .join());
         ApiException exception = (ApiException) ex.getCause();
         assertEquals(status, exception.getStatusCode());
-        assertNull(exception
-                .getProblemDetails()
-                .getExtensions());
-        assertNotNull(exception.getProblemDetails());
+        assertNotNull(exception
+                .getProblemDetails().get("type"));
+        assertNotNull(exception
+                .getProblemDetails().get("title"));
     }
 
     private static Stream<Arguments> FailedAuthentication() {
