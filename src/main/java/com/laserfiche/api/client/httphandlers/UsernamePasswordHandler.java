@@ -8,12 +8,12 @@ import com.laserfiche.api.client.model.CreateConnectionRequest;
 import java.util.concurrent.CompletableFuture;
 
 public class UsernamePasswordHandler implements HttpRequestHandler {
-    private String _accessToken;
+    private String accessToken;
     private final String GRANTTYPE = "password";
-    private String _repoId;
-    private String _baseUrl;
-    private TokenClient _client;
-    private CreateConnectionRequest _request;
+    private String repositoryId;
+    private String baseUrl;
+    private TokenClient client;
+    private CreateConnectionRequest request;
 
     /**
      * Creates a username and password authorization handler for self hosted API server
@@ -26,36 +26,36 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
      */
     public UsernamePasswordHandler(String repositoryId, String username, String password, String baseUrl,
             TokenClient client) {
-        _baseUrl = baseUrl;
-        _repoId = repositoryId;
-        _request = new CreateConnectionRequest();
-        _request.setPassword(password);
-        _request.setUsername(username);
-        _request.setGrantType(GRANTTYPE);
+        this.baseUrl = baseUrl;
+        this.repositoryId = repositoryId;
+        request = new CreateConnectionRequest();
+        request.setPassword(password);
+        request.setUsername(username);
+        request.setGrantType(GRANTTYPE);
         if (client == null) {
-            _client = new TokenClientImpl(_baseUrl);
+            this.client = new TokenClientImpl(this.baseUrl);
         } else {
-            _client = client;
+            this.client = client;
         }
     }
 
     @Override
     public CompletableFuture<BeforeSendResult> beforeSendAsync(Request request) {
         BeforeSendResult result = new BeforeSendResult();
-        if (_accessToken == null) {
-            CompletableFuture<SessionKeyInfo> future = _client.createAccessToken(_repoId, _request);
+        if (accessToken == null) {
+            CompletableFuture<SessionKeyInfo> future = client.createAccessToken(repositoryId, this.request);
             return future.thenApply(tokenResponse -> {
-                _accessToken = tokenResponse.getAccessToken();
+                accessToken = tokenResponse.getAccessToken();
                 request
                         .headers()
-                        .append("Authorization", "Bearer " + _accessToken);
+                        .append("Authorization", "Bearer " + accessToken);
                 return result;
             });
         }
-        if (_accessToken != null) {
+        if (accessToken != null) {
             request
                     .headers()
-                    .append("Authorization", "Bearer " + _accessToken);
+                    .append("Authorization", "Bearer " + accessToken);
         }
         return CompletableFuture.completedFuture(result);
     }
@@ -64,7 +64,7 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
     public CompletableFuture<Boolean> afterSendAsync(Response response) {
         boolean shouldRetry;
         if (response.status() == 401) {
-            _accessToken = null; // In case exception happens when getting the access token
+            accessToken = null; // In case exception happens when getting the access token
             shouldRetry = true;
         } else {
             shouldRetry = false;
