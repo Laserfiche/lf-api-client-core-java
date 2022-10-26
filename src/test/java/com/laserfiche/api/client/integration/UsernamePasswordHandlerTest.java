@@ -11,7 +11,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,7 +29,6 @@ public class UsernamePasswordHandlerTest extends BaseTest {
         // Act
         CompletableFuture<BeforeSendResult> future = _httpRequestHandler.beforeSendAsync(request);
         BeforeSendResult result = future.join();
-        //_accessTokensToCleanUp.add(request.Headers.Authorization.Parameter);
 
         // Assert
         assertNotNull(result);
@@ -59,12 +57,10 @@ public class UsernamePasswordHandlerTest extends BaseTest {
         BeforeSendResult result1 = _httpRequestHandler
                 .beforeSendAsync(request1)
                 .join();
-        //_accessTokensToCleanUp.Add(request1.Headers.Authorization.Parameter);
 
         BeforeSendResult result2 = _httpRequestHandler
                 .beforeSendAsync(request2)
                 .join();
-        //_accessTokensToCleanUp.Add(request2.Headers.Authorization.Parameter);
 
         String bearerTokenParameter1 = request1
                 .headers()
@@ -125,7 +121,6 @@ public class UsernamePasswordHandlerTest extends BaseTest {
                         .headers()
                         .get("Authorization")
                         .length() - 1);
-        //_accessTokensToCleanUp.Add(request2.Headers.Authorization.Parameter);
         assertNotNull(result2);
         assertNull(result2.getRegionalDomain());
         assertTrue(request2
@@ -145,11 +140,17 @@ public class UsernamePasswordHandlerTest extends BaseTest {
             int status) {
         _httpRequestHandler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
         Request request = new RequestImpl();
-        assertThrows(RuntimeException.class, () -> CompletableFuture.completedFuture(_httpRequestHandler.beforeSendAsync(request).join()));
-        RuntimeException ex = assertThrows(RuntimeException.class, () -> _httpRequestHandler.beforeSendAsync(request).join());
+        assertThrows(RuntimeException.class, () -> CompletableFuture.completedFuture(_httpRequestHandler
+                .beforeSendAsync(request)
+                .join()));
+        RuntimeException ex = assertThrows(RuntimeException.class, () -> _httpRequestHandler
+                .beforeSendAsync(request)
+                .join());
         ApiException exception = (ApiException) ex.getCause();
         assertEquals(status, exception.getStatusCode());
-        assertNull(exception.getProblemDetails().getExtensions());
+        assertNull(exception
+                .getProblemDetails()
+                .getExtensions());
         assertNotNull(exception.getProblemDetails());
     }
 

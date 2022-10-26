@@ -8,15 +8,6 @@ public class ApiException extends RuntimeException {
     private Map<String, String> headers;
     private ProblemDetails problemDetails;
 
-    public ApiException(String message, int statusCode, String response, Map<String, String> headers,
-            ProblemDetails problemDetails) {
-        super(message);
-        this.statusCode = statusCode;
-        this.response = response;
-        this.headers = headers;
-        this.problemDetails = problemDetails;
-    }
-
     public ProblemDetails getProblemDetails() {
         return problemDetails;
     }
