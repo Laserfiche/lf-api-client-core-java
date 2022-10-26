@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-@Tag("APIServer")
+@Tag("SelfHosted")
 public class UsernamePasswordHandlerTest extends BaseTest {
     private HttpRequestHandler _httpRequestHandler;
     private List<String> _accessTokensToCleanUp;

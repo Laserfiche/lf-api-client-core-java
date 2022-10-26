@@ -1,4 +1,4 @@
-package com.laserfiche.api.client.APIServer;
+package com.laserfiche.api.client.selfhosted;
 
 import com.laserfiche.api.client.model.CreateConnectionRequest;
 import com.laserfiche.api.client.model.SessionKeyInfo;

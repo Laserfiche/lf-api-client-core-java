@@ -1,4 +1,4 @@
-package com.laserfiche.api.client.APIServer;
+package com.laserfiche.api.client.selfhosted;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
