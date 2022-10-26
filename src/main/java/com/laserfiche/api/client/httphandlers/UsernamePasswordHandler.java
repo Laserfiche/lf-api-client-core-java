@@ -1,9 +1,9 @@
 package com.laserfiche.api.client.httphandlers;
 
+import com.laserfiche.api.client.model.CreateConnectionRequest;
 import com.laserfiche.api.client.model.SessionKeyInfo;
 import com.laserfiche.api.client.selfhosted.TokenClient;
 import com.laserfiche.api.client.selfhosted.TokenClientImpl;
-import com.laserfiche.api.client.model.CreateConnectionRequest;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -26,7 +26,7 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
      */
     public UsernamePasswordHandler(String repositoryId, String username, String password, String baseUrl,
             TokenClient client) {
-        this.baseUrl = baseUrl;
+        this.baseUrl = baseUrl.endsWith("LFRepositoryAPI") ? baseUrl : baseUrl.substring(0, baseUrl.lastIndexOf("/"));
         this.repositoryId = repositoryId;
         request = new CreateConnectionRequest();
         request.setPassword(password);
