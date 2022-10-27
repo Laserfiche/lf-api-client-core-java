@@ -21,7 +21,12 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-public class OauthPasswordHandlerTest extends BaseTest {
+public class OauthPasswordHandlerTest{
+
+    private String repoId = "repoId";
+    private String username = "username";
+    private String password = "password";
+    private String baseUrl = "http://localhost:11211";
     private Request _request = new RequestImpl();
 
     @Test
