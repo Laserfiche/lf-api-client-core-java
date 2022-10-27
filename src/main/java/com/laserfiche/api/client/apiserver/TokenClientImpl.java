@@ -52,11 +52,9 @@ public class TokenClientImpl implements TokenClient {
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .field("grant_type", "password")
                 .field("username", body
-                        .getUsername()
-                        .toString())
+                        .getUsername())
                 .field("password", body
-                        .getPassword()
-                        .toString())
+                        .getPassword())
                 .asObjectAsync(Object.class)
                 .thenApply(httpResponse -> {
                     if (httpResponse.getStatus() == 200) {
