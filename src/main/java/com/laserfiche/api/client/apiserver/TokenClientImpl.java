@@ -1,4 +1,4 @@
-package com.laserfiche.api.client.selfhosted;
+package com.laserfiche.api.client.apiserver;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -6,8 +6,9 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.laserfiche.api.client.deserialization.OffsetDateTimeDeserializer;
 import com.laserfiche.api.client.model.*;
-import com.laserfiche.api.client.oauth.TokenClientObjectMapper;
+import com.laserfiche.api.client.deserialization.TokenClientObjectMapper;
 import kong.unirest.Header;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;

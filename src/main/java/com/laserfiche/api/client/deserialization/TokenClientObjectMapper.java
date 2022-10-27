@@ -1,4 +1,4 @@
-package com.laserfiche.api.client.oauth;
+package com.laserfiche.api.client.deserialization;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;

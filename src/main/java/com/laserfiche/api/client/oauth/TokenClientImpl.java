@@ -1,5 +1,6 @@
 package com.laserfiche.api.client.oauth;
 
+import com.laserfiche.api.client.deserialization.TokenClientObjectMapper;
 import com.laserfiche.api.client.model.AccessKey;
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
 import kong.unirest.HttpResponse;

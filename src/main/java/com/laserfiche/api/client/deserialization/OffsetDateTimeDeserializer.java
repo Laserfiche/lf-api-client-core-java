@@ -1,4 +1,4 @@
-package com.laserfiche.api.client.model;
+package com.laserfiche.api.client.deserialization;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;

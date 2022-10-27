@@ -1,8 +1,8 @@
 package com.laserfiche.api.client.unit;
 
 import com.laserfiche.api.client.model.SessionKeyInfo;
-import com.laserfiche.api.client.selfhosted.TokenClient;
-import com.laserfiche.api.client.selfhosted.TokenClientImpl;
+import com.laserfiche.api.client.apiserver.TokenClient;
+import com.laserfiche.api.client.apiserver.TokenClientImpl;
 import com.laserfiche.api.client.httphandlers.*;
 import com.laserfiche.api.client.model.CreateConnectionRequest;
 import kong.unirest.HttpStatus;
