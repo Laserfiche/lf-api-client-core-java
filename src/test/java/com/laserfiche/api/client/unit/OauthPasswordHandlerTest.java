@@ -21,7 +21,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-public class UsernamePasswordHandlerTest extends BaseTest {
+public class OauthPasswordHandlerTest extends BaseTest {
     private Request _request = new RequestImpl();
 
     @Test
@@ -35,7 +35,7 @@ public class UsernamePasswordHandlerTest extends BaseTest {
         TokenClient mockedClient = mock(TokenClientImpl.class);
         when(mockedClient.createAccessToken(eq(anyString()), mockedBody)).thenReturn(
                 CompletableFuture.completedFuture(mockedResponse));
-        HttpRequestHandler handler = new UsernamePasswordHandler(repoId, username, password, baseUrl, mockedClient);
+        HttpRequestHandler handler = new OauthPasswordHandler(repoId, username, password, baseUrl, mockedClient);
 
         //Act
         BeforeSendResult result = handler
@@ -62,7 +62,7 @@ public class UsernamePasswordHandlerTest extends BaseTest {
     @Test
     void afterSendAsync_ResponseUnauthorized_ReturnsTrue() {
         // Arrange
-        HttpRequestHandler handler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
+        HttpRequestHandler handler = new OauthPasswordHandler(repoId, username, password, baseUrl, null);
         Response mockedResponse = mock(Response.class);
         when(mockedResponse.status()).thenReturn((short) 401);
 
@@ -80,7 +80,7 @@ public class UsernamePasswordHandlerTest extends BaseTest {
     @MethodSource("responseOtherThanUnauthorized")
     void afterSendAsync_ResponseOtherThanUnauthorized_ReturnsFalse(int status) {
         // Arrange
-        HttpRequestHandler handler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
+        HttpRequestHandler handler = new OauthPasswordHandler(repoId, username, password, baseUrl, null);
         Response mockedResponse = mock(Response.class);
         when(mockedResponse.status()).thenReturn((short) status);
 
