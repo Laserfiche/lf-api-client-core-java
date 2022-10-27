@@ -1,5 +1,8 @@
 package com.laserfiche.api.client.httphandlers;
 
+import kong.unirest.Header;
+import kong.unirest.HttpResponse;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -62,5 +65,13 @@ public class HeadersImpl implements Headers {
     @Override
     public Collection<String> values() {
         return headers.values().stream().map(headerList -> String.join(", ", headerList)).collect(Collectors.toList());
+    }
+
+    public static Map<String, String> getHeadersMap(HttpResponse httpResponse) {
+        return httpResponse
+                .getHeaders()
+                .all()
+                .stream()
+                .collect(Collectors.toMap(Header::getName, Header::getValue));
     }
 }

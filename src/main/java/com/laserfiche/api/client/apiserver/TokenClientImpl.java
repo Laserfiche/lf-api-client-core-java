@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.laserfiche.api.client.deserialization.OffsetDateTimeDeserializer;
+import com.laserfiche.api.client.httphandlers.HeadersImpl;
 import com.laserfiche.api.client.model.*;
 import com.laserfiche.api.client.deserialization.TokenClientObjectMapper;
 import kong.unirest.Header;
@@ -74,7 +75,7 @@ public class TokenClientImpl implements TokenClient {
                             e.printStackTrace();
                             return null;
                         }
-                        Map<String, String> headersMap = getHeadersMap(httpResponse);
+                        Map<String, String> headersMap = HeadersImpl.getHeadersMap(httpResponse);
                         if (httpResponse.getStatus() == 400)
                             throw new ApiException("Invalid or bad request.", httpResponse.getStatus(),
                                     httpResponse.getStatusText(), headersMap, problemDetails);
@@ -111,13 +112,5 @@ public class TokenClientImpl implements TokenClient {
             }
         }
         return paramKeyValuePairs;
-    }
-
-    protected Map<String, String> getHeadersMap(HttpResponse httpResponse) {
-        return httpResponse
-                .getHeaders()
-                .all()
-                .stream()
-                .collect(Collectors.toMap(Header::getName, Header::getValue));
     }
 }
