@@ -4,7 +4,6 @@ import com.laserfiche.api.client.model.SessionKeyInfo;
 import com.laserfiche.api.client.selfhosted.TokenClient;
 import com.laserfiche.api.client.selfhosted.TokenClientImpl;
 import com.laserfiche.api.client.httphandlers.*;
-import com.laserfiche.api.client.integration.BaseTest;
 import com.laserfiche.api.client.model.CreateConnectionRequest;
 import kong.unirest.HttpStatus;
 import org.junit.jupiter.api.Disabled;
@@ -21,7 +20,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-public class OauthPasswordHandlerTest{
+public class UsernamePasswordHandlerTest {
 
     private String repoId = "repoId";
     private String username = "username";
@@ -40,7 +39,7 @@ public class OauthPasswordHandlerTest{
         TokenClient mockedClient = mock(TokenClientImpl.class);
         when(mockedClient.createAccessToken(eq(anyString()), mockedBody)).thenReturn(
                 CompletableFuture.completedFuture(mockedResponse));
-        HttpRequestHandler handler = new OauthPasswordHandler(repoId, username, password, baseUrl, mockedClient);
+        HttpRequestHandler handler = new UsernamePasswordHandler(repoId, username, password, baseUrl, mockedClient);
 
         //Act
         BeforeSendResult result = handler
@@ -67,7 +66,7 @@ public class OauthPasswordHandlerTest{
     @Test
     void afterSendAsync_ResponseUnauthorized_ReturnsTrue() {
         // Arrange
-        HttpRequestHandler handler = new OauthPasswordHandler(repoId, username, password, baseUrl, null);
+        HttpRequestHandler handler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
         Response mockedResponse = mock(Response.class);
         when(mockedResponse.status()).thenReturn((short) 401);
 
@@ -85,7 +84,7 @@ public class OauthPasswordHandlerTest{
     @MethodSource("responseOtherThanUnauthorized")
     void afterSendAsync_ResponseOtherThanUnauthorized_ReturnsFalse(int status) {
         // Arrange
-        HttpRequestHandler handler = new OauthPasswordHandler(repoId, username, password, baseUrl, null);
+        HttpRequestHandler handler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
         Response mockedResponse = mock(Response.class);
         when(mockedResponse.status()).thenReturn((short) status);
 

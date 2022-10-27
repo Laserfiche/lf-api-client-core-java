@@ -17,13 +17,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 @Tag("SelfHosted")
-public class OauthPasswordHandlerTest extends BaseTest {
+public class UsernamePasswordHandlerTest extends BaseTest {
     private HttpRequestHandler _httpRequestHandler;
     private List<String> _accessTokensToCleanUp;
 
     @Test
     void beforeSendAsync_NewToken_Success() {
-        _httpRequestHandler = new OauthPasswordHandler(repoId, username, password, baseUrl, null);
+        _httpRequestHandler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
         Request request = new RequestImpl();
 
         // Act
@@ -49,7 +49,7 @@ public class OauthPasswordHandlerTest extends BaseTest {
     @Test
     void beforeSendAsync_ExistingToken_Success() {
         // Arrange
-        _httpRequestHandler = new OauthPasswordHandler(repoId, username, password, baseUrl, null);
+        _httpRequestHandler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
         Request request1 = new RequestImpl();
         Request request2 = new RequestImpl();
 
@@ -89,7 +89,7 @@ public class OauthPasswordHandlerTest extends BaseTest {
     @Test
     void afterSendAsync_TokenRemovedWhenUnauthorized() {
         // Arrange
-        _httpRequestHandler = new OauthPasswordHandler(repoId, username, password, baseUrl, null);
+        _httpRequestHandler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
         Request request1 = new RequestImpl();
         BeforeSendResult result1 = _httpRequestHandler
                 .beforeSendAsync(request1)
@@ -138,7 +138,7 @@ public class OauthPasswordHandlerTest extends BaseTest {
     @MethodSource("failedAuthentication")
     void beforeSendAsync_FailedAuthentication_ThrowsException(String repoId, String username, String password,
             int status) {
-        _httpRequestHandler = new OauthPasswordHandler(repoId, username, password, baseUrl, null);
+        _httpRequestHandler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
         Request request = new RequestImpl();
         assertThrows(RuntimeException.class, () -> CompletableFuture.completedFuture(_httpRequestHandler
                 .beforeSendAsync(request)

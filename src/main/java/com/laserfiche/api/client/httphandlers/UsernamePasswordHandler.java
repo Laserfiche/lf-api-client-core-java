@@ -7,7 +7,7 @@ import com.laserfiche.api.client.selfhosted.TokenClientImpl;
 
 import java.util.concurrent.CompletableFuture;
 
-public class OauthPasswordHandler implements HttpRequestHandler {
+public class UsernamePasswordHandler implements HttpRequestHandler {
     private String accessToken;
     private final String GRANTTYPE = "password";
     private String repositoryId;
@@ -24,7 +24,7 @@ public class OauthPasswordHandler implements HttpRequestHandler {
      * @param baseUrl      APIServer Base Url e.g. https://example.com/LFRepositoryAPI
      * @param client       OPTIONAL
      */
-    public OauthPasswordHandler(String repositoryId, String username, String password, String baseUrl,
+    public UsernamePasswordHandler(String repositoryId, String username, String password, String baseUrl,
             TokenClient client) {
         this.baseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.lastIndexOf("/")) : baseUrl;
         this.repositoryId = repositoryId;
