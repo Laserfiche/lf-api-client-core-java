@@ -1,18 +1,24 @@
 package com.laserfiche.api.client.oauth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.laserfiche.api.client.deserialization.OffsetDateTimeDeserializer;
 import com.laserfiche.api.client.deserialization.TokenClientObjectMapper;
 import com.laserfiche.api.client.httphandlers.HeadersImpl;
-import com.laserfiche.api.client.model.*;
-import kong.unirest.Header;
-import kong.unirest.HttpResponse;
+import com.laserfiche.api.client.model.AccessKey;
+import com.laserfiche.api.client.model.ApiException;
+import com.laserfiche.api.client.model.GetAccessTokenResponse;
+import com.laserfiche.api.client.model.ProblemDetails;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
+import org.threeten.bp.OffsetDateTime;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 import static com.laserfiche.api.client.oauth.OAuthUtil.createBearer;
 import static com.laserfiche.api.client.oauth.OAuthUtil.getOAuthApiBaseUri;
@@ -22,33 +28,33 @@ public class TokenClientImpl implements TokenClient {
     private String baseUrl;
 
     protected ObjectMapper objectMapper;
+
     public TokenClientImpl(String regionalDomain) {
         baseUrl = getOAuthApiBaseUri(regionalDomain);
-        Unirest.config().setObjectMapper(new TokenClientObjectMapper());
+        Unirest
+                .config()
+                .setObjectMapper(new TokenClientObjectMapper());
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(OffsetDateTime.class, new OffsetDateTimeDeserializer());
+        this.objectMapper = JsonMapper
+                .builder()
+                .addModule(module)
+                .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
+                .build();
     }
 
     @Override
-    public CompletableFuture<GetAccessTokenResponse> getAccessTokenFromServicePrincipal(String spKey, AccessKey accessKey) {
+    public CompletableFuture<GetAccessTokenResponse> getAccessTokenFromServicePrincipal(String spKey,
+            AccessKey accessKey) {
         String bearer = createBearer(spKey, accessKey);
-//        CompletableFuture<HttpResponse<GetAccessTokenResponse>> future = Unirest
-//                .post(baseUrl + "Token")
-//                .header("Authorization", bearer)
-//                .header("Accept", "application/json")
-//                .header("Content-Type", "application/x-www-form-urlencoded")
-//                .field("grant_type", "client_credentials")
-//                .asObjectAsync(GetAccessTokenResponse.class);
-//        return future.thenApply(httpResponse -> {
-//            if (httpResponse.getStatus() != 200) {
-//                throw new RuntimeException(httpResponse.getStatusText());
-//            }
-//            return httpResponse.getBody();
-//        });
         return Unirest
                 .post(baseUrl + "Token")
                 .header("Authorization", bearer)
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .field("grant_type", "client_credentials")
-                .asObjectAsync(GetAccessTokenResponse.class)
+                .asObjectAsync(Object.class)
                 .thenApply(httpResponse -> {
                     if (httpResponse.getStatus() == 200) {
                         try {
@@ -90,12 +96,14 @@ public class TokenClientImpl implements TokenClient {
     }
 
     @Override
-    public CompletableFuture<GetAccessTokenResponse> getAccessTokenFromCode(String code, String redirectUri, String clientId, String clientSecret, String codeVerifier) {
+    public CompletableFuture<GetAccessTokenResponse> getAccessTokenFromCode(String code, String redirectUri,
+            String clientId, String clientSecret, String codeVerifier) {
         return null;
     }
 
     @Override
-    public CompletableFuture<GetAccessTokenResponse> refreshAccessToken(String refreshToken, String clientId, String clientSecret) {
+    public CompletableFuture<GetAccessTokenResponse> refreshAccessToken(String refreshToken, String clientId,
+            String clientSecret) {
         return null;
     }
 
