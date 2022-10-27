@@ -69,6 +69,7 @@
           <argLine>-Xms512m -Xmx1500m</argLine>
           <parallel>methods</parallel>
           <forkMode>pertest</forkMode>
+          <excludedGroups>SelfHosted</excludedGroups>
         </configuration>
       </plugin>
       <plugin>

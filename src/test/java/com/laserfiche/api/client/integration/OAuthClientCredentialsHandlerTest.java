@@ -1,6 +1,7 @@
 package com.laserfiche.api.client.integration;
 
 import com.laserfiche.api.client.httphandlers.*;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.CompletableFuture;
@@ -10,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@Tag("Cloud")
 class OAuthClientCredentialsHandlerTest extends BaseTest {
     @Test
     void beforeSendAsync_Success() {
