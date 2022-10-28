@@ -1,9 +1,6 @@
 package com.laserfiche.api.client.httphandlers;
 
-import kong.unirest.HttpResponse;
-
 import java.util.Collection;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -57,5 +54,4 @@ public interface Headers {
      * @return A collection of header values.
      */
     Collection<String> values();
-
 }

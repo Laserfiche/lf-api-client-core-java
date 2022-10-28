@@ -7,11 +7,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.laserfiche.api.client.deserialization.OffsetDateTimeDeserializer;
-import com.laserfiche.api.client.httphandlers.HeadersImpl;
-import com.laserfiche.api.client.model.*;
 import com.laserfiche.api.client.deserialization.TokenClientObjectMapper;
-import kong.unirest.Header;
-import kong.unirest.HttpResponse;
+import com.laserfiche.api.client.httphandlers.HeadersImpl;
+import com.laserfiche.api.client.model.ApiException;
+import com.laserfiche.api.client.model.CreateConnectionRequest;
+import com.laserfiche.api.client.model.ProblemDetails;
+import com.laserfiche.api.client.model.SessionKeyInfo;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
 import org.threeten.bp.OffsetDateTime;
@@ -19,7 +20,6 @@ import org.threeten.bp.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 public class TokenClientImpl implements TokenClient {
     private String baseUrl;
