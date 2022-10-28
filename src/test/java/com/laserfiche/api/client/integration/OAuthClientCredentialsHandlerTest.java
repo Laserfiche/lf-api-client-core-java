@@ -1,6 +1,7 @@
 package com.laserfiche.api.client.integration;
 
 import com.laserfiche.api.client.httphandlers.*;
+import com.laserfiche.api.client.model.ApiException;
 import kong.unirest.HttpStatus;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -160,5 +161,25 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
         assertNotNull(bearerTokenParameter2);
         assertEquals(accessKey.getDomain(), result2.getRegionalDomain());
         assertNotEquals(bearerTokenParameter1, bearerTokenParameter2);
+    }
+
+    @Test
+    void beforeSendAsync_FailedAuthentication_ThrowsException() {
+        HttpRequestHandler handler = new OAuthClientCredentialsHandler("fake1243", accessKey);
+        Request request = new RequestImpl();
+        assertThrows(RuntimeException.class, () -> CompletableFuture.completedFuture(handler
+                .beforeSendAsync(request)
+                .join()));
+        RuntimeException ex = assertThrows(RuntimeException.class, () -> handler
+                .beforeSendAsync(request)
+                .join());
+        ApiException exception = (ApiException) ex.getCause();
+        assertEquals(401, exception.getStatusCode());
+        assertNotNull(exception
+                .getProblemDetails()
+                .get("type"));
+        assertNotNull(exception
+                .getProblemDetails()
+                .get("title"));
     }
 }
