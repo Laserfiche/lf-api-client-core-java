@@ -66,12 +66,4 @@ public class HeadersImpl implements Headers {
     public Collection<String> values() {
         return headers.values().stream().map(headerList -> String.join(", ", headerList)).collect(Collectors.toList());
     }
-
-//    public static Map<String, String> getHeadersMap(HttpResponse httpResponse) {
-//        return httpResponse
-//                .getHeaders()
-//                .all()
-//                .stream()
-//                .collect(Collectors.toMap(Header::getName, Header::getValue));
-//    }
 }

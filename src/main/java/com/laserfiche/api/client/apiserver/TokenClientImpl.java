@@ -24,23 +24,9 @@ import java.util.concurrent.CompletableFuture;
 public class TokenClientImpl extends ApiServer implements TokenClient {
     private String baseUrl;
 
-    //protected ObjectMapper objectMapper;
-
     public TokenClientImpl(String baseUrl) {
         super();
         this.baseUrl = baseUrl;
-//        Unirest
-//                .config()
-//                .setObjectMapper(new TokenClientObjectMapper());
-//        SimpleModule module = new SimpleModule();
-//        module.addDeserializer(OffsetDateTime.class, new OffsetDateTimeDeserializer());
-//        this.objectMapper = JsonMapper
-//                .builder()
-//                .addModule(module)
-//                .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
-//                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-//                .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
-//                .build();
     }
 
     @Override
@@ -76,7 +62,6 @@ public class TokenClientImpl extends ApiServer implements TokenClient {
                             e.printStackTrace();
                             return null;
                         }
-                        //Map<String, String> headersMap = HeadersImpl.getHeadersMap(httpResponse);
                         Map<String, String> headersMap = getHeadersMap(httpResponse);
                         if (httpResponse.getStatus() == 400)
                             throw new ApiException("Invalid or bad request.", httpResponse.getStatus(),
@@ -99,20 +84,4 @@ public class TokenClientImpl extends ApiServer implements TokenClient {
                 });
     }
 
-//    protected Map<String, Object> getNonNullParameters(String[] parameterNames, Object[] parameters) {
-//        if (parameterNames == null || parameters == null) {
-//            throw new IllegalArgumentException("Input cannot be null.");
-//        }
-//        if (parameterNames.length != parameters.length) {
-//            throw new IllegalArgumentException("The array for parameter name and value should have the same length.");
-//        }
-//        Map<String, Object> paramKeyValuePairs = new HashMap<>();
-//        for (int i = 0; i < parameters.length; i++) {
-//            if (parameters[i] != null) {
-//                paramKeyValuePairs.put(parameterNames[i],
-//                        parameters[i] instanceof String ? parameters[i] : String.valueOf(parameters[i]));
-//            }
-//        }
-//        return paramKeyValuePairs;
-//    }
 }

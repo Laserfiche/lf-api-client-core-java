@@ -28,23 +28,9 @@ import static com.laserfiche.api.client.oauth.OAuthUtil.getOAuthApiBaseUri;
 public class TokenClientImpl extends ApiServer implements TokenClient {
     private String baseUrl;
 
-    //protected ObjectMapper objectMapper;
-
     public TokenClientImpl(String regionalDomain) {
         super();
         baseUrl = getOAuthApiBaseUri(regionalDomain);
-//        Unirest
-//                .config()
-//                .setObjectMapper(new TokenClientObjectMapper());
-//        SimpleModule module = new SimpleModule();
-//        module.addDeserializer(OffsetDateTime.class, new OffsetDateTimeDeserializer());
-//        this.objectMapper = JsonMapper
-//                .builder()
-//                .addModule(module)
-//                .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
-//                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-//                .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
-//                .build();
     }
 
     @Override
@@ -75,7 +61,6 @@ public class TokenClientImpl extends ApiServer implements TokenClient {
                             e.printStackTrace();
                             return null;
                         }
-                        //Map<String, String> headersMap = HeadersImpl.getHeadersMap(httpResponse);
                         Map<String, String> headersMap = getHeadersMap(httpResponse);
                         if (httpResponse.getStatus() == 400)
                             throw new ApiException("Invalid or bad request.", httpResponse.getStatus(),
