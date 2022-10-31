@@ -9,8 +9,8 @@ public interface TokenClient {
 
     /**
      * @param repoId Repository name
-     * @param body   Request body that contains username, passward and grant type
-     * @return Create an access token successfuly.
+     * @param body   Request body that contains username, password and grant type
+     * @return Create an access token successfully.
      */
     CompletableFuture<SessionKeyInfo> createAccessToken(String repoId, CreateConnectionRequest body);
 }

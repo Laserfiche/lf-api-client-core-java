@@ -1,19 +1,19 @@
 package com.laserfiche.api.client.httphandlers;
 
-import com.laserfiche.api.client.model.CreateConnectionRequest;
-import com.laserfiche.api.client.model.SessionKeyInfo;
 import com.laserfiche.api.client.apiserver.TokenClient;
 import com.laserfiche.api.client.apiserver.TokenClientImpl;
+import com.laserfiche.api.client.model.CreateConnectionRequest;
+import com.laserfiche.api.client.model.SessionKeyInfo;
 
 import java.util.concurrent.CompletableFuture;
 
 public class UsernamePasswordHandler implements HttpRequestHandler {
     private String accessToken;
-    private final String GRANTTYPE = "password";
-    private String repositoryId;
-    private String baseUrl;
-    private TokenClient client;
-    private CreateConnectionRequest request;
+    private final String grantType = "password";
+    private final String repositoryId;
+    private final String baseUrl;
+    private final TokenClient client;
+    private final CreateConnectionRequest request;
 
     /**
      * Creates a username and password authorization handler for self hosted API server
@@ -31,7 +31,7 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
         request = new CreateConnectionRequest();
         request.setPassword(password);
         request.setUsername(username);
-        request.setGrantType(GRANTTYPE);
+        request.setGrantType(grantType);
         if (client == null) {
             this.client = new TokenClientImpl(this.baseUrl);
         } else {
@@ -51,8 +51,7 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
                         .append("Authorization", "Bearer " + accessToken);
                 return result;
             });
-        }
-        if (accessToken != null) {
+        } else {
             request
                     .headers()
                     .append("Authorization", "Bearer " + accessToken);
