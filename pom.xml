@@ -5,7 +5,7 @@
   <artifactId>lf-api-client-core</artifactId>
   <packaging>jar</packaging>
   <name>Laserfiche API Client Core</name>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <url>https://github.com/Laserfiche/lf-api-client-core-java</url>
   <description>Java implementation of various foundational APIs for Laserfiche, including authorization APIs such as
     OAuth 2.0 flows for secure and easy access to Laserfiche APIs.
@@ -27,6 +27,7 @@
   <developers>
     <developer>
       <name>Laserfiche</name>
+      <email>api@laserfiche.com</email>
       <organization>Laserfiche</organization>
       <organizationUrl>https://www.laserfiche.com/</organizationUrl>
     </developer>
