@@ -13,7 +13,7 @@ Add the following to your pom.xml file:
 ```
 <dependency>
     <groupId>com.laserfiche</groupId>
-    <artifactId>lf-repository-api-client</artifactId>
+    <artifactId>lf-api-client-core</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
