@@ -1,19 +1,19 @@
 package com.laserfiche.api.client.httphandlers;
 
-import com.laserfiche.api.client.model.CreateConnectionRequest;
-import com.laserfiche.api.client.model.SessionKeyInfo;
 import com.laserfiche.api.client.apiserver.TokenClient;
 import com.laserfiche.api.client.apiserver.TokenClientImpl;
+import com.laserfiche.api.client.model.CreateConnectionRequest;
+import com.laserfiche.api.client.model.SessionKeyInfo;
 
 import java.util.concurrent.CompletableFuture;
 
 public class UsernamePasswordHandler implements HttpRequestHandler {
     private String accessToken;
-    private final String GRANTTYPE = "password";
-    private String repositoryId;
-    private String baseUrl;
-    private TokenClient client;
-    private CreateConnectionRequest request;
+    private final String GRANT_TYPE = "password";
+    private final String REPOSITORYID;
+    private final String BASEURL;
+    private final TokenClient CLIENT;
+    private final CreateConnectionRequest REQUEST;
 
     /**
      * Creates a username and password authorization handler for self hosted API server
@@ -26,16 +26,16 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
      */
     public UsernamePasswordHandler(String repositoryId, String username, String password, String baseUrl,
             TokenClient client) {
-        this.baseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.lastIndexOf("/")) : baseUrl;
-        this.repositoryId = repositoryId;
-        request = new CreateConnectionRequest();
-        request.setPassword(password);
-        request.setUsername(username);
-        request.setGrantType(GRANTTYPE);
+        this.BASEURL = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.lastIndexOf("/")) : baseUrl;
+        this.REPOSITORYID = repositoryId;
+        REQUEST = new CreateConnectionRequest();
+        REQUEST.setPassword(password);
+        REQUEST.setUsername(username);
+        REQUEST.setGrantType(GRANT_TYPE);
         if (client == null) {
-            this.client = new TokenClientImpl(this.baseUrl);
+            this.CLIENT = new TokenClientImpl(this.BASEURL);
         } else {
-            this.client = client;
+            this.CLIENT = client;
         }
     }
 
@@ -43,7 +43,7 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
     public CompletableFuture<BeforeSendResult> beforeSendAsync(Request request) {
         BeforeSendResult result = new BeforeSendResult();
         if (accessToken == null) {
-            CompletableFuture<SessionKeyInfo> future = client.createAccessToken(repositoryId, this.request);
+            CompletableFuture<SessionKeyInfo> future = CLIENT.createAccessToken(REPOSITORYID, this.REQUEST);
             return future.thenApply(tokenResponse -> {
                 accessToken = tokenResponse.getAccessToken();
                 request
@@ -51,8 +51,7 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
                         .append("Authorization", "Bearer " + accessToken);
                 return result;
             });
-        }
-        if (accessToken != null) {
+        } else {
             request
                     .headers()
                     .append("Authorization", "Bearer " + accessToken);
