@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.laserfiche.api.client.apiserver.ApiServer;
 import com.laserfiche.api.client.deserialization.OffsetDateTimeDeserializer;
 import com.laserfiche.api.client.deserialization.TokenClientObjectMapper;
 import com.laserfiche.api.client.httphandlers.HeadersImpl;
@@ -24,25 +25,26 @@ import static com.laserfiche.api.client.oauth.OAuthUtil.createBearer;
 import static com.laserfiche.api.client.oauth.OAuthUtil.getOAuthApiBaseUri;
 
 
-public class TokenClientImpl implements TokenClient {
+public class TokenClientImpl extends ApiServer implements TokenClient {
     private String baseUrl;
 
-    protected ObjectMapper objectMapper;
+    //protected ObjectMapper objectMapper;
 
     public TokenClientImpl(String regionalDomain) {
+        super();
         baseUrl = getOAuthApiBaseUri(regionalDomain);
-        Unirest
-                .config()
-                .setObjectMapper(new TokenClientObjectMapper());
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(OffsetDateTime.class, new OffsetDateTimeDeserializer());
-        this.objectMapper = JsonMapper
-                .builder()
-                .addModule(module)
-                .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
-                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
-                .build();
+//        Unirest
+//                .config()
+//                .setObjectMapper(new TokenClientObjectMapper());
+//        SimpleModule module = new SimpleModule();
+//        module.addDeserializer(OffsetDateTime.class, new OffsetDateTimeDeserializer());
+//        this.objectMapper = JsonMapper
+//                .builder()
+//                .addModule(module)
+//                .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+//                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+//                .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
+//                .build();
     }
 
     @Override
@@ -73,7 +75,8 @@ public class TokenClientImpl implements TokenClient {
                             e.printStackTrace();
                             return null;
                         }
-                        Map<String, String> headersMap = HeadersImpl.getHeadersMap(httpResponse);
+                        //Map<String, String> headersMap = HeadersImpl.getHeadersMap(httpResponse);
+                        Map<String, String> headersMap = getHeadersMap(httpResponse);
                         if (httpResponse.getStatus() == 400)
                             throw new ApiException("Invalid or bad request.", httpResponse.getStatus(),
                                     httpResponse.getStatusText(), headersMap, problemDetails);
