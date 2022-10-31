@@ -2,6 +2,7 @@ package com.laserfiche.api.client.apiserver;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.laserfiche.api.client.model.*;
+import com.laserfiche.api.client.util.OauthClient;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
 

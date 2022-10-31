@@ -1,7 +1,7 @@
 package com.laserfiche.api.client.oauth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.laserfiche.api.client.model.OauthClient;
+import com.laserfiche.api.client.util.OauthClient;
 import com.laserfiche.api.client.model.AccessKey;
 import com.laserfiche.api.client.model.ApiException;
 import com.laserfiche.api.client.model.GetAccessTokenResponse;

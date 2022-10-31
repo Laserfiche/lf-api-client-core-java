@@ -1,4 +1,4 @@
-package com.laserfiche.api.client.model;
+package com.laserfiche.api.client.util;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
