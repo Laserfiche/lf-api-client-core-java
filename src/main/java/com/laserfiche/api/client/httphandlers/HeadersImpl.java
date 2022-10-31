@@ -1,8 +1,5 @@
 package com.laserfiche.api.client.httphandlers;
 
-import kong.unirest.Header;
-import kong.unirest.HttpResponse;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,7 +16,9 @@ public class HeadersImpl implements Headers {
             return;
         }
         headers.computeIfAbsent(name, key -> new ArrayList<>());
-        headers.get(name).add(value);
+        headers
+                .get(name)
+                .add(value);
     }
 
     @Override
@@ -32,9 +31,13 @@ public class HeadersImpl implements Headers {
 
     @Override
     public Collection<HeaderKeyValue> entries() {
-        return headers.entrySet().stream().map(entry ->
-           new HeaderKeyValueImpl(entry.getKey(), String.join(", ", entry.getValue()))
-        ).collect(Collectors.toList());
+        return headers
+                .entrySet()
+                .stream()
+                .map(entry ->
+                        new HeaderKeyValueImpl(entry.getKey(), String.join(", ", entry.getValue()))
+                )
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -59,11 +62,17 @@ public class HeadersImpl implements Headers {
     @Override
     public void set(String name, String value) {
         headers.computeIfAbsent(name, key -> new ArrayList<>());
-        headers.get(name).add(value);
+        headers
+                .get(name)
+                .add(value);
     }
 
     @Override
     public Collection<String> values() {
-        return headers.values().stream().map(headerList -> String.join(", ", headerList)).collect(Collectors.toList());
+        return headers
+                .values()
+                .stream()
+                .map(headerList -> String.join(", ", headerList))
+                .collect(Collectors.toList());
     }
 }
