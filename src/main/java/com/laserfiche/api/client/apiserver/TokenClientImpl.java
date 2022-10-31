@@ -1,15 +1,18 @@
 package com.laserfiche.api.client.apiserver;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.laserfiche.api.client.model.*;
-import com.laserfiche.api.client.util.OauthClient;
+import com.laserfiche.api.client.model.ApiException;
+import com.laserfiche.api.client.model.CreateConnectionRequest;
+import com.laserfiche.api.client.model.ProblemDetails;
+import com.laserfiche.api.client.model.SessionKeyInfo;
+import com.laserfiche.api.client.oauth.OAuthClient;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-public class TokenClientImpl extends OauthClient implements TokenClient {
+public class TokenClientImpl extends OAuthClient implements TokenClient {
     private String baseUrl;
 
     public TokenClientImpl(String baseUrl) {

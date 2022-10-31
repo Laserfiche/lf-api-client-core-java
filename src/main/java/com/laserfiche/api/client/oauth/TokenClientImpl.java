@@ -1,7 +1,6 @@
 package com.laserfiche.api.client.oauth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.laserfiche.api.client.util.OauthClient;
 import com.laserfiche.api.client.model.AccessKey;
 import com.laserfiche.api.client.model.ApiException;
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
@@ -16,7 +15,7 @@ import static com.laserfiche.api.client.oauth.OAuthUtil.createBearer;
 import static com.laserfiche.api.client.oauth.OAuthUtil.getOAuthApiBaseUri;
 
 
-public class TokenClientImpl extends OauthClient implements TokenClient {
+public class TokenClientImpl extends OAuthClient implements TokenClient {
     private String baseUrl;
 
     public TokenClientImpl(String regionalDomain) {
