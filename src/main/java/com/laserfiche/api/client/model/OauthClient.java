@@ -1,4 +1,4 @@
-package com.laserfiche.api.client.apiserver;
+package com.laserfiche.api.client.model;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
@@ -16,10 +16,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ApiServer {
+public class OauthClient {
     protected ObjectMapper objectMapper;
 
-    protected ApiServer(){
+    protected OauthClient(){
         Unirest
                 .config()
                 .setObjectMapper(new TokenClientObjectMapper());
@@ -42,7 +42,7 @@ public class ApiServer {
                 .collect(Collectors.toMap(Header::getName, Header::getValue));
     }
 
-    protected Map<String, Object> getNonNullParameters(String[] parameterNames, Object[] parameters) {
+    protected static Map<String, Object> getNonNullParameters(String[] parameterNames, Object[] parameters) {
         if (parameterNames == null || parameters == null) {
             throw new IllegalArgumentException("Input cannot be null.");
         }

@@ -1,27 +1,14 @@
 package com.laserfiche.api.client.apiserver;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.laserfiche.api.client.deserialization.OffsetDateTimeDeserializer;
-import com.laserfiche.api.client.deserialization.TokenClientObjectMapper;
-import com.laserfiche.api.client.httphandlers.HeadersImpl;
-import com.laserfiche.api.client.model.ApiException;
-import com.laserfiche.api.client.model.CreateConnectionRequest;
-import com.laserfiche.api.client.model.ProblemDetails;
-import com.laserfiche.api.client.model.SessionKeyInfo;
+import com.laserfiche.api.client.model.*;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
-import org.threeten.bp.OffsetDateTime;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-public class TokenClientImpl extends ApiServer implements TokenClient {
+public class TokenClientImpl extends OauthClient implements TokenClient {
     private String baseUrl;
 
     public TokenClientImpl(String baseUrl) {
