@@ -13,11 +13,11 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class TokenClientImpl extends OAuthClient implements TokenClient {
-    private final String BASEURL;
+    private final String baseUrl;
 
     public TokenClientImpl(String baseUrl) {
         super();
-        this.BASEURL = baseUrl;
+        this.baseUrl = baseUrl;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class TokenClientImpl extends OAuthClient implements TokenClient {
         Map<String, Object> pathParameters = getNonNullParameters(new String[]{"repoId"},
                 new Object[]{repoId});
         return Unirest
-                .post(BASEURL + "/v1/Repositories/{repoId}/Token")
+                .post(baseUrl + "/v1/Repositories/{repoId}/Token")
                 .routeParam(pathParameters)
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/x-www-form-urlencoded")

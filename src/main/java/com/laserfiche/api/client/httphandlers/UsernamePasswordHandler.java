@@ -9,11 +9,11 @@ import java.util.concurrent.CompletableFuture;
 
 public class UsernamePasswordHandler implements HttpRequestHandler {
     private String accessToken;
-    private final String GRANT_TYPE = "password";
-    private final String REPOSITORYID;
-    private final String BASEURL;
-    private final TokenClient CLIENT;
-    private final CreateConnectionRequest REQUEST;
+    private final String grantType = "password";
+    private final String repositoryId;
+    private final String baseUrl;
+    private final TokenClient client;
+    private final CreateConnectionRequest request;
 
     /**
      * Creates a username and password authorization handler for self hosted API server
@@ -26,16 +26,16 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
      */
     public UsernamePasswordHandler(String repositoryId, String username, String password, String baseUrl,
             TokenClient client) {
-        this.BASEURL = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.lastIndexOf("/")) : baseUrl;
-        this.REPOSITORYID = repositoryId;
-        REQUEST = new CreateConnectionRequest();
-        REQUEST.setPassword(password);
-        REQUEST.setUsername(username);
-        REQUEST.setGrantType(GRANT_TYPE);
+        this.baseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.lastIndexOf("/")) : baseUrl;
+        this.repositoryId = repositoryId;
+        request = new CreateConnectionRequest();
+        request.setPassword(password);
+        request.setUsername(username);
+        request.setGrantType(grantType);
         if (client == null) {
-            this.CLIENT = new TokenClientImpl(this.BASEURL);
+            this.client = new TokenClientImpl(this.baseUrl);
         } else {
-            this.CLIENT = client;
+            this.client = client;
         }
     }
 
@@ -43,7 +43,7 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
     public CompletableFuture<BeforeSendResult> beforeSendAsync(Request request) {
         BeforeSendResult result = new BeforeSendResult();
         if (accessToken == null) {
-            CompletableFuture<SessionKeyInfo> future = CLIENT.createAccessToken(REPOSITORYID, this.REQUEST);
+            CompletableFuture<SessionKeyInfo> future = client.createAccessToken(repositoryId, this.request);
             return future.thenApply(tokenResponse -> {
                 accessToken = tokenResponse.getAccessToken();
                 request
