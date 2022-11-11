@@ -26,7 +26,7 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
      */
     public UsernamePasswordHandler(String repositoryId, String username, String password, String baseUrl,
             TokenClient client) {
-        this.baseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.lastIndexOf("/")) : baseUrl;
+        this.baseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
         this.repositoryId = repositoryId;
         request = new CreateConnectionRequest();
         request.setPassword(password);

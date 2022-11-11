@@ -81,6 +81,7 @@ public class UsernamePasswordHandlerTest extends BaseTest {
                 .headers()
                 .get("Authorization")
                 .contains("Bearer"));
+        assertNotNull(bearerTokenParameter2);
         assertEquals(bearerTokenParameter1, bearerTokenParameter2);
     }
 
@@ -125,10 +126,7 @@ public class UsernamePasswordHandlerTest extends BaseTest {
                 .headers()
                 .get("Authorization")
                 .contains("Bearer"));
-        assertTrue(request2
-                .headers()
-                .get("Authorization")
-                .contains("Bearer"));
+        assertNotNull(bearerTokenParameter2);
         assertNotEquals(bearerTokenParameter1, bearerTokenParameter2);
     }
 
