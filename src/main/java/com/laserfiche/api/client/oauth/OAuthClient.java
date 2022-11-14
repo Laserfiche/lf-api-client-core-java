@@ -10,17 +10,20 @@ import com.laserfiche.api.client.deserialization.TokenClientObjectMapper;
 import kong.unirest.Header;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
+import kong.unirest.UnirestInstance;
 import org.threeten.bp.OffsetDateTime;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class OAuthClient {
+public class OAuthClient implements AutoCloseable {
     protected ObjectMapper objectMapper;
+    protected final UnirestInstance httpClient;
 
     protected OAuthClient() {
-        Unirest
+        httpClient = Unirest.spawnInstance();
+        httpClient
                 .config()
                 .setObjectMapper(new TokenClientObjectMapper());
         SimpleModule module = new SimpleModule();
@@ -57,5 +60,10 @@ public class OAuthClient {
             }
         }
         return paramKeyValuePairs;
+    }
+
+    @Override
+    public void close() {
+        httpClient.close();
     }
 }
