@@ -5,7 +5,6 @@ import com.laserfiche.api.client.model.AccessKey;
 import com.laserfiche.api.client.model.ApiException;
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
 import com.laserfiche.api.client.model.ProblemDetails;
-import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
 
 import java.util.Map;
@@ -16,7 +15,7 @@ import static com.laserfiche.api.client.oauth.OAuthUtil.getOAuthApiBaseUri;
 
 
 public class TokenClientImpl extends OAuthClient implements TokenClient {
-    private String baseUrl;
+    private final String baseUrl;
 
     public TokenClientImpl(String regionalDomain) {
         super();
@@ -27,7 +26,7 @@ public class TokenClientImpl extends OAuthClient implements TokenClient {
     public CompletableFuture<GetAccessTokenResponse> getAccessTokenFromServicePrincipal(String spKey,
             AccessKey accessKey) {
         String bearer = createBearer(spKey, accessKey);
-        return Unirest
+        return httpClient
                 .post(baseUrl + "Token")
                 .header("Authorization", bearer)
                 .header("Content-Type", "application/x-www-form-urlencoded")
@@ -84,5 +83,4 @@ public class TokenClientImpl extends OAuthClient implements TokenClient {
             String clientSecret) {
         return null;
     }
-
 }
