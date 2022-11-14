@@ -3,6 +3,8 @@ package com.laserfiche.api.client.integration;
 import com.laserfiche.api.client.httphandlers.*;
 import com.laserfiche.api.client.model.ApiException;
 import kong.unirest.HttpStatus;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,9 +21,20 @@ import static org.mockito.Mockito.when;
 
 @Tag("Cloud")
 class OAuthClientCredentialsHandlerTest extends BaseTest {
+    private HttpRequestHandler handler;
+
+    @BeforeEach
+    void setUpHttpRequestHandler() {
+        handler = new OAuthClientCredentialsHandler(spKey, accessKey);
+    }
+
+    @AfterEach
+    void tearDownHttpRequestHandler() {
+        handler.close();
+    }
+
     @Test
     void beforeSendAsync_Success() {
-        HttpRequestHandler handler = new OAuthClientCredentialsHandler(spKey, accessKey);
         Request request = new RequestImpl();
 
         // Request access token
@@ -39,7 +52,6 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
 
     @Test
     void beforeSendAsync_CallTwiceShouldStillSucceed() {
-        HttpRequestHandler handler = new OAuthClientCredentialsHandler(spKey, accessKey);
         Request request1 = new RequestImpl();
 
         // First time to request access token
@@ -76,7 +88,6 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
 
     @Test
     void afterSendAsync_ShouldRetry() {
-        HttpRequestHandler handler = new OAuthClientCredentialsHandler(spKey, accessKey);
         Response mockedResponse = mock(Response.class);
         when(mockedResponse.status()).thenReturn((short) 401);
 
@@ -93,7 +104,6 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("falseAuthentication")
     void afterSendAsync_DoNotRetry(int status) {
-        HttpRequestHandler handler = new OAuthClientCredentialsHandler(spKey, accessKey);
         Response mockedResponse = mock(Response.class);
         when(mockedResponse.status()).thenReturn((short) status);
         CompletableFuture<BeforeSendResult> tokenFuture = handler.beforeSendAsync(new RequestImpl());
@@ -114,7 +124,6 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
 
     @Test
     void afterSendAsync_DoRetry_AccessTokenRemoved() {
-        HttpRequestHandler handler = new OAuthClientCredentialsHandler(spKey, accessKey);
         Request request1 = new RequestImpl();
         // Request access token
         CompletableFuture<BeforeSendResult> future = handler.beforeSendAsync(request1);
@@ -165,21 +174,22 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
 
     @Test
     void beforeSendAsync_FailedAuthentication_ThrowsException() {
-        HttpRequestHandler handler = new OAuthClientCredentialsHandler("fake1243", accessKey);
-        Request request = new RequestImpl();
-        assertThrows(RuntimeException.class, () -> CompletableFuture.completedFuture(handler
-                .beforeSendAsync(request)
-                .join()));
-        RuntimeException ex = assertThrows(RuntimeException.class, () -> handler
-                .beforeSendAsync(request)
-                .join());
-        ApiException exception = (ApiException) ex.getCause();
-        assertEquals(401, exception.getStatusCode());
-        assertNotNull(exception
-                .getProblemDetails()
-                .get("type"));
-        assertNotNull(exception
-                .getProblemDetails()
-                .get("title"));
+        try (HttpRequestHandler handler = new OAuthClientCredentialsHandler("fake1243", accessKey)) {
+            Request request = new RequestImpl();
+            assertThrows(RuntimeException.class, () -> CompletableFuture.completedFuture(handler
+                    .beforeSendAsync(request)
+                    .join()));
+            RuntimeException ex = assertThrows(RuntimeException.class, () -> handler
+                    .beforeSendAsync(request)
+                    .join());
+            ApiException exception = (ApiException) ex.getCause();
+            assertEquals(401, exception.getStatusCode());
+            assertNotNull(exception
+                    .getProblemDetails()
+                    .get("type"));
+            assertNotNull(exception
+                    .getProblemDetails()
+                    .get("title"));
+        }
     }
 }
