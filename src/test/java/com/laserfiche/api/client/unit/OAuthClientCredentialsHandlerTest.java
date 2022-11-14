@@ -14,15 +14,16 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
     @Test
     void afterSendAsync_ShouldNotRetry() {
         // Arrange
-        HttpRequestHandler handler = new OAuthClientCredentialsHandler(spKey, accessKey);
-        Response mockedResponse = mock(Response.class);
-        when(mockedResponse.status()).thenReturn((short)200);
+        try (HttpRequestHandler handler = new OAuthClientCredentialsHandler(spKey, accessKey)) {
+            Response mockedResponse = mock(Response.class);
+            when(mockedResponse.status()).thenReturn((short)200);
 
-        // Act
-        handler.afterSendAsync(mockedResponse).thenApply((shouldRetry) -> {
-            // Assert
-            assertEquals(false, shouldRetry);
-            return null;
-        });
+            // Act
+            handler.afterSendAsync(mockedResponse).thenApply((shouldRetry) -> {
+                // Assert
+                assertEquals(false, shouldRetry);
+                return null;
+            });
+        }
     }
 }
