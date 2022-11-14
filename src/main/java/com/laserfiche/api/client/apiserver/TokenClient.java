@@ -5,7 +5,7 @@ import com.laserfiche.api.client.model.SessionKeyInfo;
 
 import java.util.concurrent.CompletableFuture;
 
-public interface TokenClient {
+public interface TokenClient extends AutoCloseable {
 
     /**
      * @param repoId Repository name
@@ -13,4 +13,10 @@ public interface TokenClient {
      * @return Create an access token successfully.
      */
     CompletableFuture<SessionKeyInfo> createAccessToken(String repoId, CreateConnectionRequest body);
+
+    /**
+     * Overrides close() in AutoCloseable as no meaningful exception can be handled.
+     */
+    @Override
+    void close();
 }
