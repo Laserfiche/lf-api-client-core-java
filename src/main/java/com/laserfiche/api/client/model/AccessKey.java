@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.laserfiche.api.client.deserialization.JwkDeserializer;
 import com.nimbusds.jose.jwk.JWK;
 
 import java.io.IOException;
