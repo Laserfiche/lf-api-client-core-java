@@ -6,6 +6,8 @@ import com.laserfiche.api.client.apiserver.TokenClientImpl;
 import com.laserfiche.api.client.httphandlers.*;
 import com.laserfiche.api.client.model.CreateConnectionRequest;
 import kong.unirest.HttpStatus;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,11 +24,23 @@ import static org.mockito.Mockito.*;
 
 public class UsernamePasswordHandlerTest {
 
-    private String repoId = "repoId";
-    private String username = "username";
-    private String password = "password";
-    private String baseUrl = "http://localhost:11211";
-    private Request _request = new RequestImpl();
+    private final String repoId = "repoId";
+    private final String username = "username";
+    private final String password = "password";
+    private final String baseUrl = "http://localhost:11211";
+    private final Request _request = new RequestImpl();
+
+    private HttpRequestHandler handler;
+
+    @BeforeEach
+    void setUpHttpRequestHandler() {
+        handler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
+    }
+
+    @AfterEach
+    void tearDownHttpRequestHandler() {
+        handler.close();
+    }
 
     @Test
     @Disabled("Throwing a null exception -> will have to figure out how to stub completable future type functions")
@@ -41,12 +55,12 @@ public class UsernamePasswordHandlerTest {
                 CompletableFuture.completedFuture(mockedResponse));
         HttpRequestHandler handler = new UsernamePasswordHandler(repoId, username, password, baseUrl, mockedClient);
 
-        //Act
+        // Act
         BeforeSendResult result = handler
                 .beforeSendAsync(_request)
                 .join();
 
-        //Assert
+        // Assert
         assertNotNull(result);
         assertNull(result.getRegionalDomain());
         assertTrue(_request
@@ -66,7 +80,6 @@ public class UsernamePasswordHandlerTest {
     @Test
     void afterSendAsync_ResponseUnauthorized_ReturnsTrue() {
         // Arrange
-        HttpRequestHandler handler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
         Response mockedResponse = mock(Response.class);
         when(mockedResponse.status()).thenReturn((short) 401);
 
@@ -84,7 +97,6 @@ public class UsernamePasswordHandlerTest {
     @MethodSource("responseOtherThanUnauthorized")
     void afterSendAsync_ResponseOtherThanUnauthorized_ReturnsFalse(int status) {
         // Arrange
-        HttpRequestHandler handler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
         Response mockedResponse = mock(Response.class);
         when(mockedResponse.status()).thenReturn((short) status);
 
