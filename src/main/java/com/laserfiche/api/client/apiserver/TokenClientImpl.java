@@ -6,7 +6,6 @@ import com.laserfiche.api.client.model.CreateConnectionRequest;
 import com.laserfiche.api.client.model.ProblemDetails;
 import com.laserfiche.api.client.model.SessionKeyInfo;
 import com.laserfiche.api.client.oauth.OAuthClient;
-import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
 
 import java.util.Map;
@@ -24,7 +23,7 @@ public class TokenClientImpl extends OAuthClient implements TokenClient {
     public CompletableFuture<SessionKeyInfo> createAccessToken(String repoId, CreateConnectionRequest body) {
         Map<String, Object> pathParameters = getNonNullParameters(new String[]{"repoId"},
                 new Object[]{repoId});
-        return Unirest
+        return httpClient
                 .post(baseUrl + "/v1/Repositories/{repoId}/Token")
                 .routeParam(pathParameters)
                 .header("Accept", "application/json")
@@ -74,5 +73,4 @@ public class TokenClientImpl extends OAuthClient implements TokenClient {
                     }
                 });
     }
-
 }

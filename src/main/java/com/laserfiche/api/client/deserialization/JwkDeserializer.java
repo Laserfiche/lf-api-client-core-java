@@ -1,4 +1,4 @@
-package com.laserfiche.api.client.model;
+package com.laserfiche.api.client.deserialization;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;

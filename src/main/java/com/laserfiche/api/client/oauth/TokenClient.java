@@ -5,7 +5,7 @@ import com.laserfiche.api.client.model.GetAccessTokenResponse;
 
 import java.util.concurrent.CompletableFuture;
 
-public interface TokenClient {
+public interface TokenClient extends AutoCloseable {
     /**
      * Gets an OAuth access token given a Laserfiche cloud service principal key and an OAuth service application access key.
      *
@@ -36,4 +36,11 @@ public interface TokenClient {
      * @return A response that contains an access token
      */
     CompletableFuture<GetAccessTokenResponse> refreshAccessToken(String refreshToken, String clientId, String clientSecret);
+
+    /**
+     * Since the underlying resource (the HTTP client) won't throw any exception during its close() invocation.
+     * We override the signature of the close() to not include any checked exception.
+     */
+    @Override
+    void close();
 }

@@ -3,6 +3,8 @@ package com.laserfiche.api.client.integration;
 import com.laserfiche.api.client.httphandlers.*;
 import com.laserfiche.api.client.model.ApiException;
 import kong.unirest.HttpStatus;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,9 +21,18 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 public class UsernamePasswordHandlerTest extends BaseTest {
     private HttpRequestHandler httpRequestHandler;
 
+    @BeforeEach
+    void setUpHttpRequestHandler() {
+        httpRequestHandler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
+    }
+
+    @AfterEach
+    void tearDownHttpRequestHandler() {
+        httpRequestHandler.close();
+    }
+
     @Test
     void beforeSendAsync_NewToken_Success() {
-        httpRequestHandler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
         Request request = new RequestImpl();
 
         // Act
@@ -47,7 +58,6 @@ public class UsernamePasswordHandlerTest extends BaseTest {
     @Test
     void beforeSendAsync_ExistingToken_Success() {
         // Arrange
-        httpRequestHandler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
         Request request1 = new RequestImpl();
         Request request2 = new RequestImpl();
 
@@ -88,7 +98,6 @@ public class UsernamePasswordHandlerTest extends BaseTest {
     @Test
     void afterSendAsync_TokenRemovedWhenUnauthorized() {
         // Arrange
-        httpRequestHandler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
         Request request1 = new RequestImpl();
         BeforeSendResult result1 = httpRequestHandler
                 .beforeSendAsync(request1)
@@ -134,7 +143,6 @@ public class UsernamePasswordHandlerTest extends BaseTest {
     @MethodSource("failedAuthentication")
     void beforeSendAsync_FailedAuthentication_ThrowsException(String repoId, String username, String password,
             int status) {
-        httpRequestHandler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
         Request request = new RequestImpl();
         assertThrows(RuntimeException.class, () -> CompletableFuture.completedFuture(httpRequestHandler
                 .beforeSendAsync(request)

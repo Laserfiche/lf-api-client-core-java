@@ -49,4 +49,9 @@ public class OAuthClientCredentialsHandler implements HttpRequestHandler {
         }
         return CompletableFuture.completedFuture(shouldRetry);
     }
+
+    @Override
+    public void close() {
+        client.close();
+    }
 }
