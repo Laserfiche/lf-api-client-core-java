@@ -38,7 +38,8 @@ public interface TokenClient extends AutoCloseable {
     CompletableFuture<GetAccessTokenResponse> refreshAccessToken(String refreshToken, String clientId, String clientSecret);
 
     /**
-     * Overrides close() in AutoCloseable as no meaningful exception can be handled.
+     * Since the underlying resource (the HTTP client) won't throw any exception during its close() invocation.
+     * We override the signature of the close() to not include any checked exception.
      */
     @Override
     void close();
