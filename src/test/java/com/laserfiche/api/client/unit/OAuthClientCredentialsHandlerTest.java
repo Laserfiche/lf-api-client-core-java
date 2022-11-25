@@ -6,7 +6,7 @@ import com.laserfiche.api.client.httphandlers.Response;
 import com.laserfiche.api.client.integration.BaseTest;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -19,11 +19,10 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
             when(mockedResponse.status()).thenReturn((short)200);
 
             // Act
-            handler.afterSend(mockedResponse).thenApply((shouldRetry) -> {
-                // Assert
-                assertEquals(false, shouldRetry);
-                return null;
-            });
+            boolean shouldRetry = handler.afterSend(mockedResponse);
+
+            // Assert
+            assertFalse(shouldRetry);
         }
     }
 }
