@@ -164,7 +164,7 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
             Request request = new RequestImpl();
             assertThrows(RuntimeException.class, () -> handler.beforeSend(request));
             RuntimeException ex = assertThrows(RuntimeException.class, () -> handler.beforeSend(request));
-            ApiException exception = (ApiException) ex.getCause();
+            ApiException exception = (ApiException) ex;
             assertEquals(401, exception.getStatusCode());
             assertNotNull(exception
                     .getProblemDetails()
