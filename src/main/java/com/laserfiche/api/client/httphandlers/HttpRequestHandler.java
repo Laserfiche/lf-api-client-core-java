@@ -7,14 +7,14 @@ public interface HttpRequestHandler extends AutoCloseable {
      * @param request The request that will have the authorization header set.
      * @return The request that has the authorization header already set.
      */
-    BeforeSendResult beforeSendAsync(Request request);
+    BeforeSendResult beforeSend(Request request);
 
     /**
      * Invoked after an HTTP request with the response message and cancellation token.
      * @param response The HTTP response.
      * @return True if the request should be retried.
      */
-    boolean afterSendAsync(Response response);
+    boolean afterSend(Response response);
 
     /**
      * Since the underlying resource (the HTTP client) won't throw any exception during its close() invocation.

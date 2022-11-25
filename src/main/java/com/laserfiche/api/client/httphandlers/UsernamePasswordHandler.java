@@ -38,7 +38,7 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
     }
 
     @Override
-    public BeforeSendResult beforeSendAsync(Request request) {
+    public BeforeSendResult beforeSend(Request request) {
         BeforeSendResult result = new BeforeSendResult();
         if (accessToken == null) {
             SessionKeyInfo tokenResponse = client.createAccessToken(repositoryId, this.request);
@@ -56,7 +56,7 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
     }
 
     @Override
-    public boolean afterSendAsync(Response response) {
+    public boolean afterSend(Response response) {
         boolean shouldRetry = (response.status() == 401);
         if (shouldRetry) {
             accessToken = null; // In case exception happens when getting the access token
