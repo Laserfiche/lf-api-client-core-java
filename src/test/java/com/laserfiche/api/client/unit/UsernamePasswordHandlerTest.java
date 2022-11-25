@@ -23,12 +23,11 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class UsernamePasswordHandlerTest {
-
     private final String repoId = "repoId";
     private final String username = "username";
     private final String password = "password";
     private final String baseUrl = "http://localhost:11211";
-    private final Request _request = new RequestImpl();
+    private final Request request = new RequestImpl();
 
     private HttpRequestHandler handler;
 
@@ -57,20 +56,20 @@ public class UsernamePasswordHandlerTest {
 
         // Act
         BeforeSendResult result = handler
-                .beforeSend(_request)
+                .beforeSend(request)
                 .join();
 
         // Assert
         assertNotNull(result);
         assertNull(result.getRegionalDomain());
-        assertTrue(_request
+        assertTrue(request
                 .headers()
                 .get("Authorization")
                 .contains("Bearer"));
-        assertNotNull(_request
+        assertNotNull(request
                 .headers()
                 .get("Authorization")
-                .substring(6, _request
+                .substring(6, request
                         .headers()
                         .get("Authorization")
                         .length() - 1));
