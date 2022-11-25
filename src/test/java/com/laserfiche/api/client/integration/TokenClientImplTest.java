@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -51,7 +50,7 @@ class TokenClientImplTest extends BaseTest {
                 .replace("laserfiche", "lf");
 
         try (TokenClient client = new TokenClientImpl(incorrectDomain)) {
-            Exception exception = assertThrows(ExecutionException.class,
+            Exception exception = assertThrows(RuntimeException.class,
                     () -> client.getAccessTokenFromServicePrincipal(spKey, accessKey));
             assertTrue(IOException.class.isAssignableFrom(exception
                     .getCause()
