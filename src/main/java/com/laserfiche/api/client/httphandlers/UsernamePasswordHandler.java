@@ -5,8 +5,6 @@ import com.laserfiche.api.client.apiserver.TokenClientImpl;
 import com.laserfiche.api.client.model.CreateConnectionRequest;
 import com.laserfiche.api.client.model.SessionKeyInfo;
 
-import java.util.concurrent.CompletableFuture;
-
 public class UsernamePasswordHandler implements HttpRequestHandler {
     private String accessToken;
     private final String grantType = "password";
@@ -40,35 +38,30 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
     }
 
     @Override
-    public CompletableFuture<BeforeSendResult> beforeSendAsync(Request request) {
+    public BeforeSendResult beforeSendAsync(Request request) {
         BeforeSendResult result = new BeforeSendResult();
         if (accessToken == null) {
-            CompletableFuture<SessionKeyInfo> future = client.createAccessToken(repositoryId, this.request);
-            return future.thenApply(tokenResponse -> {
-                accessToken = tokenResponse.getAccessToken();
-                request
-                        .headers()
-                        .append("Authorization", "Bearer " + accessToken);
-                return result;
-            });
+            SessionKeyInfo tokenResponse = client.createAccessToken(repositoryId, this.request);
+            accessToken = tokenResponse.getAccessToken();
+            request
+                    .headers()
+                    .append("Authorization", "Bearer " + accessToken);
+            return result;
         } else {
             request
                     .headers()
                     .append("Authorization", "Bearer " + accessToken);
         }
-        return CompletableFuture.completedFuture(result);
+        return result;
     }
 
     @Override
-    public CompletableFuture<Boolean> afterSendAsync(Response response) {
-        boolean shouldRetry;
-        if (response.status() == 401) {
+    public boolean afterSendAsync(Response response) {
+        boolean shouldRetry = (response.status() == 401);
+        if (shouldRetry) {
             accessToken = null; // In case exception happens when getting the access token
-            shouldRetry = true;
-        } else {
-            shouldRetry = false;
         }
-        return CompletableFuture.completedFuture(shouldRetry);
+        return shouldRetry;
     }
 
     @Override
