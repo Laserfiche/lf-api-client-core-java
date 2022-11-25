@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,8 +29,7 @@ class TokenClientImplTest extends BaseTest {
 
     @Test
     void getAccessTokenFromServicePrincipal_Success() {
-        CompletableFuture<GetAccessTokenResponse> future = client.getAccessTokenFromServicePrincipal(spKey, accessKey);
-        GetAccessTokenResponse response = future.join();
+        GetAccessTokenResponse response = client.getAccessTokenFromServicePrincipal(spKey, accessKey);
 
         assertNotEquals(null, response);
         assertNotEquals(null, response.getAccessToken());
@@ -40,21 +38,24 @@ class TokenClientImplTest extends BaseTest {
     @Test
     void getAccessTokenFromServicePrincipal_InvalidAccessKey() {
         accessKey.setClientId("wrong client ID");
-        CompletableFuture<GetAccessTokenResponse> future = client.getAccessTokenFromServicePrincipal(spKey, accessKey);
 
-        Exception exception = assertThrows(RuntimeException.class, future::join);
+        Exception exception = assertThrows(RuntimeException.class,
+                () -> client.getAccessTokenFromServicePrincipal(spKey, accessKey));
         assertNotNull(exception);
     }
 
     @Test
     void getAccessTokenFromServicePrincipal_IoError() {
-        String incorrectDomain = accessKey.getDomain().replace("laserfiche", "lf");
+        String incorrectDomain = accessKey
+                .getDomain()
+                .replace("laserfiche", "lf");
 
         try (TokenClient client = new TokenClientImpl(incorrectDomain)) {
-            CompletableFuture<GetAccessTokenResponse> future = client.getAccessTokenFromServicePrincipal(spKey, accessKey);
-
-            Exception exception = assertThrows(ExecutionException.class, future::get);
-            assertTrue(IOException.class.isAssignableFrom(exception.getCause().getClass()));
+            Exception exception = assertThrows(ExecutionException.class,
+                    () -> client.getAccessTokenFromServicePrincipal(spKey, accessKey));
+            assertTrue(IOException.class.isAssignableFrom(exception
+                    .getCause()
+                    .getClass()));
         }
     }
 }
