@@ -19,7 +19,7 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
             when(mockedResponse.status()).thenReturn((short)200);
 
             // Act
-            handler.afterSendAsync(mockedResponse).thenApply((shouldRetry) -> {
+            handler.afterSend(mockedResponse).thenApply((shouldRetry) -> {
                 // Assert
                 assertEquals(false, shouldRetry);
                 return null;

@@ -57,7 +57,7 @@ public class UsernamePasswordHandlerTest {
 
         // Act
         BeforeSendResult result = handler
-                .beforeSendAsync(_request)
+                .beforeSend(_request)
                 .join();
 
         // Assert
@@ -85,7 +85,7 @@ public class UsernamePasswordHandlerTest {
 
         // Act
         handler
-                .afterSendAsync(mockedResponse)
+                .afterSend(mockedResponse)
                 .thenApply((shouldRetry) -> {
                     // Assert
                     assertEquals(true, shouldRetry);
@@ -102,7 +102,7 @@ public class UsernamePasswordHandlerTest {
 
         // Act
         handler
-                .afterSendAsync(mockedResponse)
+                .afterSend(mockedResponse)
                 .thenApply((shouldRetry) -> {
                     // Assert
                     assertEquals(false, shouldRetry);

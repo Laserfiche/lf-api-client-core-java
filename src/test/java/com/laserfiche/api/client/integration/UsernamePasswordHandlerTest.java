@@ -36,7 +36,7 @@ public class UsernamePasswordHandlerTest extends BaseTest {
         Request request = new RequestImpl();
 
         // Act
-        CompletableFuture<BeforeSendResult> future = httpRequestHandler.beforeSendAsync(request);
+        CompletableFuture<BeforeSendResult> future = httpRequestHandler.beforeSend(request);
         BeforeSendResult result = future.join();
 
         // Assert
@@ -63,11 +63,11 @@ public class UsernamePasswordHandlerTest extends BaseTest {
 
         // Act
         BeforeSendResult result1 = httpRequestHandler
-                .beforeSendAsync(request1)
+                .beforeSend(request1)
                 .join();
 
         BeforeSendResult result2 = httpRequestHandler
-                .beforeSendAsync(request2)
+                .beforeSend(request2)
                 .join();
 
         String bearerTokenParameter1 = request1
@@ -100,19 +100,19 @@ public class UsernamePasswordHandlerTest extends BaseTest {
         // Arrange
         Request request1 = new RequestImpl();
         BeforeSendResult result1 = httpRequestHandler
-                .beforeSendAsync(request1)
+                .beforeSend(request1)
                 .join();
 
         // Act
         Boolean retry = httpRequestHandler
-                .afterSendAsync(new ResponseImpl((short) HttpStatus.UNAUTHORIZED))
+                .afterSend(new ResponseImpl((short) HttpStatus.UNAUTHORIZED))
                 .join();
 
         // Assert
         assertTrue(retry);
         Request request2 = new RequestImpl();
         BeforeSendResult result2 = httpRequestHandler
-                .beforeSendAsync(request2)
+                .beforeSend(request2)
                 .join();
 
         String bearerTokenParameter1 = request1
@@ -145,10 +145,10 @@ public class UsernamePasswordHandlerTest extends BaseTest {
             int status) {
         Request request = new RequestImpl();
         assertThrows(RuntimeException.class, () -> CompletableFuture.completedFuture(httpRequestHandler
-                .beforeSendAsync(request)
+                .beforeSend(request)
                 .join()));
         RuntimeException ex = assertThrows(RuntimeException.class, () -> httpRequestHandler
-                .beforeSendAsync(request)
+                .beforeSend(request)
                 .join());
         ApiException exception = (ApiException) ex.getCause();
         assertEquals(status, exception.getStatusCode());
