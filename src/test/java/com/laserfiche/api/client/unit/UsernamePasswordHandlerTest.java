@@ -1,10 +1,10 @@
 package com.laserfiche.api.client.unit;
 
-import com.laserfiche.api.client.model.SessionKeyInfo;
 import com.laserfiche.api.client.apiserver.TokenClient;
 import com.laserfiche.api.client.apiserver.TokenClientImpl;
 import com.laserfiche.api.client.httphandlers.*;
 import com.laserfiche.api.client.model.CreateConnectionRequest;
+import com.laserfiche.api.client.model.SessionKeyInfo;
 import kong.unirest.HttpStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +14,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -50,14 +49,11 @@ public class UsernamePasswordHandlerTest {
         mockedResponse.setAccessToken(accessToken);
         CreateConnectionRequest mockedBody = mock(CreateConnectionRequest.class);
         TokenClient mockedClient = mock(TokenClientImpl.class);
-        when(mockedClient.createAccessToken(eq(anyString()), mockedBody)).thenReturn(
-                CompletableFuture.completedFuture(mockedResponse));
+        when(mockedClient.createAccessToken(eq(anyString()), mockedBody)).thenReturn(mockedResponse);
         HttpRequestHandler handler = new UsernamePasswordHandler(repoId, username, password, baseUrl, mockedClient);
 
         // Act
-        BeforeSendResult result = handler
-                .beforeSend(request)
-                .join();
+        BeforeSendResult result = handler.beforeSend(request);
 
         // Assert
         assertNotNull(result);
@@ -83,13 +79,10 @@ public class UsernamePasswordHandlerTest {
         when(mockedResponse.status()).thenReturn((short) 401);
 
         // Act
-        handler
-                .afterSend(mockedResponse)
-                .thenApply((shouldRetry) -> {
-                    // Assert
-                    assertEquals(true, shouldRetry);
-                    return null;
-                });
+        boolean shouldRetry = handler.afterSend(mockedResponse);
+
+        // Assert
+        assertTrue(shouldRetry);
     }
 
     @ParameterizedTest
@@ -100,13 +93,10 @@ public class UsernamePasswordHandlerTest {
         when(mockedResponse.status()).thenReturn((short) status);
 
         // Act
-        handler
-                .afterSend(mockedResponse)
-                .thenApply((shouldRetry) -> {
-                    // Assert
-                    assertEquals(false, shouldRetry);
-                    return null;
-                });
+        boolean shouldRetry = handler.afterSend(mockedResponse);
+
+        // Assert
+        assertFalse(shouldRetry);
     }
 
     private static Stream<Arguments> responseOtherThanUnauthorized() {
