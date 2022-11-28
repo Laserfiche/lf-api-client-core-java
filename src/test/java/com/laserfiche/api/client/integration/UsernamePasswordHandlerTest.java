@@ -132,20 +132,23 @@ public class UsernamePasswordHandlerTest extends BaseTest {
 
     @ParameterizedTest
     @MethodSource("failedAuthentication")
-    void beforeSendAsync_FailedAuthentication_ThrowsException(int status) {
-        Request request = new RequestImpl();
-        assertThrows(RuntimeException.class, () -> httpRequestHandler.beforeSend(request));
+    void beforeSendAsync_FailedAuthentication_ThrowsException(String repoId, String username, String password,
+            int status) {
+        try (HttpRequestHandler badHandler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null)) {
+            Request request = new RequestImpl();
+            assertThrows(RuntimeException.class, () -> badHandler.beforeSend(request));
 
-        RuntimeException ex = assertThrows(RuntimeException.class, () -> httpRequestHandler.beforeSend(request));
+            RuntimeException ex = assertThrows(RuntimeException.class, () -> badHandler.beforeSend(request));
 
-        ApiException exception = (ApiException) ex.getCause();
-        assertEquals(status, exception.getStatusCode());
-        assertNotNull(exception
-                .getProblemDetails()
-                .get("type"));
-        assertNotNull(exception
-                .getProblemDetails()
-                .get("title"));
+            ApiException exception = (ApiException) ex;
+            assertEquals(status, exception.getStatusCode());
+            assertNotNull(exception
+                    .getProblemDetails()
+                    .get("type"));
+            assertNotNull(exception
+                    .getProblemDetails()
+                    .get("title"));
+        }
     }
 
     private static Stream<Arguments> failedAuthentication() {
