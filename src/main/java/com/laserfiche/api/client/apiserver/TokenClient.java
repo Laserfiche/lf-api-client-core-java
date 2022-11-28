@@ -8,7 +8,7 @@ public interface TokenClient extends AutoCloseable {
     /**
      * @param repoId Repository name
      * @param body   Request body that contains username, password and grant type
-     * @return Create an access token successfully.
+     * @return A SessionKeyInfo object that contains an access token.
      */
     SessionKeyInfo createAccessToken(String repoId, CreateConnectionRequest body);
 
