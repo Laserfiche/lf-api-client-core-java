@@ -11,7 +11,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,8 +37,7 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
         Request request = new RequestImpl();
 
         // Request access token
-        CompletableFuture<BeforeSendResult> future = handler.beforeSendAsync(request);
-        BeforeSendResult result = future.join();
+        BeforeSendResult result = handler.beforeSend(request);
 
         assertNotEquals(null, result.getRegionalDomain());
         assertNotEquals(null, request
@@ -55,8 +53,7 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
         Request request1 = new RequestImpl();
 
         // First time to request access token
-        CompletableFuture<BeforeSendResult> future1 = handler.beforeSendAsync(request1);
-        BeforeSendResult result1 = future1.join();
+        BeforeSendResult result1 = handler.beforeSend(request1);
 
         // First request should work
         assertNotEquals(null, result1.getRegionalDomain());
@@ -69,8 +66,7 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
 
         // Subsequent request should also work
         Request request2 = new RequestImpl();
-        CompletableFuture<BeforeSendResult> future2 = handler.beforeSendAsync(request2);
-        BeforeSendResult result2 = future2.join();
+        BeforeSendResult result2 = handler.beforeSend(request2);
 
         assertNotEquals(null, result2.getRegionalDomain());
         assertNotEquals(null, request2
@@ -92,13 +88,10 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
         when(mockedResponse.status()).thenReturn((short) 401);
 
         // Request access token then simulate a 401
-        CompletableFuture<BeforeSendResult> tokenFuture = handler.beforeSendAsync(new RequestImpl());
-        tokenFuture
-                .thenCompose(beforeSendResult -> handler.afterSendAsync(mockedResponse))
-                .thenApply((shouldRetry) -> {
-                    assertEquals(true, shouldRetry);
-                    return null;
-                });
+        handler.beforeSend(new RequestImpl());
+        boolean shouldRetry = handler.afterSend(mockedResponse);
+
+        assertTrue(shouldRetry);
     }
 
     @ParameterizedTest
@@ -106,13 +99,11 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
     void afterSendAsync_DoNotRetry(int status) {
         Response mockedResponse = mock(Response.class);
         when(mockedResponse.status()).thenReturn((short) status);
-        CompletableFuture<BeforeSendResult> tokenFuture = handler.beforeSendAsync(new RequestImpl());
-        tokenFuture
-                .thenCompose(beforeSendResult -> handler.afterSendAsync(mockedResponse))
-                .thenApply((shouldRetry) -> {
-                    assertFalse(shouldRetry);
-                    return null;
-                });
+
+        handler.beforeSend(new RequestImpl());
+        boolean shouldRetry = handler.afterSend(mockedResponse);
+
+        assertFalse(shouldRetry);
     }
 
     private static Stream<Arguments> falseAuthentication() {
@@ -125,9 +116,9 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
     @Test
     void afterSendAsync_DoRetry_AccessTokenRemoved() {
         Request request1 = new RequestImpl();
+
         // Request access token
-        CompletableFuture<BeforeSendResult> future = handler.beforeSendAsync(request1);
-        BeforeSendResult result = future.join();
+        BeforeSendResult result = handler.beforeSend(request1);
         String bearerTokenParameter1 = request1
                 .headers()
                 .get("Authorization")
@@ -142,20 +133,15 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
         assertNotNull(bearerTokenParameter1);
         assertEquals(accessKey.getDomain(), result.getRegionalDomain());
 
-        //Remove the access token
+        // Remove the access token
         Response mockedResponse = mock(Response.class);
         when(mockedResponse.status()).thenReturn((short) 401);
-        future
-                .thenCompose(beforeSendResult -> handler.afterSendAsync(mockedResponse))
-                .thenApply((shouldRetry) -> {
-                    assertEquals(true, shouldRetry);
-                    return null;
-                });
+        boolean shouldRetry = handler.afterSend(mockedResponse);
+        assertTrue(shouldRetry);
 
         //Get a new access token
         Request request2 = new RequestImpl();
-        CompletableFuture<BeforeSendResult> future2 = handler.beforeSendAsync(request2);
-        BeforeSendResult result2 = future2.join();
+        BeforeSendResult result2 = handler.beforeSend(request2);
         String bearerTokenParameter2 = request2
                 .headers()
                 .get("Authorization")
@@ -176,13 +162,9 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
     void beforeSendAsync_FailedAuthentication_ThrowsException() {
         try (HttpRequestHandler handler = new OAuthClientCredentialsHandler("fake1243", accessKey)) {
             Request request = new RequestImpl();
-            assertThrows(RuntimeException.class, () -> CompletableFuture.completedFuture(handler
-                    .beforeSendAsync(request)
-                    .join()));
-            RuntimeException ex = assertThrows(RuntimeException.class, () -> handler
-                    .beforeSendAsync(request)
-                    .join());
-            ApiException exception = (ApiException) ex.getCause();
+            assertThrows(RuntimeException.class, () -> handler.beforeSend(request));
+            RuntimeException ex = assertThrows(RuntimeException.class, () -> handler.beforeSend(request));
+            ApiException exception = (ApiException) ex;
             assertEquals(401, exception.getStatusCode());
             assertNotNull(exception
                     .getProblemDetails()

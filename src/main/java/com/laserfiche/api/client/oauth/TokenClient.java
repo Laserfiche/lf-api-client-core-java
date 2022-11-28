@@ -3,8 +3,6 @@ package com.laserfiche.api.client.oauth;
 import com.laserfiche.api.client.model.AccessKey;
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
 
-import java.util.concurrent.CompletableFuture;
-
 public interface TokenClient extends AutoCloseable {
     /**
      * Gets an OAuth access token given a Laserfiche cloud service principal key and an OAuth service application access key.
@@ -13,7 +11,7 @@ public interface TokenClient extends AutoCloseable {
      * @param accessKey OAuth service application access key
      * @return A response that contains an access token
      */
-    CompletableFuture<GetAccessTokenResponse> getAccessTokenFromServicePrincipal(String spKey, AccessKey accessKey);
+    GetAccessTokenResponse getAccessTokenFromServicePrincipal(String spKey, AccessKey accessKey);
 
     /**
      * Gets an OAuth access token given an OAuth code.
@@ -25,7 +23,7 @@ public interface TokenClient extends AutoCloseable {
      * @param codeVerifier OPTIONAL PKCE code verifier. Required for SPA apps.
      * @return A response that contains an access token
      */
-    CompletableFuture<GetAccessTokenResponse> getAccessTokenFromCode(String code, String redirectUri, String clientId, String clientSecret, String codeVerifier);
+    GetAccessTokenResponse getAccessTokenFromCode(String code, String redirectUri, String clientId, String clientSecret, String codeVerifier);
 
     /**
      * Gets a refreshed access token given a refresh token.
@@ -35,7 +33,7 @@ public interface TokenClient extends AutoCloseable {
      * @param clientSecret OPTIONAL OAuth application client secret. Required for web apps.
      * @return A response that contains an access token
      */
-    CompletableFuture<GetAccessTokenResponse> refreshAccessToken(String refreshToken, String clientId, String clientSecret);
+    GetAccessTokenResponse refreshAccessToken(String refreshToken, String clientId, String clientSecret);
 
     /**
      * Since the underlying resource (the HTTP client) won't throw any exception during its close() invocation.

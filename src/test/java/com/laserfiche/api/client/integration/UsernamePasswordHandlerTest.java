@@ -11,7 +11,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,8 +35,7 @@ public class UsernamePasswordHandlerTest extends BaseTest {
         Request request = new RequestImpl();
 
         // Act
-        CompletableFuture<BeforeSendResult> future = httpRequestHandler.beforeSendAsync(request);
-        BeforeSendResult result = future.join();
+        BeforeSendResult result = httpRequestHandler.beforeSend(request);
 
         // Assert
         assertNotNull(result);
@@ -62,13 +60,8 @@ public class UsernamePasswordHandlerTest extends BaseTest {
         Request request2 = new RequestImpl();
 
         // Act
-        BeforeSendResult result1 = httpRequestHandler
-                .beforeSendAsync(request1)
-                .join();
-
-        BeforeSendResult result2 = httpRequestHandler
-                .beforeSendAsync(request2)
-                .join();
+        httpRequestHandler.beforeSend(request1);
+        BeforeSendResult result = httpRequestHandler.beforeSend(request2);
 
         String bearerTokenParameter1 = request1
                 .headers()
@@ -77,6 +70,7 @@ public class UsernamePasswordHandlerTest extends BaseTest {
                         .headers()
                         .get("Authorization")
                         .length() - 1);
+
         String bearerTokenParameter2 = request2
                 .headers()
                 .get("Authorization")
@@ -84,9 +78,10 @@ public class UsernamePasswordHandlerTest extends BaseTest {
                         .headers()
                         .get("Authorization")
                         .length() - 1);
+
         // Assert
-        assertNotNull(result2);
-        assertNull(result2.getRegionalDomain());
+        assertNotNull(result);
+        assertNull(result.getRegionalDomain());
         assertTrue(request2
                 .headers()
                 .get("Authorization")
@@ -99,21 +94,15 @@ public class UsernamePasswordHandlerTest extends BaseTest {
     void afterSendAsync_TokenRemovedWhenUnauthorized() {
         // Arrange
         Request request1 = new RequestImpl();
-        BeforeSendResult result1 = httpRequestHandler
-                .beforeSendAsync(request1)
-                .join();
+        Request request2 = new RequestImpl();
+        httpRequestHandler.beforeSend(request1);
 
         // Act
-        Boolean retry = httpRequestHandler
-                .afterSendAsync(new ResponseImpl((short) HttpStatus.UNAUTHORIZED))
-                .join();
+        boolean shouldRetry = httpRequestHandler.afterSend(new ResponseImpl((short) HttpStatus.UNAUTHORIZED));
 
         // Assert
-        assertTrue(retry);
-        Request request2 = new RequestImpl();
-        BeforeSendResult result2 = httpRequestHandler
-                .beforeSendAsync(request2)
-                .join();
+        assertTrue(shouldRetry);
+        BeforeSendResult result2 = httpRequestHandler.beforeSend(request2);
 
         String bearerTokenParameter1 = request1
                 .headers()
@@ -122,6 +111,7 @@ public class UsernamePasswordHandlerTest extends BaseTest {
                         .headers()
                         .get("Authorization")
                         .length() - 1);
+
         String bearerTokenParameter2 = request2
                 .headers()
                 .get("Authorization")
@@ -129,6 +119,7 @@ public class UsernamePasswordHandlerTest extends BaseTest {
                         .headers()
                         .get("Authorization")
                         .length() - 1);
+
         assertNotNull(result2);
         assertNull(result2.getRegionalDomain());
         assertTrue(request2
@@ -143,21 +134,21 @@ public class UsernamePasswordHandlerTest extends BaseTest {
     @MethodSource("failedAuthentication")
     void beforeSendAsync_FailedAuthentication_ThrowsException(String repoId, String username, String password,
             int status) {
-        Request request = new RequestImpl();
-        assertThrows(RuntimeException.class, () -> CompletableFuture.completedFuture(httpRequestHandler
-                .beforeSendAsync(request)
-                .join()));
-        RuntimeException ex = assertThrows(RuntimeException.class, () -> httpRequestHandler
-                .beforeSendAsync(request)
-                .join());
-        ApiException exception = (ApiException) ex.getCause();
-        assertEquals(status, exception.getStatusCode());
-        assertNotNull(exception
-                .getProblemDetails()
-                .get("type"));
-        assertNotNull(exception
-                .getProblemDetails()
-                .get("title"));
+        try (HttpRequestHandler badHandler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null)) {
+            Request request = new RequestImpl();
+            assertThrows(RuntimeException.class, () -> badHandler.beforeSend(request));
+
+            RuntimeException ex = assertThrows(RuntimeException.class, () -> badHandler.beforeSend(request));
+
+            ApiException exception = (ApiException) ex;
+            assertEquals(status, exception.getStatusCode());
+            assertNotNull(exception
+                    .getProblemDetails()
+                    .get("type"));
+            assertNotNull(exception
+                    .getProblemDetails()
+                    .get("title"));
+        }
     }
 
     private static Stream<Arguments> failedAuthentication() {
