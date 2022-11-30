@@ -1,5 +1,7 @@
 ## 2.0.0
 
+### Features
+
 - **[BREAKING]** Drop use of `CompleatableFuture` so all APIs are now blocking.
 
 ## 1.1.0
