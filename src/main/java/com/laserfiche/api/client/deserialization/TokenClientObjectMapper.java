@@ -4,17 +4,23 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import kong.unirest.GenericType;
 import kong.unirest.ObjectMapper;
+import org.threeten.bp.OffsetDateTime;
 
 import java.io.IOException;
 
 public class TokenClientObjectMapper implements ObjectMapper {
-    private com.fasterxml.jackson.databind.ObjectMapper jacksonMapper;
+    private final com.fasterxml.jackson.databind.ObjectMapper jacksonMapper;
 
     public TokenClientObjectMapper() {
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(OffsetDateTime.class, new OffsetDateTimeDeserializer());
+
         jacksonMapper = JsonMapper
                 .builder()
+                .addModule(module)
                 .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
