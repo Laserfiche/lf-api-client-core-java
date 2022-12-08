@@ -26,7 +26,8 @@ public class BaseTest {
                 .systemProperties()
                 .ignoreIfMissing()
                 .load();
-        System.out.println(System.getenv());
+//        System.out.println(System.getenv());
+//        System.out.println(System.getenv("GITHUB_WORKSPACE"));
         repositoryId = getEnvironmentVariable(REPOSITORY_ID);
 //        if (nullOrEmpty(repositoryId)) {
 //            throw new IllegalStateException("Environment variable REPOSITORY_ID does not exist.");
@@ -66,9 +67,9 @@ public class BaseTest {
         String environmentVariable = System.getenv(environmentVariableName);
         if (nullOrEmpty(environmentVariable)) {
             environmentVariable = System.getProperty(environmentVariableName);
-//            if (nullOrEmpty(environmentVariable) && environmentVariableName != REPOSITORY_ID)
-//                throw new IllegalStateException(
-//                        "Environment variable '" + environmentVariableName + "' does not exist.");
+            if (nullOrEmpty(environmentVariable) && nullOrEmpty(System.getenv("GITHUB_WORKSPACE")))
+                throw new IllegalStateException(
+                        "Environment variable '" + environmentVariableName + "' does not exist.");
         }
         return environmentVariable;
     }
