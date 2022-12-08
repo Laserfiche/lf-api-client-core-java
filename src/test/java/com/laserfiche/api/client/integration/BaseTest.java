@@ -27,9 +27,6 @@ public class BaseTest {
                 .ignoreIfMissing()
                 .load();
         repositoryId = getEnvironmentVariable(REPOSITORY_ID);
-        if (nullOrEmpty(repositoryId)) {
-            throw new IllegalStateException("Environment variable REPOSITORY_ID does not exist.");
-        }
         servicePrincipalKey = getEnvironmentVariable(SERVICE_PRINCIPAL_KEY);
         String accessKeyBase64 = getEnvironmentVariable(ACCESS_KEY);
         accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
