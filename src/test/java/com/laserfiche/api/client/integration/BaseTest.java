@@ -26,6 +26,7 @@ public class BaseTest {
                 .systemProperties()
                 .ignoreIfMissing()
                 .load();
+        System.out.println(System.getenv());
         repositoryId = getEnvironmentVariable(REPOSITORY_ID);
         servicePrincipalKey = getEnvironmentVariable(SERVICE_PRINCIPAL_KEY);
         String accessKeyBase64 = getEnvironmentVariable(ACCESS_KEY);
