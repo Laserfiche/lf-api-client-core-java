@@ -65,7 +65,7 @@ public class BaseTest {
         String environmentVariable = System.getenv(environmentVariableName);
         if (nullOrEmpty(environmentVariable)) {
             environmentVariable = System.getProperty(environmentVariableName);
-            if (nullOrEmpty(environmentVariable))
+            if (nullOrEmpty(environmentVariable) && environmentVariable != REPOSITORY_ID)
                 throw new IllegalStateException(
                         "Environment variable '" + environmentVariableName + "' does not exist.");
         }
