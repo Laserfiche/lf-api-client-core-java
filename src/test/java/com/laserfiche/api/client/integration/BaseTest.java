@@ -24,6 +24,7 @@ public class BaseTest {
                 .configure()
                 .filename(".env")
                 .systemProperties()
+                .ignoreIfMissing()
                 .load();
         repositoryId = getEnvironmentVariable(REPOSITORY_ID);
         if (nullOrEmpty(repositoryId)) {
