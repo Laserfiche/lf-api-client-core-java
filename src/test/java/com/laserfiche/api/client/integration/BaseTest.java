@@ -26,6 +26,7 @@ public class BaseTest {
                 .systemProperties()
                 .ignoreIfMissing()
                 .load();
+        System.out.println(System.getenv());
         repositoryId = getEnvironmentVariable(REPOSITORY_ID);
 //        if (nullOrEmpty(repositoryId)) {
 //            throw new IllegalStateException("Environment variable REPOSITORY_ID does not exist.");
