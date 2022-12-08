@@ -26,8 +26,10 @@ public class BaseTest {
                 .systemProperties()
                 .ignoreIfMissing()
                 .load();
-        System.out.println(System.getenv());
         repositoryId = getEnvironmentVariable(REPOSITORY_ID);
+//        if (nullOrEmpty(repositoryId)) {
+//            throw new IllegalStateException("Environment variable REPOSITORY_ID does not exist.");
+//        }
         servicePrincipalKey = getEnvironmentVariable(SERVICE_PRINCIPAL_KEY);
         String accessKeyBase64 = getEnvironmentVariable(ACCESS_KEY);
         accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
@@ -63,9 +65,9 @@ public class BaseTest {
         String environmentVariable = System.getenv(environmentVariableName);
         if (nullOrEmpty(environmentVariable)) {
             environmentVariable = System.getProperty(environmentVariableName);
-            if (nullOrEmpty(environmentVariable) && environmentVariableName != REPOSITORY_ID)
-                throw new IllegalStateException(
-                        "Environment variable '" + environmentVariableName + "' does not exist.");
+//            if (nullOrEmpty(environmentVariable) && environmentVariableName != REPOSITORY_ID)
+//                throw new IllegalStateException(
+//                        "Environment variable '" + environmentVariableName + "' does not exist.");
         }
         return environmentVariable;
     }
