@@ -26,7 +26,7 @@ class OAuthUtilTest extends BaseTest {
 
     @Test
     void createBearer_ReturnsCorrectJwt() {
-        String jwt = createBearer(spKey, accessKey);
+        String jwt = createBearer(servicePrincipalKey, accessKey);
 
         assertNotNull(jwt);
 
