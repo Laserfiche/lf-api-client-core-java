@@ -19,6 +19,7 @@ public class BaseTest {
     private static final String PASSWORD = "APISERVER_PASSWORD";
     private static final String BASE_URL = "APISERVER_REPOSITORY_API_BASE_URL";
     private static final boolean IS_NOT_GITHUB_ENVIRONMENT = nullOrEmpty(System.getenv("GITHUB_WORKSPACE"));
+
     @BeforeAll
     public static void setUp() {
         Dotenv dotenv = Dotenv
