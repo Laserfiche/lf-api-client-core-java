@@ -24,7 +24,7 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
 
     @BeforeEach
     void setUpHttpRequestHandler() {
-        handler = new OAuthClientCredentialsHandler(spKey, accessKey);
+        handler = new OAuthClientCredentialsHandler(servicePrincipalKey, accessKey);
     }
 
     @AfterEach
