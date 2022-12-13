@@ -1,16 +1,19 @@
 package com.laserfiche.api.client.httphandlers;
 
+/**
+ * Contains information about the HTTP request before it is sent.
+ */
 public class BeforeSendResult {
 
     /**
-     * @return Laserfiche Cloud regional domain.
+     * Returns the Laserfiche Cloud regional domain, e.g. laserfiche.com.
      */
     public String getRegionalDomain() {
         return regionalDomain;
     }
 
     /**
-     * @param regionalDomain Laserfiche Cloud regional domain.
+     * Sets the Laserfiche Cloud regional domain, e.g. laserfiche.com.
      */
     public void setRegionalDomain(String regionalDomain) {
         this.regionalDomain = regionalDomain;

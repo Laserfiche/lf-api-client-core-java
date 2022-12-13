@@ -1,13 +1,16 @@
 package com.laserfiche.api.client.httphandlers;
 
+/**
+ * Represents an HTTP header.
+ */
 public interface HeaderKeyValue {
     /**
-     * @return Name of the HTTP header.
+     * Returns the name of the HTTP header.
      */
     String headerName();
 
     /**
-     * @return HTTP header.
+     * Returns the value of the HTTP header.
      */
     String header();
 }

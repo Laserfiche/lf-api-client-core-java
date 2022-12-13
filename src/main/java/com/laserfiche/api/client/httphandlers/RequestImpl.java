@@ -1,9 +1,15 @@
 package com.laserfiche.api.client.httphandlers;
 
+/**
+ * Represents an HTTP request.
+ */
 public class RequestImpl implements Request {
     private String url;
     private final Headers headers;
 
+    /**
+     * Constructor.
+     */
     public RequestImpl() {
         headers = new HeadersImpl();
     }

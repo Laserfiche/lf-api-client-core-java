@@ -6,12 +6,12 @@ package com.laserfiche.api.client.httphandlers;
 public interface Response {
 
     /**
-     * @return Status code.
+     * Status code.
      */
     short status();
 
     /**
-     * @return The corresponding request object.
+     * The corresponding request object.
      */
     Request request();
 }

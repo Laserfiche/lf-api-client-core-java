@@ -5,13 +5,12 @@ package com.laserfiche.api.client.httphandlers;
  */
 public interface Request {
     /**
-     * @return Full URL of the request.
+     * Full URL of the request.
      */
     String url();
 
     /**
      * Headers associated with this request.
-     * @return
      */
     Headers headers();
 }

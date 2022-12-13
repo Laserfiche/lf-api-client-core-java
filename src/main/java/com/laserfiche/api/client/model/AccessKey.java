@@ -11,6 +11,9 @@ import java.io.IOException;
 
 import static com.laserfiche.api.client.oauth.OAuthUtil.decodeBase64;
 
+/**
+ * The access key exported from the Laserfiche Developer Console.
+ */
 public class AccessKey {
     private String customerId;
     private String domain;
@@ -19,38 +22,67 @@ public class AccessKey {
 
     private static ObjectMapper mapper;
 
+    /**
+     * Returns the Laserfiche customer id the app is registered in.
+     */
     public String getCustomerId() {
         return customerId;
     }
 
+    /**
+     * Sets the Laserfiche customer id the app is registered in.
+     */
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
 
+    /**
+     * Returns the Laserfiche domain the app belongs to, e.g. laserfiche.com.
+     */
     public String getDomain() {
         return domain;
     }
 
+    /**
+     * Sets the Laserfiche domain the app belongs to, e.g. laserfiche.com.
+     */
     public void setDomain(String domain) {
         this.domain = domain;
     }
 
+    /**
+     * Returns the app's client id.
+     */
     public String getClientId() {
         return clientId;
     }
 
+    /**
+     * Sets the app's client id.
+     */
     public void setClientId(String clientId) {
         this.clientId = clientId;
     }
 
+    /**
+     * Returns the app's json web key.
+     */
     public JWK getJwk() {
         return jwk;
     }
 
+    /**
+     * Sets the app's json web key.
+     */
     public void setJwk(JWK jwk) {
         this.jwk = jwk;
     }
 
+    /**
+     * Creates an AccessKey given a base-64 encoded access key.
+     * @param base64EncodedAccessKey The base-64 encoded access key exported from the Laserfiche Developer Console.
+     * @return {@link AccessKey}
+     */
     public static AccessKey createFromBase64EncodedAccessKey(String base64EncodedAccessKey) {
         if (mapper == null) {
             SimpleModule module = new SimpleModule();

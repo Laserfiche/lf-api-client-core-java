@@ -5,6 +5,9 @@ import com.laserfiche.api.client.apiserver.TokenClientImpl;
 import com.laserfiche.api.client.model.CreateConnectionRequest;
 import com.laserfiche.api.client.model.SessionKeyInfo;
 
+/**
+ * Username password HTTP handler for Laserfiche Self-Hosted API Server.
+ */
 public class UsernamePasswordHandler implements HttpRequestHandler {
     private String accessToken;
     private final String grantType = "password";
@@ -14,12 +17,12 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
     private final CreateConnectionRequest request;
 
     /**
-     * Creates a username and password authorization handler for self hosted API server
+     * Creates a username and password authorization handler for the Laserfiche Self-Hosted API server
      *
      * @param repositoryId Repository name
      * @param username     The username used with "password" grant type.
      * @param password     The password used with "password" grant type.
-     * @param baseUrl      APIServer Base Url e.g. https://example.com/LFRepositoryAPI
+     * @param baseUrl      APIServer Base Url e.g. https://{APIServerName}/LFRepositoryAPI
      * @param client       OPTIONAL
      */
     public UsernamePasswordHandler(String repositoryId, String username, String password, String baseUrl,
