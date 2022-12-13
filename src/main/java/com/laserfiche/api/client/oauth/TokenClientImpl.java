@@ -13,19 +13,25 @@ import java.util.Map;
 import static com.laserfiche.api.client.oauth.OAuthUtil.createBearer;
 import static com.laserfiche.api.client.oauth.OAuthUtil.getOAuthApiBaseUri;
 
-
+/**
+ * The Laserfiche Cloud token route API client.
+ */
 public class TokenClientImpl extends OAuthClient implements TokenClient {
     private final String baseUrl;
 
+    /**
+     * Creates a new Laserfiche Cloud token route API client.
+     * @param regionalDomain Laserfiche Cloud domain associated with the access key, e.g. laserfiche.com.
+     */
     public TokenClientImpl(String regionalDomain) {
         super();
         baseUrl = getOAuthApiBaseUri(regionalDomain);
     }
 
     @Override
-    public GetAccessTokenResponse getAccessTokenFromServicePrincipal(String spKey,
+    public GetAccessTokenResponse getAccessTokenFromServicePrincipal(String servicePrincipalKey,
             AccessKey accessKey) {
-        String bearer = createBearer(spKey, accessKey);
+        String bearer = createBearer(servicePrincipalKey, accessKey);
         HttpResponse<Object> httpResponse = httpClient
                 .post(baseUrl + "Token")
                 .header("Authorization", bearer)

@@ -11,18 +11,25 @@ import kong.unirest.json.JSONObject;
 
 import java.util.Map;
 
+/**
+ * The Laserfiche Self-Hosted token route API client.
+ */
 public class TokenClientImpl extends OAuthClient implements TokenClient {
     private final String baseUrl;
 
+    /**
+     * Creates a new Laserfiche Self-Hosted token route API client.
+     * @param baseUrl APIServer Base Url e.g. https://{APIServerName}/LFRepositoryAPI.
+     */
     public TokenClientImpl(String baseUrl) {
         super();
         this.baseUrl = baseUrl;
     }
 
     @Override
-    public SessionKeyInfo createAccessToken(String repoId, CreateConnectionRequest body) {
+    public SessionKeyInfo createAccessToken(String repositoryId, CreateConnectionRequest body) {
         Map<String, Object> pathParameters = getNonNullParameters(new String[]{"repoId"},
-                new Object[]{repoId});
+                new Object[]{repositoryId});
 
         HttpResponse<Object> httpResponse = httpClient
                 .post(baseUrl + "/v1/Repositories/{repoId}/Token")

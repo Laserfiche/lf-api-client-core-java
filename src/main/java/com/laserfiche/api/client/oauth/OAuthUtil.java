@@ -8,6 +8,9 @@ import com.nimbusds.jose.jwk.ECKey;
 import java.util.Base64;
 import java.util.Date;
 
+/**
+ * Helper class containing utility functions for OAuth.
+ */
 public class OAuthUtil {
     private OAuthUtil() {
         throw new IllegalStateException("Utility class with all static methods are not meant to be instantiated.");
@@ -30,16 +33,16 @@ public class OAuthUtil {
      * Given a service principal key and an access key, return a string representation of the Bearer header. In the form
      * of "Bearer xxxxxx".
      *
-     * @param spKey     Service principal key.
-     * @param accessKey Access key.
+     * @param servicePrincipalKey The service principal key created for the service principal from the Laserfiche Account Administration.
+     * @param accessKey The access key exported from the Laserfiche Developer Console.
      * @return Bearer header.
      */
-    public static String createBearer(String spKey, AccessKey accessKey) {
+    public static String createBearer(String servicePrincipalKey, AccessKey accessKey) {
         // Prepare JWK
         ECKey jwk = accessKey.getJwk().toECKey();
 
         // Prepare JWS
-        JWSObject jws = createJws(jwk, spKey, accessKey);
+        JWSObject jws = createJws(jwk, servicePrincipalKey, accessKey);
 
         // Sign
         try {

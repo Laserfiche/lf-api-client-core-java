@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Set;
 
 /**
- * Represents an HTTP header.
+ * Represents a collection of HTTP headers.
  */
 public interface Headers {
     /**
@@ -21,13 +21,13 @@ public interface Headers {
     void delete(String name);
 
     /**
-     * @return A collection of header key value pairs. If a header has multiple values, they are concatenated by a comma.
+     * Returns a collection of header key value pairs. If a header has multiple values, they are concatenated by a comma.
      */
     Collection<HeaderKeyValue> entries();
 
     /**
+     * Returns the header value. If a header has multiple values, they are concatenated by a comma.
      * @param name Name of the header.
-     * @return The header under name.
      */
     String get(String name);
 
@@ -39,7 +39,7 @@ public interface Headers {
     boolean has(String name);
 
     /**
-     * @return Return all header names (that are set).
+     * Return all header names (that are set).
      */
     Set<String> keys();
 
@@ -51,7 +51,7 @@ public interface Headers {
     void set(String name, String value);
 
     /**
-     * @return A collection of header values.
+     * Returns a collection of header values. If a header has multiple values, they are concatenated by a comma.
      */
     Collection<String> values();
 }

@@ -3,9 +3,15 @@ package com.laserfiche.api.client.httphandlers;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a collection of HTTP headers.
+ */
 public class HeadersImpl implements Headers {
     private final Map<String, List<String>> headers;
 
+    /**
+     * Creates a new collection of HTTP headers.
+     */
     public HeadersImpl() {
         headers = new HashMap<>();
     }
