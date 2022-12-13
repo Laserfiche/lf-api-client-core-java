@@ -28,7 +28,7 @@ class TokenClientImplTest extends BaseTest {
 
     @Test
     void getAccessTokenFromServicePrincipal_Success() {
-        GetAccessTokenResponse response = client.getAccessTokenFromServicePrincipal(spKey, accessKey);
+        GetAccessTokenResponse response = client.getAccessTokenFromServicePrincipal(servicePrincipalKey, accessKey);
 
         assertNotEquals(null, response);
         assertNotEquals(null, response.getAccessToken());
@@ -39,7 +39,7 @@ class TokenClientImplTest extends BaseTest {
         accessKey.setClientId("wrong client ID");
 
         Exception exception = assertThrows(RuntimeException.class,
-                () -> client.getAccessTokenFromServicePrincipal(spKey, accessKey));
+                () -> client.getAccessTokenFromServicePrincipal(servicePrincipalKey, accessKey));
         assertNotNull(exception);
     }
 
@@ -51,7 +51,7 @@ class TokenClientImplTest extends BaseTest {
 
         try (TokenClient client = new TokenClientImpl(incorrectDomain)) {
             Exception exception = assertThrows(RuntimeException.class,
-                    () -> client.getAccessTokenFromServicePrincipal(spKey, accessKey));
+                    () -> client.getAccessTokenFromServicePrincipal(servicePrincipalKey, accessKey));
             assertTrue(IOException.class.isAssignableFrom(exception
                     .getCause()
                     .getClass()));

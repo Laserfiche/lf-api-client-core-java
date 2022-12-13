@@ -22,7 +22,7 @@ public class UsernamePasswordHandlerTest extends BaseTest {
 
     @BeforeEach
     void setUpHttpRequestHandler() {
-        httpRequestHandler = new UsernamePasswordHandler(repoId, username, password, baseUrl, null);
+        httpRequestHandler = new UsernamePasswordHandler(repositoryId, username, password, baseUrl, null);
     }
 
     @AfterEach
@@ -152,8 +152,8 @@ public class UsernamePasswordHandlerTest extends BaseTest {
     }
 
     private static Stream<Arguments> failedAuthentication() {
-        return Stream.of(arguments(repoId, "fake123", password, HttpStatus.UNAUTHORIZED),
-                arguments(repoId, username, "fake123", HttpStatus.UNAUTHORIZED),
+        return Stream.of(arguments(repositoryId, "fake123", password, HttpStatus.UNAUTHORIZED),
+                arguments(repositoryId, username, "fake123", HttpStatus.UNAUTHORIZED),
                 arguments("fake123", username, password, HttpStatus.NOT_FOUND));
     }
 }
