@@ -10,7 +10,7 @@ public class HeadersImpl implements Headers {
     private final Map<String, List<String>> headers;
 
     /**
-     * Constructor.
+     * Creates a new collection of HTTP headers.
      */
     public HeadersImpl() {
         headers = new HashMap<>();

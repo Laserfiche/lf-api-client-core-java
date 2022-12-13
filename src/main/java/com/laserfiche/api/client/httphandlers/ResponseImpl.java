@@ -8,7 +8,7 @@ public class ResponseImpl implements Response {
     private Request request;
 
     /**
-     * Constructor.
+     * Creates a new HTTP response.
      * @param status The HTTP status code.
      */
     public ResponseImpl(short status) {
@@ -16,7 +16,7 @@ public class ResponseImpl implements Response {
     }
 
     /**
-     * Constructor.
+     * Creates a new HTTP response.
      * @param status The HTTP status code.
      * @param request The HTTP request.
      */

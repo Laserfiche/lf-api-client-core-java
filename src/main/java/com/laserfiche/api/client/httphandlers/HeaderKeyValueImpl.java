@@ -8,7 +8,7 @@ public class HeaderKeyValueImpl implements HeaderKeyValue {
     private final String header;
 
     /**
-     * Constructor
+     * Creates a new HTTP Header.
      * @param headerName Name of the HTTP header.
      * @param header Value of the HTTP header.
      */

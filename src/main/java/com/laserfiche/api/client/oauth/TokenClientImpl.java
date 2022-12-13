@@ -20,7 +20,7 @@ public class TokenClientImpl extends OAuthClient implements TokenClient {
     private final String baseUrl;
 
     /**
-     * Constructor
+     * Creates a new Laserfiche Cloud token route API client.
      * @param regionalDomain Laserfiche Cloud domain associated with the access key, e.g. laserfiche.com.
      */
     public TokenClientImpl(String regionalDomain) {

@@ -15,7 +15,7 @@ public class OAuthClientCredentialsHandler implements HttpRequestHandler {
     private final TokenClient client;
 
     /**
-     * Constructor
+     * Creates a new Laserfiche Cloud OAuth client credentials HTTP handler.
      * @param servicePrincipalKey The service principal key created for the service principal from the Laserfiche Account Administration.
      * @param accessKey The access key exported from the Laserfiche Developer Console.
      */

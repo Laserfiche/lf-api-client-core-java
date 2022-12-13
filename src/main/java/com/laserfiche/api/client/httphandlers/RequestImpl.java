@@ -8,7 +8,7 @@ public class RequestImpl implements Request {
     private final Headers headers;
 
     /**
-     * Constructor.
+     * Creates a new HTTP Request.
      */
     public RequestImpl() {
         headers = new HeadersImpl();

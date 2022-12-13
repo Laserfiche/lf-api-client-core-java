@@ -10,11 +10,11 @@ public interface TokenClient extends AutoCloseable {
 
     /**
      * Gets a Laserfiche Self-Hosted access token.
-     * @param repoId Repository name.
+     * @param repositoryId Repository ID.
      * @param body   Request body used to get a Laserfiche Self-Hosted access token.
      * @return A {@link SessionKeyInfo} object that contains an access token.
      */
-    SessionKeyInfo createAccessToken(String repoId, CreateConnectionRequest body);
+    SessionKeyInfo createAccessToken(String repositoryId, CreateConnectionRequest body);
 
     /*
      * Since the underlying resource (the HTTP client) won't throw any exception during its close() invocation.

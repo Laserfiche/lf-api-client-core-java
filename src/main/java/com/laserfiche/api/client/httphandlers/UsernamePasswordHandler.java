@@ -19,10 +19,10 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
     /**
      * Creates a username and password authorization handler for the Laserfiche Self-Hosted API server
      *
-     * @param repositoryId Repository name
+     * @param repositoryId Repository ID.
      * @param username     The username used with "password" grant type.
      * @param password     The password used with "password" grant type.
-     * @param baseUrl      APIServer Base Url e.g. https://{APIServerName}/LFRepositoryAPI
+     * @param baseUrl      APIServer Base Url e.g. https://{APIServerName}/LFRepositoryAPI.
      * @param client       OPTIONAL
      */
     public UsernamePasswordHandler(String repositoryId, String username, String password, String baseUrl,
