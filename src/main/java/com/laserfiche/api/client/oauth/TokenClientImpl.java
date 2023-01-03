@@ -76,15 +76,4 @@ public class TokenClientImpl extends OAuthClient implements TokenClient {
                 throw new RuntimeException(httpResponse.getStatusText());
         }
     }
-
-    @Override
-    public GetAccessTokenResponse getAccessTokenFromCode(String code, String redirectUri, String clientId,
-            String clientSecret, String codeVerifier) {
-        return null;
-    }
-
-    @Override
-    public GetAccessTokenResponse refreshAccessToken(String refreshToken, String clientId, String clientSecret) {
-        return null;
-    }
 }
