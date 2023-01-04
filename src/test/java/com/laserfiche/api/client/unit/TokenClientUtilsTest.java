@@ -3,11 +3,11 @@ package com.laserfiche.api.client.unit;
 import com.laserfiche.api.client.integration.BaseTest;
 import org.junit.jupiter.api.Test;
 
-import static com.laserfiche.api.client.oauth.OAuthUtil.createBearer;
-import static com.laserfiche.api.client.oauth.OAuthUtil.getOAuthApiBaseUri;
+import static com.laserfiche.api.client.oauth.TokenClientUtils.createBearer;
+import static com.laserfiche.api.client.oauth.TokenClientUtils.getOAuthApiBaseUri;
 import static org.junit.jupiter.api.Assertions.*;
 
-class OAuthUtilTest extends BaseTest {
+class TokenClientUtilsTest extends BaseTest {
     @Test
     void getOAuthApiBaseUri_ReturnDomain() {
         String domain = "domain";

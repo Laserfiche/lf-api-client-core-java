@@ -12,7 +12,7 @@ import kong.unirest.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.laserfiche.api.client.oauth.OAuthUtil.getHeadersMap;
+import static com.laserfiche.api.client.oauth.TokenClientUtils.getHeadersMap;
 
 /**
  * The Laserfiche Self-Hosted token route API client.

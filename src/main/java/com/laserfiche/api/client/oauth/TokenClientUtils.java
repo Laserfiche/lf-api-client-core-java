@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 /**
  * Helper class containing utility functions for OAuth.
  */
-public class OAuthUtil {
-    private OAuthUtil() {
+public class TokenClientUtils {
+    private TokenClientUtils() {
         throw new IllegalStateException("Utility class with all static methods are not meant to be instantiated.");
     }
 

@@ -10,7 +10,7 @@ import kong.unirest.json.JSONObject;
 
 import java.util.Map;
 
-import static com.laserfiche.api.client.oauth.OAuthUtil.*;
+import static com.laserfiche.api.client.oauth.TokenClientUtils.*;
 
 /**
  * The Laserfiche Cloud token route API client.
