@@ -11,7 +11,7 @@ import kong.unirest.Unirest;
 import kong.unirest.UnirestInstance;
 import org.threeten.bp.OffsetDateTime;
 
-public class OAuthClient implements AutoCloseable {
+public abstract class OAuthClient implements AutoCloseable {
     protected ObjectMapper objectMapper;
     protected final UnirestInstance httpClient;
 
