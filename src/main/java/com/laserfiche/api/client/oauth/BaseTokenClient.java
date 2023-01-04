@@ -11,11 +11,11 @@ import kong.unirest.Unirest;
 import kong.unirest.UnirestInstance;
 import org.threeten.bp.OffsetDateTime;
 
-public abstract class OAuthClient implements AutoCloseable {
+public abstract class BaseTokenClient implements AutoCloseable {
     protected ObjectMapper objectMapper;
     protected final UnirestInstance httpClient;
 
-    protected OAuthClient() {
+    protected BaseTokenClient() {
         httpClient = Unirest.spawnInstance();
         httpClient
                 .config()

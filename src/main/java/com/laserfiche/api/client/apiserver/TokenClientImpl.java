@@ -5,7 +5,7 @@ import com.laserfiche.api.client.model.ApiException;
 import com.laserfiche.api.client.model.CreateConnectionRequest;
 import com.laserfiche.api.client.model.ProblemDetails;
 import com.laserfiche.api.client.model.SessionKeyInfo;
-import com.laserfiche.api.client.oauth.OAuthClient;
+import com.laserfiche.api.client.oauth.BaseTokenClient;
 import kong.unirest.HttpResponse;
 import kong.unirest.json.JSONObject;
 
@@ -17,7 +17,7 @@ import static com.laserfiche.api.client.oauth.OAuthUtil.getHeadersMap;
 /**
  * The Laserfiche Self-Hosted token route API client.
  */
-public class TokenClientImpl extends OAuthClient implements TokenClient {
+public class TokenClientImpl extends BaseTokenClient implements TokenClient {
     private final String baseUrl;
 
     /**

@@ -15,7 +15,7 @@ import static com.laserfiche.api.client.oauth.OAuthUtil.*;
 /**
  * The Laserfiche Cloud token route API client.
  */
-public class TokenClientImpl extends OAuthClient implements TokenClient {
+public class TokenClientImpl extends BaseTokenClient implements TokenClient {
     private final String baseUrl;
 
     /**
