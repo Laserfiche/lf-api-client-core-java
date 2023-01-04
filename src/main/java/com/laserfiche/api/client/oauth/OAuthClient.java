@@ -13,7 +13,6 @@ import kong.unirest.Unirest;
 import kong.unirest.UnirestInstance;
 import org.threeten.bp.OffsetDateTime;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -43,23 +42,6 @@ public class OAuthClient implements AutoCloseable {
                 .all()
                 .stream()
                 .collect(Collectors.toMap(Header::getName, Header::getValue));
-    }
-
-    protected Map<String, Object> getNonNullParameters(String[] parameterNames, Object[] parameters) {
-        if (parameterNames == null || parameters == null) {
-            throw new IllegalArgumentException("Input cannot be null.");
-        }
-        if (parameterNames.length != parameters.length) {
-            throw new IllegalArgumentException("The array for parameter name and value should have the same length.");
-        }
-        Map<String, Object> paramKeyValuePairs = new HashMap<>();
-        for (int i = 0; i < parameters.length; i++) {
-            if (parameters[i] != null) {
-                paramKeyValuePairs.put(parameterNames[i],
-                        parameters[i] instanceof String ? parameters[i] : String.valueOf(parameters[i]));
-            }
-        }
-        return paramKeyValuePairs;
     }
 
     @Override
