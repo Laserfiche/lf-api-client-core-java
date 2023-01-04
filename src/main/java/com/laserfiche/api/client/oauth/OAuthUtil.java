@@ -4,9 +4,13 @@ import com.laserfiche.api.client.model.AccessKey;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.ECDSASigner;
 import com.nimbusds.jose.jwk.ECKey;
+import kong.unirest.Header;
+import kong.unirest.HttpResponse;
 
 import java.util.Base64;
 import java.util.Date;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Helper class containing utility functions for OAuth.
@@ -80,5 +84,13 @@ public class OAuthUtil {
     private static void sign(JWSObject jws, ECKey jwk) throws JOSEException {
         JWSSigner signer = new ECDSASigner(jwk);
         jws.sign(signer);
+    }
+
+    public static Map<String, String> getHeadersMap(HttpResponse httpResponse) {
+        return httpResponse
+                .getHeaders()
+                .all()
+                .stream()
+                .collect(Collectors.toMap(kong.unirest.Header::getName, Header::getValue));
     }
 }
