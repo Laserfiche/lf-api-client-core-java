@@ -1,4 +1,4 @@
-package com.laserfiche.api.client.oauth;
+package com.laserfiche.api.client.tokenclients;
 
 import com.laserfiche.api.client.model.AccessKey;
 import com.nimbusds.jose.*;

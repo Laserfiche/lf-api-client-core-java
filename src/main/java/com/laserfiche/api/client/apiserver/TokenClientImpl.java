@@ -5,14 +5,14 @@ import com.laserfiche.api.client.model.ApiException;
 import com.laserfiche.api.client.model.CreateConnectionRequest;
 import com.laserfiche.api.client.model.ProblemDetails;
 import com.laserfiche.api.client.model.SessionKeyInfo;
-import com.laserfiche.api.client.oauth.BaseTokenClient;
+import com.laserfiche.api.client.tokenclients.BaseTokenClient;
 import kong.unirest.HttpResponse;
 import kong.unirest.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.laserfiche.api.client.oauth.TokenClientUtils.getHeadersMap;
+import static com.laserfiche.api.client.tokenclients.TokenClientUtils.getHeadersMap;
 
 /**
  * The Laserfiche Self-Hosted token route API client.

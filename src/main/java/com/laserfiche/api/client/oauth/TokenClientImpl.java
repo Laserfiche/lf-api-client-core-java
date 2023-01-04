@@ -5,12 +5,13 @@ import com.laserfiche.api.client.model.AccessKey;
 import com.laserfiche.api.client.model.ApiException;
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
 import com.laserfiche.api.client.model.ProblemDetails;
+import com.laserfiche.api.client.tokenclients.BaseTokenClient;
 import kong.unirest.HttpResponse;
 import kong.unirest.json.JSONObject;
 
 import java.util.Map;
 
-import static com.laserfiche.api.client.oauth.TokenClientUtils.*;
+import static com.laserfiche.api.client.tokenclients.TokenClientUtils.*;
 
 /**
  * The Laserfiche Cloud token route API client.

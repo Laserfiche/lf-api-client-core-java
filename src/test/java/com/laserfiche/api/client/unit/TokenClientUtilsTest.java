@@ -3,8 +3,8 @@ package com.laserfiche.api.client.unit;
 import com.laserfiche.api.client.integration.BaseTest;
 import org.junit.jupiter.api.Test;
 
-import static com.laserfiche.api.client.oauth.TokenClientUtils.createBearer;
-import static com.laserfiche.api.client.oauth.TokenClientUtils.getOAuthApiBaseUri;
+import static com.laserfiche.api.client.tokenclients.TokenClientUtils.createBearer;
+import static com.laserfiche.api.client.tokenclients.TokenClientUtils.getOAuthApiBaseUri;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TokenClientUtilsTest extends BaseTest {

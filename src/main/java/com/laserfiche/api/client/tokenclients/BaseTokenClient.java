@@ -1,4 +1,4 @@
-package com.laserfiche.api.client.oauth;
+package com.laserfiche.api.client.tokenclients;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
