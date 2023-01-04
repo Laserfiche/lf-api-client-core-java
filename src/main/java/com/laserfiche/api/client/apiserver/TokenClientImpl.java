@@ -6,11 +6,13 @@ import com.laserfiche.api.client.model.CreateConnectionRequest;
 import com.laserfiche.api.client.model.ProblemDetails;
 import com.laserfiche.api.client.model.SessionKeyInfo;
 import com.laserfiche.api.client.oauth.OAuthClient;
+import kong.unirest.Header;
 import kong.unirest.HttpResponse;
 import kong.unirest.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * The Laserfiche Self-Hosted token route API client.
@@ -97,5 +99,13 @@ public class TokenClientImpl extends OAuthClient implements TokenClient {
             }
         }
         return paramKeyValuePairs;
+    }
+
+    private Map<String, String> getHeadersMap(HttpResponse httpResponse) {
+        return httpResponse
+                .getHeaders()
+                .all()
+                .stream()
+                .collect(Collectors.toMap(Header::getName, Header::getValue));
     }
 }

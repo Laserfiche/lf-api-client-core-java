@@ -7,14 +7,9 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.laserfiche.api.client.deserialization.OffsetDateTimeDeserializer;
 import com.laserfiche.api.client.deserialization.TokenClientObjectMapper;
-import kong.unirest.Header;
-import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestInstance;
 import org.threeten.bp.OffsetDateTime;
-
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class OAuthClient implements AutoCloseable {
     protected ObjectMapper objectMapper;
@@ -34,14 +29,6 @@ public class OAuthClient implements AutoCloseable {
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
                 .build();
-    }
-
-    protected Map<String, String> getHeadersMap(HttpResponse httpResponse) {
-        return httpResponse
-                .getHeaders()
-                .all()
-                .stream()
-                .collect(Collectors.toMap(Header::getName, Header::getValue));
     }
 
     @Override
