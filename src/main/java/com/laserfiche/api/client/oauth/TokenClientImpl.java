@@ -5,18 +5,18 @@ import com.laserfiche.api.client.model.AccessKey;
 import com.laserfiche.api.client.model.ApiException;
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
 import com.laserfiche.api.client.model.ProblemDetails;
+import com.laserfiche.api.client.tokenclients.BaseTokenClient;
 import kong.unirest.HttpResponse;
 import kong.unirest.json.JSONObject;
 
 import java.util.Map;
 
-import static com.laserfiche.api.client.oauth.OAuthUtil.createBearer;
-import static com.laserfiche.api.client.oauth.OAuthUtil.getOAuthApiBaseUri;
+import static com.laserfiche.api.client.tokenclients.TokenClientUtils.*;
 
 /**
  * The Laserfiche Cloud token route API client.
  */
-public class TokenClientImpl extends OAuthClient implements TokenClient {
+public class TokenClientImpl extends BaseTokenClient implements TokenClient {
     private final String baseUrl;
 
     /**
@@ -75,16 +75,5 @@ public class TokenClientImpl extends OAuthClient implements TokenClient {
             else
                 throw new RuntimeException(httpResponse.getStatusText());
         }
-    }
-
-    @Override
-    public GetAccessTokenResponse getAccessTokenFromCode(String code, String redirectUri, String clientId,
-            String clientSecret, String codeVerifier) {
-        return null;
-    }
-
-    @Override
-    public GetAccessTokenResponse refreshAccessToken(String refreshToken, String clientId, String clientSecret) {
-        return null;
     }
 }

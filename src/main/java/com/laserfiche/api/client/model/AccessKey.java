@@ -9,7 +9,7 @@ import com.nimbusds.jose.jwk.JWK;
 
 import java.io.IOException;
 
-import static com.laserfiche.api.client.oauth.OAuthUtil.decodeBase64;
+import static com.laserfiche.api.client.tokenclients.TokenClientUtils.decodeBase64;
 
 /**
  * The access key exported from the Laserfiche Developer Console.

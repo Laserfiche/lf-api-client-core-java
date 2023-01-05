@@ -5,16 +5,19 @@ import com.laserfiche.api.client.model.ApiException;
 import com.laserfiche.api.client.model.CreateConnectionRequest;
 import com.laserfiche.api.client.model.ProblemDetails;
 import com.laserfiche.api.client.model.SessionKeyInfo;
-import com.laserfiche.api.client.oauth.OAuthClient;
+import com.laserfiche.api.client.tokenclients.BaseTokenClient;
 import kong.unirest.HttpResponse;
 import kong.unirest.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Map;
+
+import static com.laserfiche.api.client.tokenclients.TokenClientUtils.getHeadersMap;
 
 /**
  * The Laserfiche Self-Hosted token route API client.
  */
-public class TokenClientImpl extends OAuthClient implements TokenClient {
+public class TokenClientImpl extends BaseTokenClient implements TokenClient {
     private final String baseUrl;
 
     /**
@@ -79,5 +82,22 @@ public class TokenClientImpl extends OAuthClient implements TokenClient {
             else
                 throw new RuntimeException(httpResponse.getStatusText());
         }
+    }
+
+    private Map<String, Object> getNonNullParameters(String[] parameterNames, Object[] parameters) {
+        if (parameterNames == null || parameters == null) {
+            throw new IllegalArgumentException("Input cannot be null.");
+        }
+        if (parameterNames.length != parameters.length) {
+            throw new IllegalArgumentException("The array for parameter name and value should have the same length.");
+        }
+        Map<String, Object> paramKeyValuePairs = new HashMap<>();
+        for (int i = 0; i < parameters.length; i++) {
+            if (parameters[i] != null) {
+                paramKeyValuePairs.put(parameterNames[i],
+                        parameters[i] instanceof String ? parameters[i] : String.valueOf(parameters[i]));
+            }
+        }
+        return paramKeyValuePairs;
     }
 }
