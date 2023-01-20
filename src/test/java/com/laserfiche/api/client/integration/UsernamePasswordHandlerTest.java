@@ -54,6 +54,21 @@ public class UsernamePasswordHandlerTest extends BaseTest {
     }
 
     @Test
+    void beforeSendAsync_NoAccessTokenCreated_Success(){
+        //Arrange
+        httpRequestHandler = new UsernamePasswordHandler(repositoryId, null, null, baseUrl, null);
+        Request request = new RequestImpl();
+
+        //Act
+        BeforeSendResult result = httpRequestHandler.beforeSend(request);
+
+        //Assert
+        assertNotNull(result);
+        assertTrue(nullOrEmpty(result.getRegionalDomain()));
+        assertEquals(null, request.headers().get("Authorization"));
+    }
+
+    @Test
     void beforeSendAsync_ExistingToken_Success() {
         // Arrange
         Request request1 = new RequestImpl();

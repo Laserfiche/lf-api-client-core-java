@@ -12,7 +12,6 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
     private String accessToken;
     private final String grantType = "password";
     private final String repositoryId;
-    private final String baseUrl;
     private final TokenClient client;
     private final CreateConnectionRequest request;
 
@@ -27,14 +26,17 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
      */
     public UsernamePasswordHandler(String repositoryId, String username, String password, String baseUrl,
             TokenClient client) {
-        this.baseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
+        if (baseUrl == null) {
+            throw new NullPointerException();
+        }
+        baseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
         this.repositoryId = repositoryId;
         request = new CreateConnectionRequest();
         request.setPassword(password);
         request.setUsername(username);
         request.setGrantType(grantType);
         if (client == null) {
-            this.client = new TokenClientImpl(this.baseUrl);
+            this.client = new TokenClientImpl(baseUrl);
         } else {
             this.client = client;
         }
@@ -43,14 +45,15 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
     @Override
     public BeforeSendResult beforeSend(Request request) {
         BeforeSendResult result = new BeforeSendResult();
-        if (accessToken == null) {
+        if (accessToken == null && !nullOrEmpty(this.request.getUsername()) && !nullOrEmpty(
+                this.request.getPassword())) {
             SessionKeyInfo tokenResponse = client.createAccessToken(repositoryId, this.request);
             accessToken = tokenResponse.getAccessToken();
             request
                     .headers()
                     .append("Authorization", "Bearer " + accessToken);
             return result;
-        } else {
+        } else if (accessToken != null) {
             request
                     .headers()
                     .append("Authorization", "Bearer " + accessToken);
@@ -70,5 +73,9 @@ public class UsernamePasswordHandler implements HttpRequestHandler {
     @Override
     public void close() {
         client.close();
+    }
+
+    private static boolean nullOrEmpty(String str) {
+        return str == null || str.length() == 0;
     }
 }
