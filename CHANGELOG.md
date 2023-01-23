@@ -1,8 +1,8 @@
-## 2.0.1
+## 2.1.1
 
 ### Features
 
-- Self Hosted `UsernamePasswordHandler` should not try to set the access bearer token when no given username and password
+- Self Hosted `UsernamePasswordHandler` should not try to set the access bearer token when no given username and password.
 
 ## 2.0.0
 
