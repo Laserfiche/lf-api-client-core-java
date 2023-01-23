@@ -7,17 +7,31 @@ import java.util.Map;
  */
 public class ApiException extends RuntimeException {
     private int statusCode;
-    private String response;
     private Map<String, String> headers;
     private ProblemDetails problemDetails;
 
-    public ApiException(String message, int statusCode, String response, Map<String, String> headers,
-            ProblemDetails problemDetails) {
-        super(message);
+    public ApiException(String message, int statusCode, Map<String, String> headers, ProblemDetails problemDetails,
+            Throwable cause) {
+        super(message, cause);
         this.statusCode = statusCode;
-        this.response = response;
         this.headers = headers;
         this.problemDetails = problemDetails;
+    }
+
+    /**
+     * Create an {@link ApiException}. A default {@link ProblemDetails} will be created if a null value is given.
+     * @param statusCode The response status code.
+     * @param headers The response headers.
+     * @param problemDetails The {@link ProblemDetails} response.
+     * @param cause The cause.
+     * @return {@link ApiException}
+     */
+    public static ApiException create(int statusCode, Map<String, String> headers, ProblemDetails problemDetails,
+            Throwable cause) {
+        if (problemDetails == null) {
+            problemDetails = ProblemDetails.create(statusCode, headers);
+        }
+        return new ApiException(problemDetails.getTitle(), statusCode, headers, problemDetails, cause);
     }
 
     /**
@@ -46,14 +60,6 @@ public class ApiException extends RuntimeException {
      */
     public void setStatusCode(int statusCode) {
         this.statusCode = statusCode;
-    }
-
-    public String getResponse() {
-        return response;
-    }
-
-    public void setResponse(String response) {
-        this.response = response;
     }
 
     /**

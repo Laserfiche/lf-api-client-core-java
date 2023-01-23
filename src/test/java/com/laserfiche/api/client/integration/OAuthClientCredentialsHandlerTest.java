@@ -168,10 +168,10 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
             assertEquals(401, exception.getStatusCode());
             assertNotNull(exception
                     .getProblemDetails()
-                    .get("type"));
+                    .getType());
             assertNotNull(exception
                     .getProblemDetails()
-                    .get("title"));
+                    .getTitle());
         }
     }
 }

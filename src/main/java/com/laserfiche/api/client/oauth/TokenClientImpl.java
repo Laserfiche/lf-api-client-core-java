@@ -1,6 +1,6 @@
 package com.laserfiche.api.client.oauth;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.laserfiche.api.client.deserialization.ProblemDetailsDeserializer;
 import com.laserfiche.api.client.model.AccessKey;
 import com.laserfiche.api.client.model.ApiException;
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
@@ -38,42 +38,23 @@ public class TokenClientImpl extends BaseTokenClient implements TokenClient {
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .field("grant_type", "client_credentials")
                 .asObject(Object.class);
-
+        Map<String, String> headersMap = getHeadersMap(httpResponse);
         if (httpResponse.getStatus() == 200) {
             try {
                 String jsonString = new JSONObject(httpResponse.getBody()).toString();
                 return objectMapper.readValue(jsonString, GetAccessTokenResponse.class);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-                return null;
+            } catch (Exception e) {
+                throw ApiException.create(httpResponse.getStatus(), headersMap, null, e);
             }
         } else {
             ProblemDetails problemDetails;
             try {
                 String jsonString = new JSONObject(httpResponse.getBody()).toString();
-                problemDetails = objectMapper.readValue(jsonString, ProblemDetails.class);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-                return null;
+                problemDetails = ProblemDetailsDeserializer.deserialize(objectMapper, jsonString);
+            } catch (Exception e) {
+                throw ApiException.create(httpResponse.getStatus(), headersMap, null, e);
             }
-            Map<String, String> headersMap = getHeadersMap(httpResponse);
-            if (httpResponse.getStatus() == 400)
-                throw new ApiException("Invalid or bad request.", httpResponse.getStatus(),
-                        httpResponse.getStatusText(), headersMap, problemDetails);
-            else if (httpResponse.getStatus() == 401)
-                throw new ApiException("Access token is invalid or expired.", httpResponse.getStatus(),
-                        httpResponse.getStatusText(), headersMap, problemDetails);
-            else if (httpResponse.getStatus() == 403)
-                throw new ApiException("Access denied for the operation.", httpResponse.getStatus(),
-                        httpResponse.getStatusText(), headersMap, problemDetails);
-            else if (httpResponse.getStatus() == 404)
-                throw new ApiException("Not found.", httpResponse.getStatus(), httpResponse.getStatusText(),
-                        headersMap, problemDetails);
-            else if (httpResponse.getStatus() == 429)
-                throw new ApiException("Rate limit is reached.", httpResponse.getStatus(),
-                        httpResponse.getStatusText(), headersMap, problemDetails);
-            else
-                throw new RuntimeException(httpResponse.getStatusText());
+            throw ApiException.create(httpResponse.getStatus(), headersMap, problemDetails, null);
         }
     }
 }

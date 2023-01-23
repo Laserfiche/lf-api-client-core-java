@@ -144,10 +144,10 @@ public class UsernamePasswordHandlerTest extends BaseTest {
             assertEquals(status, exception.getStatusCode());
             assertNotNull(exception
                     .getProblemDetails()
-                    .get("type"));
+                    .getType());
             assertNotNull(exception
                     .getProblemDetails()
-                    .get("title"));
+                    .getTitle());
         }
     }
 
