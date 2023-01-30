@@ -1,3 +1,11 @@
+## 2.2.0
+
+### Fixes
+- Improve the `TokenClient` error handling to consistently throw an `ApiException` when handling error status codes.
+- Additional properties have been added to `ProblemDetails` to more accurately represent the API response.
+- **[BREAKING]** Remove `ProblemDetails` inherit from `HashMap<String, Object>`. Undocumented properties can be retrieved using `ProblemDetails.getExtensions()` instead.
+- **[BREAKING]** Remove `ApiException` `response` property. Should use `ApiException` `message` property instead. Additionally, the `ApiException` constructor has been changed to not require the `response` property.
+
 ## 2.0.0
 
 ### Features

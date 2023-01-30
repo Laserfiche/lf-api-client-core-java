@@ -1,5 +1,6 @@
 package com.laserfiche.api.client.integration;
 
+import com.laserfiche.api.client.model.ApiException;
 import com.laserfiche.api.client.model.GetAccessTokenResponse;
 import com.laserfiche.api.client.oauth.TokenClient;
 import com.laserfiche.api.client.oauth.TokenClientImpl;
@@ -38,9 +39,16 @@ class TokenClientImplTest extends BaseTest {
     void getAccessTokenFromServicePrincipal_InvalidAccessKey() {
         accessKey.setClientId("wrong client ID");
 
-        Exception exception = assertThrows(RuntimeException.class,
+        ApiException exception = assertThrows(ApiException.class,
                 () -> client.getAccessTokenFromServicePrincipal(servicePrincipalKey, accessKey));
         assertNotNull(exception);
+        assertEquals(401, exception.getStatusCode());
+        assertEquals(exception.getStatusCode(), exception.getProblemDetails().getStatus());
+        assertEquals(exception.getMessage(), exception.getProblemDetails().getTitle());
+        assertTrue(exception.getHeaders().size() > 0);
+        assertNotNull(exception.getProblemDetails().getOperationId());
+        assertNotNull(exception.getProblemDetails().getType());
+        assertNotNull(exception.getProblemDetails().getInstance());
     }
 
     @Test
