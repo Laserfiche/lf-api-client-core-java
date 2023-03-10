@@ -18,6 +18,9 @@ public class GetAccessTokenResponse {
     @JsonProperty("refresh_token")
     private String refreshToken;
 
+    @JsonProperty("scope")
+    private String scope;
+
     /**
      * Returns the Laserfiche Cloud OAuth 2.0 access token.
      */
@@ -72,5 +75,19 @@ public class GetAccessTokenResponse {
      */
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    /**
+     * Returns the scope configured on the access token.
+     */
+    public String getScope() {
+        return scope;
+    }
+
+    /**
+     * Sets the scope configured on the access token.
+     */
+    public void setScope(String scope) {
+        this.scope = scope;
     }
 }
