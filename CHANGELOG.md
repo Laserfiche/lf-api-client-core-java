@@ -1,4 +1,6 @@
 ## 2.2.0
+### Features
+- Additional constructors have been added to the OAuth `TokenClient` and `OAuthClientCredentialsHandler` to support OAuth scopes.
 
 ### Fixes
 - Improve the `TokenClient` error handling to consistently throw an `ApiException` when handling error status codes.

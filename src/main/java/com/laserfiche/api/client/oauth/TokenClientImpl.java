@@ -31,12 +31,19 @@ public class TokenClientImpl extends BaseTokenClient implements TokenClient {
     @Override
     public GetAccessTokenResponse getAccessTokenFromServicePrincipal(String servicePrincipalKey,
             AccessKey accessKey) {
+        return getAccessTokenFromServicePrincipal(servicePrincipalKey, accessKey, null);
+    }
+
+    @Override
+    public GetAccessTokenResponse getAccessTokenFromServicePrincipal(String servicePrincipalKey,
+            AccessKey accessKey, String scope) {
         String bearer = createBearer(servicePrincipalKey, accessKey);
         HttpResponse<Object> httpResponse = httpClient
                 .post(baseUrl + "Token")
                 .header("Authorization", bearer)
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .field("grant_type", "client_credentials")
+                .field("scope", scope == null ? "" : scope)
                 .asObject(Object.class);
         Map<String, String> headersMap = getHeadersMap(httpResponse);
         if (httpResponse.getStatus() == 200) {

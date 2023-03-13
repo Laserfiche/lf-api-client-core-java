@@ -36,6 +36,16 @@ class TokenClientImplTest extends BaseTest {
     }
 
     @Test
+    void getAccessTokenFromServicePrincipal_WithScope_Success() {
+        String scope = "repository.Read";
+        GetAccessTokenResponse response = client.getAccessTokenFromServicePrincipal(servicePrincipalKey, accessKey, scope);
+
+        assertNotEquals(null, response);
+        assertNotEquals(null, response.getAccessToken());
+        assertEquals(scope, response.getScope());
+    }
+
+    @Test
     void getAccessTokenFromServicePrincipal_InvalidAccessKey() {
         accessKey.setClientId("wrong client ID");
 

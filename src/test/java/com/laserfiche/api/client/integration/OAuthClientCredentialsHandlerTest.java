@@ -22,19 +22,35 @@ import static org.mockito.Mockito.when;
 class OAuthClientCredentialsHandlerTest extends BaseTest {
     private HttpRequestHandler handler;
 
-    @BeforeEach
-    void setUpHttpRequestHandler() {
-        handler = new OAuthClientCredentialsHandler(servicePrincipalKey, accessKey);
-    }
-
     @AfterEach
     void tearDownHttpRequestHandler() {
-        handler.close();
+        if (handler != null){
+            handler.close();
+        }
     }
 
     @Test
     void beforeSendAsync_Success() {
         Request request = new RequestImpl();
+        handler = new OAuthClientCredentialsHandler(servicePrincipalKey, accessKey);
+
+        // Request access token
+        BeforeSendResult result = handler.beforeSend(request);
+
+        assertNotEquals(null, result.getRegionalDomain());
+        assertNotEquals(null, request
+                .headers()
+                .get("Authorization"));
+        assertNotEquals("", request
+                .headers()
+                .get("Authorization"));
+    }
+
+    @Test
+    void beforeSendAsync_WithScopes_Success() {
+        Request request = new RequestImpl();
+        String scope = "repository.Read";
+        handler = new OAuthClientCredentialsHandler(servicePrincipalKey, accessKey, scope);
 
         // Request access token
         BeforeSendResult result = handler.beforeSend(request);
@@ -51,6 +67,7 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
     @Test
     void beforeSendAsync_CallTwiceShouldStillSucceed() {
         Request request1 = new RequestImpl();
+        handler = new OAuthClientCredentialsHandler(servicePrincipalKey, accessKey);
 
         // First time to request access token
         BeforeSendResult result1 = handler.beforeSend(request1);
@@ -86,6 +103,7 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
     void afterSendAsync_ShouldRetry() {
         Response mockedResponse = mock(Response.class);
         when(mockedResponse.status()).thenReturn((short) 401);
+        handler = new OAuthClientCredentialsHandler(servicePrincipalKey, accessKey);
 
         // Request access token then simulate a 401
         handler.beforeSend(new RequestImpl());
@@ -99,6 +117,7 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
     void afterSendAsync_DoNotRetry(int status) {
         Response mockedResponse = mock(Response.class);
         when(mockedResponse.status()).thenReturn((short) status);
+        handler = new OAuthClientCredentialsHandler(servicePrincipalKey, accessKey);
 
         handler.beforeSend(new RequestImpl());
         boolean shouldRetry = handler.afterSend(mockedResponse);
@@ -116,6 +135,7 @@ class OAuthClientCredentialsHandlerTest extends BaseTest {
     @Test
     void afterSendAsync_DoRetry_AccessTokenRemoved() {
         Request request1 = new RequestImpl();
+        handler = new OAuthClientCredentialsHandler(servicePrincipalKey, accessKey);
 
         // Request access token
         BeforeSendResult result = handler.beforeSend(request1);
