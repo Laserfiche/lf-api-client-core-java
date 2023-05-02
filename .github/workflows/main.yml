@@ -28,8 +28,20 @@ jobs:
     - name: Build with Maven
       run: mvn -B package -Dmaven.test.skip=true --file pom.xml
 
-    - name: Run tests
+    - name: Run tests on cloud
+      id: cloud-integration-test
       env:
+        ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
+        SERVICE_PRINCIPAL_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
+      run: mvn test
+
+    - name: Run tests on self-hosted
+      if: always() && (steps.cloud-integration-test.outcome == 'success' || steps.cloud-integration-test.outcome == 'failure')
+      env:
+        REPOSITORY_ID: ${{ secrets.APISERVER_REPOSITORY_ID }}
+        APISERVER_USERNAME:  ${{ secrets.APISERVER_USERNAME }}
+        APISERVER_PASSWORD:  ${{ secrets.APISERVER_PASSWORD }}
+        APISERVER_REPOSITORY_API_BASE_URL:  ${{ secrets.APISERVER_REPOSITORY_API_BASE_URL }}
         ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
         SERVICE_PRINCIPAL_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
       run: mvn test
