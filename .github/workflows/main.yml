@@ -36,6 +36,7 @@ jobs:
       run: mvn test
 
     - name: Run tests on self-hosted
+      id: selfhosted-integration-test
       if: always() && (steps.cloud-integration-test.outcome == 'success' || steps.cloud-integration-test.outcome == 'failure')
       env:
         REPOSITORY_ID: ${{ secrets.APISERVER_REPOSITORY_ID }}
@@ -50,7 +51,7 @@ jobs:
       uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
       with:
-        files: "target/surefire-reports/*.xml"
+        files: "target/surefire-reports/**/*.xml"
 
   build-documentation:
 
