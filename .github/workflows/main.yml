@@ -42,11 +42,8 @@ jobs:
         files: target/surefire-reports/*.xml
         check_name: Unit Test Results
 
-    - &clear-published-results
-      name: Delete Test Reports
+    - name: Delete Test Reports
       run: rm -rf target/surefire-reports/*.xml
-
-    - *clear-published-results
 
     - name: Run tests on cloud
       id: integration-test-cloud
@@ -59,7 +56,8 @@ jobs:
         files: target/surefire-reports/*.xml
         check_name: Cloud Test Results
 
-    - *clear-published-results
+    - name: Delete Test Reports
+      run: rm -rf target/surefire-reports/*.xml
 
     - name: Run tests on self-hosted
       id: integration-test-selfhosted
