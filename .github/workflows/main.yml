@@ -33,7 +33,7 @@ jobs:
       env:
         ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
         SERVICE_PRINCIPAL_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
-      run: mvn test
+      run: mvn test -Dgroups=Cloud
 
     - name: Publish Cloud Test Results
       uses: EnricoMi/publish-unit-test-result-action@v1
@@ -55,7 +55,7 @@ jobs:
         APISERVER_REPOSITORY_API_BASE_URL:  ${{ secrets.APISERVER_REPOSITORY_API_BASE_URL }}
         ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
         SERVICE_PRINCIPAL_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
-      run: mvn test
+      run: mvn test -Dgroups=SelfHosted
 
     - name: Publish Self-Hosted Test Results
       uses: EnricoMi/publish-unit-test-result-action@v1
