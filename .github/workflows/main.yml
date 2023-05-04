@@ -28,16 +28,27 @@ jobs:
     - name: Build with Maven
       run: mvn -B package -Dmaven.test.skip=true --file pom.xml
 
-    - name: Run tests on cloud
-      id: cloud-integration-test
+    - name: Run Tests on Cloud
+      id: integration-test-cloud
       env:
         ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
         SERVICE_PRINCIPAL_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
       run: mvn test
 
-    - name: Run tests on self-hosted
-      id: selfhosted-integration-test
-      if: always() && (steps.cloud-integration-test.outcome == 'success' || steps.cloud-integration-test.outcome == 'failure')
+    - name: Aggregate Cloud Test Results
+      run: mvn surefire-report:aggregate -DreportPath=./target/surefire-reports/ -DoutputDirectory=./target/surefire-reports-aggregated/
+      if: always()
+
+    - name: Publish Cloud Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v1
+      if: always()
+      with:
+        files: ./target/surefire-reports-aggregated/*.xml
+        test-results-format: junit
+
+    - name: Run Tests on Self-Hosted
+      id: integration-test-selfhosted
+      if: always() && (steps.test.outcome == 'success' || steps.test.outcome == 'failure')
       env:
         REPOSITORY_ID: ${{ secrets.APISERVER_REPOSITORY_ID }}
         APISERVER_USERNAME:  ${{ secrets.APISERVER_USERNAME }}
@@ -47,11 +58,16 @@ jobs:
         SERVICE_PRINCIPAL_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
       run: mvn test
 
-    - name: Publish Test Results
+    - name: Aggregate Self-Hosted Test Results
+      run: mvn surefire-report:aggregate -DreportPath=./target/surefire-reports/ -DoutputDirectory=./target/surefire-reports-aggregated/
+      if: always()
+
+    - name: Publish Self-Hosted Test Results
       uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
       with:
-        files: "target/surefire-reports/**/*.xml"
+        files: ./target/surefire-reports-aggregated/*.xml
+        test-results-format: junit
 
   build-documentation:
 
