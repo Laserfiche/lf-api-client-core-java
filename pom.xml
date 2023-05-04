@@ -60,45 +60,18 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.22.2</version>
-        <executions>
-          <execution>
-            <id>cloud-integration-test</id>
-            <configuration>
-              <reportsDirectory>
-                ${project.build.directory}/surefire-reports/cloud
-              </reportsDirectory>
-              <systemProperties>
-                <property>
-                  <name>loggerPath</name>
-                  <value>conf/log4j.properties</value>
-                </property>
-              </systemProperties>
-              <argLine>-Xms512m -Xmx1500m</argLine>
-              <parallel>methods</parallel>
-              <forkMode>pertest</forkMode>
-              <excludedGroups>SelfHosted</excludedGroups>
-            </configuration>
-          </execution>
-          <execution>
-            <id>selfhosted-integration-test</id>
-            <configuration>
-              <reportsDirectory>
-                ${project.build.directory}/surefire-reports/selfhosted
-              </reportsDirectory>
-              <systemProperties>
-                <property>
-                  <name>loggerPath</name>
-                  <value>conf/log4j.properties</value>
-                </property>
-              </systemProperties>
-              <argLine>-Xms512m -Xmx1500m</argLine>
-              <parallel>methods</parallel>
-              <forkMode>pertest</forkMode>
-              <excludedGroups>SelfHosted</excludedGroups>
-            </configuration>
-          </execution>
-        </executions>
-
+        <configuration>
+          <systemProperties>
+            <property>
+              <name>loggerPath</name>
+              <value>conf/log4j.properties</value>
+            </property>
+          </systemProperties>
+          <argLine>-Xms512m -Xmx1500m</argLine>
+          <parallel>methods</parallel>
+          <forkMode>pertest</forkMode>
+          <excludedGroups>SelfHosted</excludedGroups>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
