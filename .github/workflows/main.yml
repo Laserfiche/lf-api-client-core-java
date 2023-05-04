@@ -39,7 +39,8 @@ jobs:
       uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
       with:
-        files: "target/surefire-reports/*.xml"
+        files: target/surefire-reports/*.xml
+        check_name: Cloud Test Results
 
     - name: Delete Test Reports
       run: rm -rf target/surefire-reports/*.xml
@@ -60,7 +61,8 @@ jobs:
       uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
       with:
-        files: "target/surefire-reports/*.xml"
+        files: target/surefire-reports/*.xml
+        check_name: Self-Hosted Test Results
 
   build-documentation:
 
