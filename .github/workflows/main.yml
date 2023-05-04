@@ -33,7 +33,7 @@ jobs:
       run: mvn -B package -Dmaven.test.skip=true --file pom.xml
 
     - name: Run Unit Tests
-      run: mvn test -Dtest=com.laserfiche.api.client.unit.*
+      run: mvn -Dtest=com.laserfiche.api.client.unit.*Test test
 
     - name: Publish Unit Test Results
       uses: EnricoMi/publish-unit-test-result-action@v1
