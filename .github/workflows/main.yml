@@ -28,6 +28,22 @@ jobs:
     - name: Build with Maven
       run: mvn -B package -Dmaven.test.skip=true --file pom.xml
 
+    - name: Run Unit Tests
+      run: mvn test -Dtest=com.laserfiche.api.client.unit.*
+
+    - name: Publish Unit Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v1
+      if: always()
+      with:
+        files: target/surefire-reports/*.xml
+        check_name: Unit Test Results
+
+    - &clear-published-results
+      name: Delete Test Reports
+      run: rm -rf target/surefire-reports/*.xml
+
+    - *clear-published-results
+
     - name: Run tests on cloud
       id: integration-test-cloud
       env:
@@ -42,8 +58,7 @@ jobs:
         files: target/surefire-reports/*.xml
         check_name: Cloud Test Results
 
-    - name: Delete Test Reports
-      run: rm -rf target/surefire-reports/*.xml
+    - *clear-published-results
 
     - name: Run tests on self-hosted
       id: integration-test-selfhosted
