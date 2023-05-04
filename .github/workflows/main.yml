@@ -29,15 +29,24 @@ jobs:
       run: mvn -B package -Dmaven.test.skip=true --file pom.xml
 
     - name: Run tests on cloud
-      id: cloud-integration-test
+      id: integration-test-cloud
       env:
         ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
         SERVICE_PRINCIPAL_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
       run: mvn test
 
+    - name: Publish Cloud Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v1
+      if: always()
+      with:
+        files: "target/surefire-reports/*.xml"
+
+    - name: Delete Test Reports
+      run: rm -rf target/surefire-reports/*.xml
+
     - name: Run tests on self-hosted
-      id: selfhosted-integration-test
-      if: always() && (steps.cloud-integration-test.outcome == 'success' || steps.cloud-integration-test.outcome == 'failure')
+      id: integration-test-selfhosted
+      if: always() && (steps.integration-test-cloud.outcome == 'success' || steps.integration-test-cloud.outcome == 'failure')
       env:
         REPOSITORY_ID: ${{ secrets.APISERVER_REPOSITORY_ID }}
         APISERVER_USERNAME:  ${{ secrets.APISERVER_USERNAME }}
@@ -47,11 +56,11 @@ jobs:
         SERVICE_PRINCIPAL_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
       run: mvn test
 
-    - name: Publish Test Results
+    - name: Publish Self-Hosted Test Results
       uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
       with:
-        files: "target/surefire-reports/**/*.xml"
+        files: "target/surefire-reports/*.xml"
 
   build-documentation:
 
