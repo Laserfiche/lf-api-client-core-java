@@ -32,35 +32,35 @@ jobs:
     - name: Build with Maven
       run: mvn -B package -Dmaven.test.skip=true --file pom.xml
 
-    - name: Run Unit Tests
+    - name: Run unit tests
       run: mvn -Dtest=com.laserfiche.api.client.unit.*Test test
 
-    - name: Publish Unit Test Results
+    - name: Publish unit test results
       uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
       with:
         files: target/surefire-reports/*.xml
-        check_name: Unit Test Results
+        check_name: unit-test-results
 
-    - name: Delete Test Reports
+    - name: Delete test reports
       run: rm -rf target/surefire-reports/*.xml
 
-    - name: Run tests on cloud
+    - name: Run integration tests on cloud
       id: integration-test-cloud
       run: mvn test -Dgroups=Cloud
 
-    - name: Publish Cloud Test Results
+    - name: Publish cloud test results
       uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
       with:
         files: target/surefire-reports/*.xml
-        check_name: Cloud Test Results
+        check_name: integration-test-results-cloud
 
-    - name: Delete Test Reports
+    - name: Delete test reports
       run: rm -rf target/surefire-reports/*.xml
 
-    - name: Run tests on self-hosted
-      id: integration-test-selfhosted
+    - name: Run integration tests on self-hosted
+      id: integration-test-self-hosted
       if: always() && (steps.integration-test-cloud.outcome == 'success' || steps.integration-test-cloud.outcome == 'failure')
       env:
         REPOSITORY_ID: ${{ secrets.APISERVER_REPOSITORY_ID }}
@@ -69,12 +69,12 @@ jobs:
         APISERVER_REPOSITORY_API_BASE_URL:  ${{ secrets.APISERVER_REPOSITORY_API_BASE_URL }}
       run: mvn test -Dgroups=SelfHosted
 
-    - name: Publish Self-Hosted Test Results
+    - name: Publish self-hosted test results
       uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
       with:
         files: target/surefire-reports/*.xml
-        check_name: Self-Hosted Test Results
+        check_name: integration-test-results-self-hosted
 
   build-documentation:
 
