@@ -10,7 +10,7 @@ on:
 
 env:
   VERSION_PREFIX: 2.2.0
-  GITHUB_PAGES_BRANCH: `gh-pages`
+  GITHUB_PAGES_BRANCH: gh-pages
 
 jobs:
   build-n-test:
