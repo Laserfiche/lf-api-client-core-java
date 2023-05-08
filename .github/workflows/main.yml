@@ -9,8 +9,8 @@ on:
   workflow_dispatch:
 
 env:
-  VERSION_PREFIX: 2.2.0
-  GITHUB_PAGES_BRANCH: gh-pages
+  VERSION_PREFIX: '2.2.0'
+  GITHUB_PAGES_BRANCH: 'gh-pages'
 
 jobs:
   build-n-test:
