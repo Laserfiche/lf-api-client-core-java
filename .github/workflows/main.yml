@@ -176,7 +176,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment: github-pages
-    needs: [ publish-preview-package ]
+    needs: [ publish-production-package ]
     steps:
       - name: Set DOCUMENTATION_VERSION environment variable
         run: |
