@@ -62,10 +62,10 @@ public class TokenClientUtils {
     }
 
     /**
-     * Convert a base64 encoded string to plaintext
+     * Convert a base64 encoded string to plain text
      *
      * @param encoded Base64 encoded input
-     * @return Plaintext
+     * @return Plain text
      */
     public static String decodeBase64(String encoded) {
         byte[] decodedBytes = Base64.getUrlDecoder().decode(encoded);
