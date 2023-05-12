@@ -1,0 +1,6 @@
+com.laserfiche.api.client.apiserver
+com.laserfiche.api.client.deserialization
+com.laserfiche.api.client.httphandlers
+com.laserfiche.api.client.model
+com.laserfiche.api.client.oauth
+com.laserfiche.api.client.tokenclients
