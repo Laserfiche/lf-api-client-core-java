@@ -5,7 +5,7 @@ Java Implementation of various foundational APIs for Laserfiche, including autho
 ## Documentation
 
 - [Laserfiche Developer Center](https://developer.laserfiche.com/)
-- [Java Doc for Laserfiche API Client Core library](https://s01.oss.sonatype.org/service/local/repositories/releases/archive/com/laserfiche/lf-api-client-core/2.2.0/lf-api-client-core-2.2.0-javadoc.jar/!/index.html)
+- [Java Doc for Laserfiche API Client Core library](https://laserfiche.github.io/lf-api-client-core-java/docs/2.x/index.html)
 
 ## Change Log
 
@@ -13,15 +13,7 @@ See CHANGELOG [here](https://github.com/Laserfiche/lf-api-client-core-java/blob/
 
 ## Installation
 
-Add the following to your pom.xml file:
-
-```
-<dependency>
-    <groupId>com.laserfiche</groupId>
-    <artifactId>lf-api-client-core</artifactId>
-    <version>2.2.0</version>
-</dependency>
-```
+To install, [see here](https://central.sonatype.com/artifact/com.laserfiche/lf-api-client-core/)
 
 ### Build, Test, and Package
 
