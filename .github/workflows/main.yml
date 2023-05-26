@@ -36,7 +36,7 @@ jobs:
     - name: Set VERSION_PREFIX
       id: set_version_prefix
       run: |
-        version=$(xmllint --xpath 'string(/project/version)' pom.xml)
+        version=$(mvn help:evaluate -Dexpression="project.version" -q -DforceStdout)
         echo "::notice::Please verify if the version prefix '$version' is correct before publishing a new package from this workflow."
         echo "VERSION_PREFIX=$version" >> $GITHUB_OUTPUT
 
