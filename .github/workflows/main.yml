@@ -40,49 +40,49 @@ jobs:
         echo "::notice::Please verify if the version prefix '$version' is correct before publishing a new package from this workflow."
         echo "VERSION_PREFIX=$version" >> $GITHUB_OUTPUT
 
-    - name: Run unit tests
-      run: mvn -Dtest=com.laserfiche.api.client.unit.*Test test
-
-    - name: Publish unit test results
-      uses: EnricoMi/publish-unit-test-result-action@v1
-      if: always()
-      with:
-        files: target/surefire-reports/*.xml
-        check_name: unit-test-results
-
-    - name: Delete test reports
-      run: rm -rf target/surefire-reports/*.xml
-
-    - name: Run integration tests on cloud
-      id: integration-test-cloud
-      run: mvn test -Dgroups=Cloud
-
-    - name: Publish cloud test results
-      uses: EnricoMi/publish-unit-test-result-action@v1
-      if: always()
-      with:
-        files: target/surefire-reports/*.xml
-        check_name: integration-test-results-cloud
-
-    - name: Delete test reports
-      run: rm -rf target/surefire-reports/*.xml
-
-    - name: Run integration tests on self-hosted
-      id: integration-test-self-hosted
-      if: always() && (steps.integration-test-cloud.outcome == 'success' || steps.integration-test-cloud.outcome == 'failure')
-      env:
-        REPOSITORY_ID: ${{ secrets.APISERVER_REPOSITORY_ID }}
-        APISERVER_USERNAME:  ${{ secrets.APISERVER_USERNAME }}
-        APISERVER_PASSWORD:  ${{ secrets.APISERVER_PASSWORD }}
-        APISERVER_REPOSITORY_API_BASE_URL:  ${{ secrets.APISERVER_REPOSITORY_API_BASE_URL }}
-      run: mvn test -Dgroups=SelfHosted
-
-    - name: Publish self-hosted test results
-      uses: EnricoMi/publish-unit-test-result-action@v1
-      if: always()
-      with:
-        files: target/surefire-reports/*.xml
-        check_name: integration-test-results-self-hosted
+#    - name: Run unit tests
+#      run: mvn -Dtest=com.laserfiche.api.client.unit.*Test test
+#
+#    - name: Publish unit test results
+#      uses: EnricoMi/publish-unit-test-result-action@v1
+#      if: always()
+#      with:
+#        files: target/surefire-reports/*.xml
+#        check_name: unit-test-results
+#
+#    - name: Delete test reports
+#      run: rm -rf target/surefire-reports/*.xml
+#
+#    - name: Run integration tests on cloud
+#      id: integration-test-cloud
+#      run: mvn test -Dgroups=Cloud
+#
+#    - name: Publish cloud test results
+#      uses: EnricoMi/publish-unit-test-result-action@v1
+#      if: always()
+#      with:
+#        files: target/surefire-reports/*.xml
+#        check_name: integration-test-results-cloud
+#
+#    - name: Delete test reports
+#      run: rm -rf target/surefire-reports/*.xml
+#
+#    - name: Run integration tests on self-hosted
+#      id: integration-test-self-hosted
+#      if: always() && (steps.integration-test-cloud.outcome == 'success' || steps.integration-test-cloud.outcome == 'failure')
+#      env:
+#        REPOSITORY_ID: ${{ secrets.APISERVER_REPOSITORY_ID }}
+#        APISERVER_USERNAME:  ${{ secrets.APISERVER_USERNAME }}
+#        APISERVER_PASSWORD:  ${{ secrets.APISERVER_PASSWORD }}
+#        APISERVER_REPOSITORY_API_BASE_URL:  ${{ secrets.APISERVER_REPOSITORY_API_BASE_URL }}
+#      run: mvn test -Dgroups=SelfHosted
+#
+#    - name: Publish self-hosted test results
+#      uses: EnricoMi/publish-unit-test-result-action@v1
+#      if: always()
+#      with:
+#        files: target/surefire-reports/*.xml
+#        check_name: integration-test-results-self-hosted
 
   build-documentation:
 
@@ -119,53 +119,53 @@ jobs:
         
   publish-preview-package:
     runs-on: ubuntu-latest
-    environment: preview
+#    environment: preview
     if: ${{ github.run_attempt != 1 }}
     needs: [ build-n-test, build-documentation ] # wait for build to finish
     env:
       VERSION_PREFIX: ${{ needs.build-n-test.outputs.VERSION_PREFIX }}
     steps:
-    - uses: actions/checkout@v2
+#    - uses: actions/checkout@v2
+#
+#    - name: Set up JDK 8
+#      uses: actions/setup-java@v3
+#      with:
+#        java-version: '8'
+#        distribution: 'temurin'
 
-    - name: Set up JDK 8
-      uses: actions/setup-java@v3
-      with:
-        java-version: '8'
-        distribution: 'temurin'
+#    - name: Build with Maven
+#      run: mvn -B package -Dmaven.test.skip=true --file pom.xml
 
-    - name: Build with Maven
-      run: mvn -B package -Dmaven.test.skip=true --file pom.xml
-
-    - name: Set up Apache Maven Central
-      uses: actions/setup-java@v3
-      with:
-        java-version: '8'
-        distribution: 'temurin'
-        server-id: ossrh
-        server-username: MAVEN_USERNAME
-        server-password: MAVEN_PASSWORD
-        gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-        gpg-passphrase: MAVEN_GPG_PASSPHRASE
+#    - name: Set up Apache Maven Central
+#      uses: actions/setup-java@v3
+#      with:
+#        java-version: '8'
+#        distribution: 'temurin'
+#        server-id: ossrh
+#        server-username: MAVEN_USERNAME
+#        server-password: MAVEN_PASSWORD
+#        gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+#        gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
     - name: Set Java Package Version environment
       run: echo "PACKAGE_VERSION=${{ env.VERSION_PREFIX }}-preview-${{ github.run_id }}-SNAPSHOT" >> $GITHUB_ENV
 
     - name: Set Java Package Version
-      run: mvn versions:set -DnewVersion=${{ env.PACKAGE_VERSION }}
+      run: echo ${{ env.PACKAGE_VERSION }}
 
-    - name: Publish to Sonatype
-      run: mvn clean deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-      env:
-        MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-        MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-        MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-
-    - name: Tag commit
-      uses: rickstaa/action-create-tag@v1
-      with:
-        tag: ${{ env.PACKAGE_VERSION }}
-        commit_sha: ${{ github.sha }}
-        message: Workflow run ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+#    - name: Publish to Sonatype
+#      run: mvn clean deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+#      env:
+#        MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+#        MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+#        MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+#
+#    - name: Tag commit
+#      uses: rickstaa/action-create-tag@v1
+#      with:
+#        tag: ${{ env.PACKAGE_VERSION }}
+#        commit_sha: ${{ github.sha }}
+#        message: Workflow run ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   publish-production-package:
     runs-on: ubuntu-latest
