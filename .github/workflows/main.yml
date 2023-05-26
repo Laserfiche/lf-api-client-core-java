@@ -9,7 +9,6 @@ on:
   workflow_dispatch:
 
 env:
-  VERSION_PREFIX: '2.2.0'
   GITHUB_PAGES_BRANCH: 'gh-pages'
 
 jobs:
@@ -20,7 +19,8 @@ jobs:
     env:
       ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
       SERVICE_PRINCIPAL_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
-
+    outputs:
+      VERSION_PREFIX: ${{ steps.set_version_prefix.outputs.VERSION_PREFIX }}
     steps:
     - uses: actions/checkout@v3
 
@@ -32,6 +32,13 @@ jobs:
 
     - name: Build with Maven
       run: mvn -B package -Dmaven.test.skip=true --file pom.xml
+
+    - name: Set VERSION_PREFIX
+      id: set_version_prefix
+      run: |
+        version=$(xmllint --xpath 'string(/project/version)' pom.xml)
+        echo "::notice::Please verify if the version prefix '$version' is correct before publishing a new package from this workflow."
+        echo "VERSION_PREFIX=$version" >> $GITHUB_OUTPUT
 
     - name: Run unit tests
       run: mvn -Dtest=com.laserfiche.api.client.unit.*Test test
@@ -115,7 +122,8 @@ jobs:
     environment: preview
     if: ${{ github.run_attempt != 1 }}
     needs: [ build-n-test, build-documentation ] # wait for build to finish
-    
+    env:
+      VERSION_PREFIX: ${{ needs.build-n-test.outputs.VERSION_PREFIX }}
     steps:
     - uses: actions/checkout@v2
 
@@ -164,7 +172,8 @@ jobs:
     environment: production
     if: ${{ github.run_attempt != 1 }}
     needs: [ build-n-test, build-documentation ] # wait for build to finish
-
+    env:
+      VERSION_PREFIX: ${{ needs.build-n-test.outputs.VERSION_PREFIX }}
     steps:
     - uses: actions/checkout@v2
 
