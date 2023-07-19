@@ -21,15 +21,21 @@ jobs:
         java-version: '8'
         distribution: 'temurin'
 
-    - name: Build with Maven
-      run: mvn -B package -Dmaven.test.skip=true --file pom.xml
+#    - name: Build with Maven
+#      run: mvn -B package -Dmaven.test.skip=true --file pom.xml
+
+    - name: Create an empty ./veracode folder
+      run: mkdir -p ./veracode
+
+    - name: Compress js client core files
+      run: tar -czvf ./veracode/lf-api-client-core-js.tar.gz ./src
 
     - name: Veracode Upload And Scan (Static Application Security Testing)
       uses: veracode/veracode-uploadandscan-action@0.2.6
       with:
         appname: 'lf-api-client-core-java'
         createprofile: true
-        filepath: 'target'
+        filepath: 'veracode'
         vid: '${{ secrets.VERACODE_API_ID }}'
         vkey: '${{ secrets.VERACODE_API_KEY }}'
 
