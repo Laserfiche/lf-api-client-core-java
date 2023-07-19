@@ -1,0 +1,43 @@
+name: Veracode scan
+
+on:
+  push:
+    branches: [ '\d+.x' ]
+  pull_request:
+    branches: [ '\d+.x' ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+
+      - name: Build with Maven
+        run: mvn -B package -Dmaven.test.skip=true --file pom.xml
+
+      - name: Veracode Upload And Scan (Static Application Security Testing)
+        uses: veracode/veracode-uploadandscan-action@0.2.6
+        with:
+          appname: 'lf-api-client-core-java'
+          createprofile: true
+          filepath: 'target'
+          vid: '${{ secrets.VERACODE_API_ID }}'
+          vkey: '${{ secrets.VERACODE_API_KEY }}'
+
+      - name: Run Veracode Software Composition Analysis (SCA)
+        env:
+          SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
+        uses: veracode/veracode-sca@v2.1.6
+        with:
+          create-issues: false
+          allow-dirty: true
+          recursive: true
