@@ -1,3 +1,5 @@
+// Copyright (c) Laserfiche
+// Licensed under the MIT License. See LICENSE in the project root for license information.
 package com.laserfiche.api.client.httphandlers;
 
 import com.laserfiche.api.client.model.AccessKey;
