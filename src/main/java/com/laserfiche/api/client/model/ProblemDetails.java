@@ -187,9 +187,12 @@ public class ProblemDetails {
 
         String errorMessage = null;
         if (headers != null) {
-            problemDetails.setOperationId(headers.getOrDefault(OPERATION_ID_HEADER, null));
+            String operationId = headers.getOrDefault(OPERATION_ID_HEADER,
+                    headers.getOrDefault(OPERATION_ID_HEADER.toLowerCase(), null));
+            problemDetails.setOperationId(operationId);
 
-            String headerErrorMessage = headers.getOrDefault(API_SERVER_ERROR_MESSAGE_HEADER, null);
+            String headerErrorMessage = headers.getOrDefault(API_SERVER_ERROR_MESSAGE_HEADER,
+                    headers.getOrDefault(API_SERVER_ERROR_MESSAGE_HEADER.toLowerCase(), null));
             if (headerErrorMessage != null) {
                 try {
                     errorMessage = URLDecoder.decode(headerErrorMessage, StandardCharsets.UTF_8.name());
