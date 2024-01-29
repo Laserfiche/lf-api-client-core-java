@@ -11,6 +11,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -206,11 +207,7 @@ public class ProblemDetails {
     }
 
     private static String getHeaderValue(Map<String, String> headers, String headerName) {
-        Map<String, String> headersInLowerCase =
-                headers.entrySet().stream()
-                        .collect(
-                                HashMap::new,
-                                (m,v)->m.put(v.getKey().toLowerCase(), v.getValue()), HashMap::putAll);
-        return headersInLowerCase.getOrDefault(headerName.toLowerCase(), null);
+        Optional<Map.Entry<String, String>> result = headers.entrySet().stream().filter(entry -> entry.getKey().equalsIgnoreCase(headerName)).findFirst();
+        return result.map(Map.Entry::getValue).orElse(null);
     }
 }
