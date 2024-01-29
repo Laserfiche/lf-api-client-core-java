@@ -11,6 +11,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * A machine-readable format for specifying errors in HTTP API responses based on <a href="https://tools.ietf.org/html/rfc7807">rfc 7807</a>.
@@ -187,12 +188,10 @@ public class ProblemDetails {
 
         String errorMessage = null;
         if (headers != null) {
-            String operationId = headers.getOrDefault(OPERATION_ID_HEADER,
-                    headers.getOrDefault(OPERATION_ID_HEADER.toLowerCase(), null));
+            String operationId = getHeaderValue(headers, OPERATION_ID_HEADER);
             problemDetails.setOperationId(operationId);
 
-            String headerErrorMessage = headers.getOrDefault(API_SERVER_ERROR_MESSAGE_HEADER,
-                    headers.getOrDefault(API_SERVER_ERROR_MESSAGE_HEADER.toLowerCase(), null));
+            String headerErrorMessage = getHeaderValue(headers, API_SERVER_ERROR_MESSAGE_HEADER);
             if (headerErrorMessage != null) {
                 try {
                     errorMessage = URLDecoder.decode(headerErrorMessage, StandardCharsets.UTF_8.name());
@@ -204,5 +203,15 @@ public class ProblemDetails {
         problemDetails.setTitle(errorMessage == null ? String.format("HTTP status code %s.", statusCode) : errorMessage);
 
         return problemDetails;
+    }
+
+    private static String getHeaderValue(Map<String, String> headers, String headerName) {
+        Map<String, String> headersInLowerCase =
+                headers.entrySet().stream()
+                        .collect(Collectors.toMap(
+                                e -> e.getKey().toLowerCase(),
+                                Map.Entry::getValue
+                        ));
+        return headersInLowerCase.getOrDefault(headerName.toLowerCase(), null);
     }
 }
