@@ -208,10 +208,9 @@ public class ProblemDetails {
     private static String getHeaderValue(Map<String, String> headers, String headerName) {
         Map<String, String> headersInLowerCase =
                 headers.entrySet().stream()
-                        .collect(Collectors.toMap(
-                                e -> e.getKey().toLowerCase(),
-                                Map.Entry::getValue
-                        ));
+                        .collect(
+                                HashMap::new,
+                                (m,v)->m.put(v.getKey().toLowerCase(), v.getValue()), HashMap::putAll);
         return headersInLowerCase.getOrDefault(headerName.toLowerCase(), null);
     }
 }
