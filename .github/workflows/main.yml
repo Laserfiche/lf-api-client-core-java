@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  VERSION_PREFIX: '2.2.0'
+  VERSION_PREFIX: '2.2.1'
   GITHUB_PAGES_BRANCH: 'gh-pages'
 
 jobs:
