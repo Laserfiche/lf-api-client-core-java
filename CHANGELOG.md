@@ -1,3 +1,8 @@
+## 2.2.1
+
+### Fixes
+- Treat the custom HTTP header names as case-insensitive.
+
 ## 2.2.0
 ### Features
 - Additional constructors have been added to the OAuth `TokenClient` and `OAuthClientCredentialsHandler` to support OAuth scopes.
