@@ -1,3 +1,9 @@
+## 1.1.1
+
+### Maintenance
+
+- Update `nimbus-jose-jwt dependency` due to vulnerability
+
 ## 1.1.0
 
 ### Features

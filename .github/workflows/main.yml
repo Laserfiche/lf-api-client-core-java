@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up JDK 8
       uses: actions/setup-java@v3
@@ -64,7 +64,7 @@ jobs:
       run: mv ${{ github.workspace }}/target/site/ ${{ github.workspace }}/docs_temp/${{ github.ref_name }}
 
     - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.3.1
+      uses: actions/upload-artifact@v4
       with:
         name: documentation-artifact
         # A file, directory or wildcard pattern that describes what to upload
@@ -83,7 +83,7 @@ jobs:
       run: mkdir -p ./docs_temp/${{ github.ref_name }}/html/
 
     - name: Download a Build Artifact
-      uses: actions/download-artifact@v3.0.0
+      uses: actions/download-artifact@v4
       with:
         name: documentation-artifact
         path: ${{ github.workspace }}/docs_temp/${{ github.ref_name }}/html/
@@ -108,7 +108,7 @@ jobs:
     needs: [ build-n-test, build-documentation ] # wait for build to finish
     
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Set up JDK 8
       uses: actions/setup-java@v3
@@ -157,7 +157,7 @@ jobs:
     needs: [ build-n-test, build-documentation ] # wait for build to finish
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Set up JDK 8
       uses: actions/setup-java@v3
