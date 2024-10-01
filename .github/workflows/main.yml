@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  VERSION_PREFIX: '2.2.1'
+  VERSION_PREFIX: '2.2.2'
   GITHUB_PAGES_BRANCH: 'gh-pages'
 
 jobs:
@@ -22,7 +22,7 @@ jobs:
       SERVICE_PRINCIPAL_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up JDK 8
       uses: actions/setup-java@v3
@@ -83,7 +83,7 @@ jobs:
     needs: [ build-n-test ]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Set up JDK 8
       uses: actions/setup-java@v3
@@ -101,7 +101,7 @@ jobs:
       run: mv ${{ github.workspace }}/target/site/ ${{ github.workspace }}/docs_temp/${{ github.ref_name }}
 
     - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.3.1
+      uses: actions/upload-artifact@v4
       with:
         name: documentation-artifact
         # A file, directory or wildcard pattern that describes what to upload
@@ -117,7 +117,7 @@ jobs:
     needs: [ build-n-test, build-documentation ] # wait for build to finish
     
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Set up JDK 8
       uses: actions/setup-java@v3
@@ -166,7 +166,7 @@ jobs:
     needs: [ build-n-test, build-documentation ] # wait for build to finish
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Set up JDK 8
       uses: actions/setup-java@v3
@@ -229,7 +229,7 @@ jobs:
         run: |
           echo 'Publishing documentation to ${{ env.GITHUB_PAGES_BRANCH }} for ${{ env.DOCUMENTATION_VERSION }}.'
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ env.GITHUB_PAGES_BRANCH }}
 
@@ -240,7 +240,7 @@ jobs:
         run: mkdir -p ./docs/${{ env.DOCUMENTATION_VERSION }}
 
       - name: Download documentation build artifact
-        uses: actions/download-artifact@v3.0.0
+        uses: actions/download-artifact@v4
         with:
           name: documentation-artifact
           path: ./docs/${{ env.DOCUMENTATION_VERSION }}
