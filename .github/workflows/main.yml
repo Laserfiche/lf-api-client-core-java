@@ -126,6 +126,11 @@ jobs:
           java-version: '8'
           distribution: 'temurin'
 
+      - name: Import GPG key
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
+          echo "${{ secrets.GPG_PASSPHRASE }}" | gpg --batch --passphrase-fd 0 --pinentry-mode loopback --edit-key F2766A575D8388C8 trust quit
+
       - name: Set up Apache Maven Central
         uses: actions/setup-java@v3
         with:
