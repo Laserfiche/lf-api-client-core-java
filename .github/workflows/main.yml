@@ -129,9 +129,7 @@ jobs:
       - name: Import GPG key
         run: |
           echo "${{ secrets.TEST_SECRET_KEY }}" | gpg --batch --import
-          echo "GPG_TTY=$(tty)" >> $GITHUB_ENV
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.TEST_SECRET_KEY }}
+          echo "${{ secrets.TEST_SECRET_KEY_PASSWORD }}" | gpg --batch --passphrase-fd 0 --pinentry-mode loopback --edit-key YOUR_KEY_ID trust quit
 
       - name: Set up Apache Maven Central
         uses: actions/setup-java@v3
