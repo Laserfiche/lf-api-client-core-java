@@ -126,10 +126,16 @@ jobs:
           java-version: '8'
           distribution: 'temurin'
 
-      - task: MavenAuthenticate@0
-        displayName: 'Maven Authenticate'
-        inputs:
-          MavenServiceConnections: Maven Central Connection
+      - name: Set up Apache Maven Central
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+          server-id: central
+          server-username: ${{ secrets.OSSRH_USERNAME }}
+          server-password: ${{ secrets.OSSRH_PASSWORD }}
+          gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+          gpg-passphrase: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
 
       - name: Set Java Package Version environment
         run: echo "PACKAGE_VERSION=${{ env.VERSION_PREFIX }}" >> $GITHUB_ENV
