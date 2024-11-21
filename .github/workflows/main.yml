@@ -146,7 +146,7 @@ jobs:
       - name: Publish to Sonatype
         run: mvn clean deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
         env:
-          GPG_TTY: ${{ env.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          GPG_TTY: ${{ secrets.OSSRH_GPG_SECRET_KEY  }}
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
