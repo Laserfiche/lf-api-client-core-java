@@ -126,11 +126,6 @@ jobs:
           java-version: '8'
           distribution: 'temurin'
 
-      - name: Import GPG key
-        run: |
-          echo "${{ secrets.TEST_SECRET_KEY }}" | gpg --batch --import
-          echo "${{ secrets.TEST_SECRET_KEY_PASSWORD }}" | gpg --batch --passphrase-fd 0 --pinentry-mode loopback --edit-key F2766A575D8388C8 trust quit
-
       - name: Set up Apache Maven Central
         uses: actions/setup-java@v3
         with:
@@ -149,11 +144,10 @@ jobs:
         run: mvn versions:set -DnewVersion=${{ env.PACKAGE_VERSION }}
 
       - name: Publish to Sonatype
-        run: mvn clean deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{ secrets.TEST_SECRET_KEY_PASSWORD }}
+        run: mvn clean deploy -Dmaven.test.skip=true -Dgpg.secretkey=${{ secrets.TEST_SECRET_KEY }} -Dgpg.passphrase=${{ secrets.TEST_SECRET_KEY_PASSWORD }}
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.TEST_SECRET_KEY_PASSWORD }}
 
       - name: Tag commit
         uses: rickstaa/action-create-tag@v1
@@ -199,7 +193,7 @@ jobs:
         run: mvn versions:set -DnewVersion=${{ env.PACKAGE_VERSION }}
 
       - name: Publish to Maven Central
-        run: mvn clean deploy -P release -Dmaven.test.skip=true -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+        run: mvn clean deploy -P release -Dmaven.test.skip=true -Dgpg.secretkey=${{ secrets.OSSRH_GPG_SECRET_KEY }} -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
