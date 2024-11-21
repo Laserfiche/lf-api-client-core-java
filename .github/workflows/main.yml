@@ -128,7 +128,7 @@ jobs:
 
       - name: Import GPG key
         run: |
-          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
+          echo "${{ secrets.TEST_SECRET_KEY }}" | gpg --batch --import
           echo "GPG_TTY=$(tty)" >> $GITHUB_ENV
         env:
           GPG_PRIVATE_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
