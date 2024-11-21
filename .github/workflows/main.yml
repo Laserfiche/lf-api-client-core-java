@@ -128,18 +128,18 @@ jobs:
 
       - name: Import GPG key
         run: |
-          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
-          echo "${{ secrets.GPG_PASSPHRASE }}" | gpg --batch --passphrase-fd 0 --pinentry-mode loopback --edit-key F2766A575D8388C8 trust quit
+          echo "${{ secrets.TEST_SECRET_KEY }}" | gpg --batch --import
+          echo "${{ secrets.TEST_SECRET_KEY_PASSWORD }}" | gpg --batch --passphrase-fd 0 --pinentry-mode loopback --edit-key F2766A575D8388C8 trust quit
 
       - name: Set up Apache Maven Central
         uses: actions/setup-java@v3
         with:
           java-version: '8'
           distribution: 'temurin'
-          server-id: ossrh
+          server-id: central
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
-          gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+          gpg-private-key: ${{ secrets.TEST_SECRET_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
       - name: Set Java Package Version environment
