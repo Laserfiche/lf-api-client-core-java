@@ -151,6 +151,7 @@ jobs:
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.TEST_SECRET_KEY_PASSWORD }}
 
       - name: Tag commit
         uses: rickstaa/action-create-tag@v1
