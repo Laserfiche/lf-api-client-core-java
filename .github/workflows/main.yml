@@ -126,6 +126,9 @@ jobs:
           java-version: '8'
           distribution: 'temurin'
 
+      - name: Import GPG Key
+        run: |
+          echo "${{ secrets.TEST_SECRET_KEY }}" | gpg --batch --import
       - name: Set up Apache Maven Central
         uses: actions/setup-java@v3
         with:
