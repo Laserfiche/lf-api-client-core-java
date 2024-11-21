@@ -129,7 +129,7 @@ jobs:
       - name: Import GPG key
         run: |
           echo "${{ secrets.TEST_SECRET_KEY }}" | gpg --batch --import
-          echo "${{ secrets.TEST_SECRET_KEY_PASSWORD }}" | gpg --batch --passphrase-fd 0 --pinentry-mode loopback --edit-key YOUR_KEY_ID trust quit
+          echo "${{ secrets.TEST_SECRET_KEY_PASSWORD }}" | gpg --batch --passphrase-fd 0 --pinentry-mode loopback --edit-key "Laserfiche <api@laserfiche.com>" trust quit
 
       - name: Set Java Package Version environment
         run: echo "PACKAGE_VERSION=${{ env.VERSION_PREFIX }}" >> $GITHUB_ENV
