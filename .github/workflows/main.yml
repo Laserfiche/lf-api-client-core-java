@@ -137,7 +137,7 @@ jobs:
         run: mvn versions:set -DnewVersion=${{ env.PACKAGE_VERSION }}
 
       - name: Publish to Sonatype
-        run: mvn clean deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{ secrets.TEST_SECRET_KEY_PASSWORD }}
+        run: mvn clean deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{ secrets.TEST_SECRET_KEY_PASSWORD }} -X
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
