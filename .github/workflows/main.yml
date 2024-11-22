@@ -110,9 +110,9 @@ jobs:
       - name: Delete temporary directory
         run: rm -r ./docs_temp
 
-  publish-preview-package:
+  publish-production-package:
     runs-on: ubuntu-latest
-    environment: preview
+    environment: production
     if: ${{ github.run_attempt != 1 }}
     needs: [build-n-test, build-documentation] # wait for build to finish
 
@@ -120,15 +120,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK 8
-        uses: actions/setup-java@v3
-        with:
-          java-version: '8'
-          distribution: 'temurin'
-
       - name: Import GPG Key
         run: |
-          echo "${{ secrets.TEST_SECRET_KEY }}" | gpg --batch --import
+          echo "${{ secrets.MAVEN_GPG_SECRET_KEY }}" | gpg --batch --import
 
       - name: Set up Apache Maven Central
         uses: actions/setup-java@v3
@@ -147,61 +141,11 @@ jobs:
         run: mvn versions:set -DnewVersion=${{ env.PACKAGE_VERSION }}
 
       - name: Publish to Sonatype
-        run: mvn clean deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{ secrets.TEST_SECRET_KEY_PASSWORD }}
+        run: mvn clean deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{ secrets.MAVEN_GPG_SECRET_KEY_PASSPHRASE }}
         env:
-          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.TEST_SECRET_KEY_PASSWORD }}
-
-      - name: Tag commit
-        uses: rickstaa/action-create-tag@v1
-        with:
-          tag: ${{ env.PACKAGE_VERSION }}
-          commit_sha: ${{ github.sha }}
-          message: Workflow run ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
-  publish-production-package:
-    runs-on: ubuntu-latest
-    environment: production
-    if: ${{ github.run_attempt != 1 }}
-    needs: [build-n-test, build-documentation] # wait for build to finish
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 8
-        uses: actions/setup-java@v3
-        with:
-          java-version: '8'
-          distribution: 'temurin'
-
-      - name: Build with Maven
-        run: mvn -B package -Dmaven.test.skip=true --file pom.xml
-
-      - name: Set up Apache Maven Central
-        uses: actions/setup-java@v3
-        with:
-          java-version: '8'
-          distribution: 'temurin'
-          server-id: ossrh
-          server-username: ${{ secrets.MAVEN_USERNAME }}
-          server-password: ${{ secrets.MAVEN_PASSWORD }}
-          gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-          gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
-
-      - name: Set Java Package Version environment
-        run: echo "PACKAGE_VERSION=${{ env.VERSION_PREFIX }}" >> $GITHUB_ENV
-
-      - name: Set Java Package Version
-        run: mvn versions:set -DnewVersion=${{ env.PACKAGE_VERSION }}
-
-      - name: Publish to Maven Central
-        run: mvn clean deploy -P release -Dmaven.test.skip=true -Dgpg.secretkey=${{ secrets.OSSRH_GPG_SECRET_KEY }} -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-        env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          MAVEN_USERNAME: ${{ secrets.MAVEN_USERTOKEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_USERTOKEN_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_SECRET_KEY_PASSPHRASE }}
 
       - name: Tag commit
         uses: rickstaa/action-create-tag@v1
