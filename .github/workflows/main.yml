@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  VERSION_PREFIX: 1.0.0
+  VERSION_PREFIX: 1.1.1
 
 jobs:
   build-n-test:
@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up JDK 8
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         java-version: '8'
         distribution: 'temurin'
@@ -35,7 +35,7 @@ jobs:
       run: mvn test
 
     - name: Publish Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v1
+      uses: EnricoMi/publish-unit-test-result-action@v2
       if: always()
       with:
         files: "target/surefire-reports/*.xml"
@@ -46,10 +46,10 @@ jobs:
     needs: [ build-n-test ]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Set up JDK 8
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         java-version: '8'
         distribution: 'temurin'
@@ -64,7 +64,7 @@ jobs:
       run: mv ${{ github.workspace }}/target/site/ ${{ github.workspace }}/docs_temp/${{ github.ref_name }}
 
     - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.3.1
+      uses: actions/upload-artifact@v4
       with:
         name: documentation-artifact
         # A file, directory or wildcard pattern that describes what to upload
@@ -83,7 +83,7 @@ jobs:
       run: mkdir -p ./docs_temp/${{ github.ref_name }}/html/
 
     - name: Download a Build Artifact
-      uses: actions/download-artifact@v3.0.0
+      uses: actions/download-artifact@v4
       with:
         name: documentation-artifact
         path: ${{ github.workspace }}/docs_temp/${{ github.ref_name }}/html/
@@ -100,55 +100,6 @@ jobs:
 
     - name: Delete temporary directory
       run: rm -r ./docs_temp/${{ github.ref_name }}/html/
-        
-  publish-preview-package:
-    runs-on: ubuntu-latest
-    environment: preview
-    if: ${{ github.run_attempt != 1 }}
-    needs: [ build-n-test, build-documentation ] # wait for build to finish
-    
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Set up JDK 8
-      uses: actions/setup-java@v3
-      with:
-        java-version: '8'
-        distribution: 'temurin'
-
-    - name: Build with Maven
-      run: mvn -B package -Dmaven.test.skip=true --file pom.xml
-
-    - name: Set up Apache Maven Central
-      uses: actions/setup-java@v3
-      with:
-        java-version: '8'
-        distribution: 'temurin'
-        server-id: ossrh
-        server-username: MAVEN_USERNAME
-        server-password: MAVEN_PASSWORD
-        gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-        gpg-passphrase: MAVEN_GPG_PASSPHRASE
-
-    - name: Set Java Package Version environment
-      run: echo "PACKAGE_VERSION=${{ env.VERSION_PREFIX }}-preview-${{ github.run_id }}-SNAPSHOT" >> $GITHUB_ENV
-
-    - name: Set Java Package Version
-      run: mvn versions:set -DnewVersion=${{ env.PACKAGE_VERSION }}
-
-    - name: Publish to Sonatype
-      run: mvn clean deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-      env:
-        MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-        MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-        MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-
-    - name: Tag commit
-      uses: rickstaa/action-create-tag@v1
-      with:
-        tag: ${{ env.PACKAGE_VERSION }}
-        commit_sha: ${{ github.sha }}
-        message: Workflow run ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   publish-production-package:
     runs-on: ubuntu-latest
@@ -157,27 +108,21 @@ jobs:
     needs: [ build-n-test, build-documentation ] # wait for build to finish
 
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Set up JDK 8
-      uses: actions/setup-java@v3
-      with:
-        java-version: '8'
-        distribution: 'temurin'
-
-    - name: Build with Maven
-      run: mvn -B package -Dmaven.test.skip=true --file pom.xml
+    - uses: actions/checkout@v4
 
     - name: Set up Apache Maven Central
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         java-version: '8'
         distribution: 'temurin'
-        server-id: ossrh
+        server-id: central
         server-username: MAVEN_USERNAME
         server-password: MAVEN_PASSWORD
-        gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
         gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+    - name: Import GPG Key
+      run: |
+          echo "${{ secrets.MAVEN_GPG_SECRET_KEY }}" | gpg --batch --import
 
     - name: Set Java Package Version environment
       run: echo "PACKAGE_VERSION=${{ env.VERSION_PREFIX }}" >> $GITHUB_ENV
@@ -185,12 +130,12 @@ jobs:
     - name: Set Java Package Version
       run: mvn versions:set -DnewVersion=${{ env.PACKAGE_VERSION }}
 
-    - name: Publish to Maven Central
-      run: mvn clean deploy -P release -Dmaven.test.skip=true -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+    - name: Publish to Sonatype
+      run: mvn clean deploy -Pdeploy-to-maven -Dmaven.test.skip=true -Dgpg.passphrase=${{ secrets.MAVEN_GPG_SECRET_KEY_PASSPHRASE }}
       env:
-        MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-        MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-        MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+        MAVEN_USERNAME: ${{ secrets.MAVEN_USERTOKEN_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.MAVEN_USERTOKEN_PASSWORD }}
+        MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_SECRET_KEY_PASSPHRASE }}
 
     - name: Tag commit
       uses: rickstaa/action-create-tag@v1
