@@ -130,7 +130,7 @@ jobs:
     - name: Set Java Package Version
       run: mvn versions:set -DnewVersion=${{ env.PACKAGE_VERSION }}
 
-    - name: Publish to Sonatype
+    - name: Publish to Maven Central
       run: mvn clean deploy -Pdeploy-to-maven -Dmaven.test.skip=true -Dgpg.passphrase=${{ secrets.MAVEN_GPG_SECRET_KEY_PASSPHRASE }}
       env:
         MAVEN_USERNAME: ${{ secrets.MAVEN_USERTOKEN_USERNAME }}
