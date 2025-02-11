@@ -1,3 +1,9 @@
+## 2.2.3
+
+### Maintenance
+
+- Update `jackson.core` dependency due to vulnerability
+
 ## 2.2.2
 
 ### Maintenance
