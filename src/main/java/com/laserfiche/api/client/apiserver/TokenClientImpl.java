@@ -9,6 +9,7 @@ import com.laserfiche.api.client.model.ProblemDetails;
 import com.laserfiche.api.client.model.SessionKeyInfo;
 import com.laserfiche.api.client.tokenclients.BaseTokenClient;
 import kong.unirest.HttpResponse;
+import kong.unirest.MultipartBody;
 import kong.unirest.json.JSONObject;
 
 import java.util.HashMap;
@@ -36,17 +37,26 @@ public class TokenClientImpl extends BaseTokenClient implements TokenClient {
         Map<String, Object> pathParameters = getNonNullParameters(new String[]{"repoId"},
                 new Object[]{repositoryId});
 
-        HttpResponse<Object> httpResponse = httpClient
+        MultipartBody request = httpClient
                 .post(baseUrl + "/v1/Repositories/{repoId}/Token")
                 .routeParam(pathParameters)
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/x-www-form-urlencoded")
-                .field("grant_type", "password")
-                .field("username", body
-                        .getUsername())
-                .field("password", body
-                        .getPassword())
-                .asObject(Object.class);
+                .field("grant_type", "password");
+        if (body != null) {
+            if (body.getUsername() != null) {
+                request = request.field("username", body
+                        .getUsername());
+            }
+            if (body.getPassword() != null) {
+                request = request.field("password", body
+                        .getPassword());
+            }
+        }
+
+       HttpResponse<Object> httpResponse = request.asObject(Object.class);
+
+
         Map<String, String> headersMap = getHeadersMap(httpResponse);
         if (httpResponse.getStatus() == 200) {
             try {
