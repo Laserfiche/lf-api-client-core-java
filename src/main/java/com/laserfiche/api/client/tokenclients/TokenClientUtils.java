@@ -44,6 +44,10 @@ public class TokenClientUtils {
      * @return Bearer header.
      */
     public static String createBearer(String servicePrincipalKey, AccessKey accessKey) {
+        if (accessKey.getJwk() == null) {
+            return null;
+        }
+
         // Prepare JWK
         ECKey jwk = accessKey.getJwk().toECKey();
 
