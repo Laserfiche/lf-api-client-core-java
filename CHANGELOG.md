@@ -1,3 +1,9 @@
+## 2.2.4
+
+### Maintenance
+
+- Update `nimbus-jose-jwt` dependency due to vulnerability
+
 ## 2.2.3
 
 ### Maintenance
