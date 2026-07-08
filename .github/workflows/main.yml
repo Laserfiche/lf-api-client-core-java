@@ -19,6 +19,7 @@ jobs:
     permissions:
       contents: read
       checks: write
+      pull-requests: write
 
     env:
       ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
