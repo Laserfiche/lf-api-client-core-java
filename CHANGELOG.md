@@ -1,3 +1,9 @@
+## 2.2.5
+
+### Maintenance
+
+- Update `jackson-databind` dependency due to vulnerability
+
 ## 2.2.4
 
 ### Maintenance
