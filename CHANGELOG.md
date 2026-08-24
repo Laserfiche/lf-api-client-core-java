@@ -1,3 +1,9 @@
+## 2.2.7
+
+### Maintenance
+
+- Bump package version to retry a failed Sonatype publish for 2.2.6 (no functional changes)
+
 ## 2.2.6
 
 ### Maintenance
