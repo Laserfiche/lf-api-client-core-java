@@ -1,20 +1,8 @@
-## 2.2.7
-
-### Maintenance
-
-- Bump package version to retry a failed Sonatype publish for 2.2.6 (no functional changes)
-
-## 2.2.6
-
-### Maintenance
-
-- Update `jackson-databind`, `jackson-core`, and `jackson-annotations` dependencies to the 2.21 LTS line due to vulnerability
-
 ## 2.2.5
 
 ### Maintenance
 
-- Update `jackson-databind` dependency due to vulnerability
+- Update `jackson-databind`, `jackson-core`, and `jackson-annotations` dependencies to the 2.21 LTS line due to vulnerability
 
 ## 2.2.4
 
