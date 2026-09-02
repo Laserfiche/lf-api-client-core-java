@@ -260,7 +260,6 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger-core-version>2.0.0</swagger-core-version>
-    <!-- [AI-Generated] by claude-sonnet-5 v0.001 on 2026-08-21: bumped Jackson to 2.21 LTS line, fixes CVE-2026-59889 -->
     <jackson-version>2.21.6</jackson-version>
     <jackson-annotations-version>2.21</jackson-annotations-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
