@@ -1,3 +1,9 @@
+## Unreleased
+
+### Maintenance
+
+- Update `jackson-databind` and `jackson-core` to 2.21.7 to fix CVE-2026-91776, retaining the 2.21 LTS line.
+
 ## 2.2.5
 
 ### Maintenance
