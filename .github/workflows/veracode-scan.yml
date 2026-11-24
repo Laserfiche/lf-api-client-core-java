@@ -16,7 +16,9 @@ jobs:
     - name: Set up JDK 8
       uses: actions/setup-java@v4
       with:
-        java-version: '8'
+        # Pinned to Temurin 8u512-b09 because the 8u514-b01 Linux x64 JDK asset is broken.
+        # Keep in sync with JAVA_VERSION in main.yml and revert to '8' together.
+        java-version: '8.0.512+9'
         distribution: 'temurin'
 
     - name: Build with Maven
